@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>横須賀eスポーツ振興協会（仮）</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&amp;family=Noto+Sans+JP:wght@300;400;700&amp;family=Bebas+Neue&amp;display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a0e1a;
+    --deep: #0d1526;
+    --accent: #00c8ff;
+    --accent2: #ff6b35;
+    --gold: #f0c040;
+    --white: #f0f4ff;
+    --gray: #8899bb;
+    --card: rgba(255,255,255,0.04);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 80px 8vw;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 70% at 80% 50%, rgba(0,200,255,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 50% at 20% 80%, rgba(255,107,53,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,200,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,200,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 70% 50%, black 0%, transparent 70%);
+  }
+
+  .hero-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(11px, 1.2vw, 14px);
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-label span {
+    display: inline-block;
+    width: 40px;
+    height: 1px;
+    background: var(--accent);
+    vertical-align: middle;
+    margin-right: 12px;
+  }
+
+  .hero-title {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 900;
+    font-size: clamp(36px, 6vw, 88px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero-title em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .hero-title-sub {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(20px, 3vw, 44px);
+    letter-spacing: 0.15em;
+    color: var(--gray);
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.55s forwards;
+  }
+
+  .hero-desc {
+    font-size: clamp(14px, 1.4vw, 17px);
+    line-height: 2;
+    color: #aab8d0;
+    max-width: 520px;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.7s forwards;
+  }
+
+  .hero-badges {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.85s forwards;
+  }
+
+  .badge {
+    border: 1px solid rgba(0,200,255,0.3);
+    background: rgba(0,200,255,0.06);
+    color: var(--accent);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    padding: 6px 16px;
+    border-radius: 2px;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,200,255,0.3), transparent);
+    margin: 0 auto;
+  }
+
+  /* ── MISSION ── */
+  .section {
+    padding: 100px 8vw;
+  }
+
+  .section-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.4em;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .section-title {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 700;
+    font-size: clamp(26px, 3.5vw, 48px);
+    line-height: 1.3;
+    margin-bottom: 48px;
+  }
+
+  .mission-text {
+    font-size: clamp(15px, 1.5vw, 18px);
+    line-height: 2.2;
+    color: #c0cce0;
+    max-width: 680px;
+    border-left: 2px solid var(--accent);
+    padding-left: 28px;
+  }
+
+  /* ── ACTIVITIES ── */
+  .activities-bg {
+    background: var(--deep);
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2px;
+  }
+
+  .activity-card {
+    background: var(--card);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 40px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .activity-card:hover {
+    border-color: rgba(0,200,255,0.3);
+  }
+
+  .activity-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s;
+  }
+
+  .activity-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .activity-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: rgba(0,200,255,0.12);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .activity-icon {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+
+  .activity-title {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 12px;
+    color: var(--white);
+  }
+
+  .activity-desc {
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--gray);
+  }
+
+  /* ── CONTACT ── */
+  .contact-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  @media (max-width: 768px) {
+    .contact-wrap { grid-template-columns: 1fr; gap: 40px; }
+    .hero { padding: 80px 6vw; }
+    .section { padding: 80px 6vw; }
+  }
+
+  .contact-info dt {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    margin-bottom: 4px;
+    margin-top: 24px;
+  }
+
+  .contact-info dt:first-child { margin-top: 0; }
+
+  .contact-info dd {
+    font-size: 16px;
+    color: var(--white);
+  }
+
+  /* ── 挨拶文 ── */
+  .letter-box {
+    background: rgba(0,200,255,0.03);
+    border: 1px solid rgba(0,200,255,0.15);
+    padding: 48px;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 15px;
+    line-height: 2.4;
+    color: #c8d8ec;
+  }
+
+  .letter-box .letter-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .letter-box .letter-sign {
+    margin-top: 32px;
+    text-align: right;
+    color: var(--gray);
+    font-size: 14px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 40px 8vw;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-logo {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .footer-logo span {
+    color: var(--accent);
+  }
+
+  .footer-note {
+    font-size: 12px;
+    color: var(--gray);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 8vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(10,14,26,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .nav-logo {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 700;
+    font-size: 15px;
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+
+  .status-pill {
+    font-size: 11px;
+    background: rgba(240,192,64,0.15);
+    color: var(--gold);
+    border: 1px solid rgba(240,192,64,0.3);
+    padding: 4px 12px;
+    border-radius: 100px;
+    letter-spacing: 0.05em;
+  }
+</style>
+<style>
+    #edit-toolbar {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(10,14,26,0.95);
+      border: 1px solid rgba(0,200,255,0.4);
+      padding: 10px 16px;
+      border-radius: 4px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+    #edit-toolbar button {
+      background: rgba(0,200,255,0.15);
+      color: #00c8ff;
+      border: 1px solid rgba(0,200,255,0.4);
+      padding: 8px 18px;
+      font-size: 13px;
+      cursor: pointer;
+      border-radius: 2px;
+      font-family: 'Noto Sans JP', sans-serif;
+      transition: background 0.2s;
+    }
+    #edit-toolbar button:hover { background: rgba(0,200,255,0.28); }
+    #btn-save {
+      background: rgba(0,200,255,0.85) !important;
+      color: #0a0e1a !important;
+      font-weight: 700 !important;
+    }
+    #btn-save:hover { background: #00c8ff !important; }
+    #edit-hint {
+      font-size: 12px;
+      color: #8899bb;
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+    body.edit-active [contenteditable="true"] {
+      outline: 1px dashed rgba(0,200,255,0.5);
+      cursor: text;
+      min-height: 1em;
+      border-radius: 2px;
+      transition: outline 0.2s, background 0.2s;
+    }
+    body.edit-active [contenteditable="true"]:hover {
+      outline: 1px solid rgba(0,200,255,0.8);
+      background: rgba(0,200,255,0.05);
+    }
+    body.edit-active [contenteditable="true"]:focus {
+      outline: 2px solid #00c8ff;
+      background: rgba(0,200,255,0.08);
+    }
+    .edit-saved-toast {
+      position: fixed;
+      bottom: 80px;
+      right: 24px;
+      background: rgba(0,200,255,0.9);
+      color: #0a0e1a;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 10px 20px;
+      border-radius: 2px;
+      z-index: 99999;
+      animation: toastIn 0.3s ease;
+    }
+    @keyframes toastIn {
+      from { opacity:0; transform: translateY(10px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+  </style></head>
+<body class="">
+
+<nav>
+  <div class="nav-logo">横須賀<span>e</span>スポーツ振興協会<span style="color:var(--gray);font-size:11px;margin-left:8px;">（仮）</span></div>
+  <ul class="nav-links">
+    <li><a href="#mission">ミッション</a></li>
+    <li><a href="#activities">活動内容</a></li>
+    <li><a href="#letter">ご挨拶</a></li>
+    <li><a href="#contact">お問い合わせ</a></li>
+  </ul>
+  <div class="status-pill">設立準備中</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <p class="hero-label"><span></span>YOKOSUKA eSPORTS PROMOTION</p>
+  <h1 class="hero-title" spellcheck="false">eスポーツで、<br><em>横須賀</em>を<br>変える。</h1>
+  <p class="hero-title-sub" spellcheck="false">ESPORTS × EDUCATION × COMMUNITY</p>
+  <p class="hero-desc" spellcheck="false">
+    学校・地域・企業をつなぎ、次世代のためのeスポーツ環境を横須賀から作り上げる。<br>
+    競技の枠を超えた、学びの場としてのeスポーツを推進します。
+  </p>
+  <div class="hero-badges">
+    <span class="badge">学校訪問・出前授業</span>
+    <span class="badge">コミュニティ運営</span>
+    <span class="badge">行政・企業連携</span>
+    <span class="badge">設立準備中（任意団体）</span>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MISSION -->
+<section class="section" id="mission">
+  <p class="section-label reveal visible">MISSION</p>
+  <h2 class="section-title reveal visible" spellcheck="false">私たちが目指すもの</h2>
+  <p class="mission-text reveal visible" spellcheck="false">
+    eスポーツは、単なるゲームの競技ではありません。<br>
+    チームワーク、情報処理能力、コミュニケーション力——
+    現代社会に必要なスキルを育む場です。<br><br>
+    私たちは横須賀市を拠点に、学校・教育機関へのeスポーツ普及活動、
+    地域コミュニティの活性化、そして次世代プレイヤーの育成環境づくりに取り組みます。<br></p>
+</section>
+
+<!-- ACTIVITIES -->
+<section class="section activities-bg" id="activities">
+  <p class="section-label reveal visible">ACTIVITIES</p>
+  <h2 class="section-title reveal visible" spellcheck="false">活動内容</h2>
+  <div class="grid-3">
+    <div class="activity-card reveal visible">
+      <div class="activity-num">01</div>
+      <div class="activity-icon">🏫</div>
+      <h3 class="activity-title" spellcheck="false">学校・教育機関への訪問</h3>
+      <p class="activity-desc" spellcheck="false">小・中・高校を対象に出前授業や部活支援を行います。eスポーツを通じた情報活用教育・キャリア教育を提供します。</p>
+    </div>
+    <div class="activity-card reveal visible">
+      <div class="activity-num">02</div>
+      <div class="activity-icon">🎮</div>
+      <h3 class="activity-title" spellcheck="false">大会・イベントの企画・開催</h3>
+      <p class="activity-desc" spellcheck="false">地域の若者が気軽に参加できる大会や体験イベントを企画。ネット上だけでなくリアルでの活動も行います。</p>
+    </div>
+    <div class="activity-card reveal visible">
+      <div class="activity-num">03</div>
+      <div class="activity-icon">💬</div>
+      <h3 class="activity-title" spellcheck="false">オンラインコミュニティの運営</h3>
+      <p class="activity-desc" spellcheck="false">Discordサーバーをはじめとするオンラインコミュニティを継続的に運営・発展させ、地域や学校の枠を超えたつながりを創出します。</p>
+    </div>
+    <div class="activity-card reveal visible">
+      <div class="activity-num">04</div>
+      <div class="activity-icon">🤝</div>
+      <h3 class="activity-title" spellcheck="false">行政・企業との連携</h3>
+      <p class="activity-desc" spellcheck="false">横須賀市や地域企業と連携し、持続可能なeスポーツ振興の仕組みを構築。Yokosuka e-Sports Partnersとも協力します。</p>
+    </div>
+    <div class="activity-card reveal visible">
+      <div class="activity-num">05</div>
+      <div class="activity-icon">📡</div>
+      <h3 class="activity-title" spellcheck="false">情報発信・調査研究</h3>
+      <p class="activity-desc" spellcheck="false">eスポーツに関する最新情報の収集・発信を行い、地域の皆さまが正しい知識を持てるよう努めます。</p>
+    </div>
+    <div class="activity-card reveal visible">
+      <div class="activity-num">06</div>
+      <div class="activity-icon">🌱</div>
+      <h3 class="activity-title" spellcheck="false">次世代育成プログラム</h3>
+      <p class="activity-desc" spellcheck="false">若い世代がeスポーツを通じてスキルを磨き、将来の選択肢を広げられるようなプログラムを開発・実施します。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 挨拶文 -->
+<section class="section" id="letter">
+  <p class="section-label reveal visible">GREETING</p>
+  <h2 class="section-title reveal visible" spellcheck="false">学校関係者・行政の皆さまへ</h2>
+  <div class="contact-wrap">
+    <div class="letter-box reveal visible">
+      <p class="letter-title" spellcheck="false">ご挨拶およびご協力のお願い</p>
+      <p spellcheck="false">
+        拝啓　時下ますますご清栄のこととお慶び申し上げます。
+      </p>
+      <br>
+      <p spellcheck="false">
+        私どもは、eスポーツ（電子競技）の教育的価値と地域への貢献を信じ、
+        横須賀市を拠点として活動する「横須賀eスポーツ振興協会（仮称）」を設立準備中の団体です。
+      </p>
+      <br>
+      <p spellcheck="false">
+        近年、eスポーツは国内外の教育現場でも注目を集めており、
+        チームワーク・論理的思考・コミュニケーション能力を育む場として
+        多くの学校で取り入れられ始めています。
+      </p>
+      <br>
+      <p spellcheck="false">
+        私どもでは、学校・教育機関の皆さまのご要望に合わせた訪問授業や
+        部活動支援を無償にて提供させていただきたく、
+        まずはご挨拶とご意見を伺う機会をいただければ幸いに存じます。
+      </p>
+      <br>
+      <p spellcheck="false">
+        ご多忙のところ誠に恐縮ではございますが、
+        ご検討のほどよろしくお願い申し上げます。
+      </p>
+      <p class="letter-sign" spellcheck="false">
+        敬具<br><br>
+        横須賀eスポーツ振興協会（仮称）<br>
+        代表　ぽよ？<br>
+        Tel: 000-0000-0000<br>
+        Email: info@example.com
+      </p>
+    </div>
+
+    <div class="reveal visible">
+      <dl class="contact-info">
+        <dt>ORGANIZATION</dt>
+        <dd spellcheck="false">横須賀eスポーツ振興協会（仮称）</dd>
+
+        <dt>STATUS</dt>
+        <dd spellcheck="false">一般社団法人 設立準備中<br><span style="font-size:13px;color:var(--gray);">任意団体として活動中</span></dd>
+
+        <dt>AREA</dt>
+        <dd spellcheck="false">神奈川県横須賀市およびその周辺</dd>
+
+        <dt>AFFILIATION</dt>
+        <dd spellcheck="false">Yokosuka e-Sports Partners 参画申請中</dd>
+
+        <dt>CONTACT</dt>
+        <dd spellcheck="false">info@example.com<br>000-0000-0000</dd>
+      </dl>
+
+      <div style="margin-top:40px;padding:24px;border:1px solid rgba(240,192,64,0.2);background:rgba(240,192,64,0.04);">
+        <p style="font-size:12px;color:var(--gold);letter-spacing:0.1em;margin-bottom:8px;">▍ 出前授業について</p>
+        <p style="font-size:13px;color:#aab8d0;line-height:1.9;">
+          費用：<strong style="color:var(--white);">無償</strong><br>
+          対象：小学校〜高校<br>
+          内容：eスポーツ体験・講義・部活支援<br>
+          所要時間：45〜90分（応相談）
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <p class="section-label reveal">CONTACT</p>
+  <h2 class="section-title reveal" spellcheck="false">お問い合わせ</h2>
+  <p class="reveal" style="color:var(--gray);font-size:15px;line-height:2;max-width:560px;">
+    学校訪問のご依頼、連携・協力のご相談、その他なんでもお気軽にご連絡ください。<br>
+    まずはお話を聞かせていただくところから始めます。
+  </p>
+  <div style="margin-top:40px;display:flex;gap:16px;flex-wrap:wrap;" class="reveal">
+    <a href="mailto:info@example.com" style="display:inline-block;background:var(--accent);color:var(--navy);font-weight:700;font-size:14px;padding:14px 32px;text-decoration:none;letter-spacing:0.1em;">メールで問い合わせる</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo" spellcheck="false">横須賀<span>e</span>スポーツ振興協会（仮称）</div>
+  <p class="footer-note" spellcheck="false">一般社団法人 設立準備中 ／ Yokosuka, Kanagawa, Japan</p>
+</footer>
+
+<script>
+  // ── スクロールアニメーション ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── 編集モード ──
+  let editMode = false;
+
+  // 編集可能にする要素のセレクタ
+  const EDITABLE = [
+    '.hero-title',
+    '.hero-title-sub',
+    '.hero-desc',
+    '.mission-text',
+    '.activity-title',
+    '.activity-desc',
+    '.letter-box .letter-title',
+    '.letter-box p:not(.letter-sign)',
+    '.letter-box .letter-sign',
+    '.section-title',
+    'footer .footer-logo',
+    'footer .footer-note',
+    '.contact-info dd',
+  ].join(',');
+
+  // 編集モード切り替えボタンを作成
+  const toolbar = document.createElement('div');
+  toolbar.id = 'edit-toolbar';
+  toolbar.innerHTML = `
+    <button id="btn-edit" onclick="toggleEdit()">✏️ 編集モード</button>
+    <button id="btn-save" onclick="saveFile()" style="display:none">💾 HTMLを保存</button>
+    <span id="edit-hint" style="display:none">テキストをクリックして編集 → 保存で反映</span>
+  `;
+  document.body.appendChild(toolbar);
+
+  // ツールバーのスタイル
+  const tbStyle = document.createElement('style');
+  tbStyle.textContent = `
+    #edit-toolbar {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(10,14,26,0.95);
+      border: 1px solid rgba(0,200,255,0.4);
+      padding: 10px 16px;
+      border-radius: 4px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+    #edit-toolbar button {
+      background: rgba(0,200,255,0.15);
+      color: #00c8ff;
+      border: 1px solid rgba(0,200,255,0.4);
+      padding: 8px 18px;
+      font-size: 13px;
+      cursor: pointer;
+      border-radius: 2px;
+      font-family: 'Noto Sans JP', sans-serif;
+      transition: background 0.2s;
+    }
+    #edit-toolbar button:hover { background: rgba(0,200,255,0.28); }
+    #btn-save {
+      background: rgba(0,200,255,0.85) !important;
+      color: #0a0e1a !important;
+      font-weight: 700 !important;
+    }
+    #btn-save:hover { background: #00c8ff !important; }
+    #edit-hint {
+      font-size: 12px;
+      color: #8899bb;
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+    body.edit-active [contenteditable="true"] {
+      outline: 1px dashed rgba(0,200,255,0.5);
+      cursor: text;
+      min-height: 1em;
+      border-radius: 2px;
+      transition: outline 0.2s, background 0.2s;
+    }
+    body.edit-active [contenteditable="true"]:hover {
+      outline: 1px solid rgba(0,200,255,0.8);
+      background: rgba(0,200,255,0.05);
+    }
+    body.edit-active [contenteditable="true"]:focus {
+      outline: 2px solid #00c8ff;
+      background: rgba(0,200,255,0.08);
+    }
+    .edit-saved-toast {
+      position: fixed;
+      bottom: 80px;
+      right: 24px;
+      background: rgba(0,200,255,0.9);
+      color: #0a0e1a;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 10px 20px;
+      border-radius: 2px;
+      z-index: 99999;
+      animation: toastIn 0.3s ease;
+    }
+    @keyframes toastIn {
+      from { opacity:0; transform: translateY(10px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+  `;
+  document.head.appendChild(tbStyle);
+
+  function toggleEdit() {
+    editMode = !editMode;
+    const btn = document.getElementById('btn-edit');
+    const saveBtn = document.getElementById('btn-save');
+    const hint = document.getElementById('edit-hint');
+
+    if (editMode) {
+      document.body.classList.add('edit-active');
+      document.querySelectorAll(EDITABLE).forEach(el => {
+        el.setAttribute('contenteditable', 'true');
+        el.setAttribute('spellcheck', 'false');
+      });
+      btn.textContent = '👁 プレビュー';
+      saveBtn.style.display = 'inline-block';
+      hint.style.display = 'inline';
+    } else {
+      document.body.classList.remove('edit-active');
+      document.querySelectorAll('[contenteditable]').forEach(el => {
+        el.removeAttribute('contenteditable');
+      });
+      btn.textContent = '✏️ 編集モード';
+      saveBtn.style.display = 'none';
+      hint.style.display = 'none';
+    }
+  }
+
+  function saveFile() {
+    // 保存前に contenteditable を一時除去してクリーンなHTMLを生成
+    document.body.classList.remove('edit-active');
+    document.querySelectorAll('[contenteditable]').forEach(el => {
+      el.removeAttribute('contenteditable');
+    });
+
+    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+
+    // ダウンロード
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'esports_yokosuka.html';
+    a.click();
+    URL.revokeObjectURL(a.href);
+
+    // 編集モードを維持（再付与）
+    document.body.classList.add('edit-active');
+    document.querySelectorAll(EDITABLE).forEach(el => {
+      el.setAttribute('contenteditable', 'true');
+      el.setAttribute('spellcheck', 'false');
+    });
+
+    // トースト通知
+    const toast = document.createElement('div');
+    toast.className = 'edit-saved-toast';
+    toast.textContent = '✅ 保存しました！ダウンロードしたファイルを上書きしてください';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3500);
+  }
+</script><div id="edit-toolbar">
+    <button id="btn-edit" onclick="toggleEdit()">👁 プレビュー</button>
+    <button id="btn-save" onclick="saveFile()" style="display: inline-block;">💾 HTMLを保存</button>
+    <span id="edit-hint" style="display: inline;">テキストをクリックして編集 → 保存で反映</span>
+  </div>
+
+
+</body></html>
