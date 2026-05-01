@@ -685,7 +685,8 @@
   </p>
   <div class="reveal" style="margin-top:32px;display:inline-flex;align-items:center;gap:16px;background:rgba(0,200,255,0.05);border:1px solid rgba(0,200,255,0.2);padding:20px 32px;">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
-    <a href="mailto:yokosuka.es.jp@gmail.com" style="color:var(--white);font-size:16px;text-decoration:none;letter-spacing:0.05em;font-family:'Noto Sans JP',sans-serif;">yokosuka.es.jp@gmail.com</a>
+    <span style="color:var(--white);font-size:16px;letter-spacing:0.05em;font-family:'Noto Sans JP',sans-serif;">yokosuka.es.jp@gmail.com</span>
+    <button onclick="copyMail()" id="copy-btn" style="background:rgba(0,200,255,0.15);color:var(--accent);border:1px solid rgba(0,200,255,0.4);padding:6px 16px;font-size:12px;cursor:pointer;border-radius:2px;font-family:'Noto Sans JP',sans-serif;white-space:nowrap;transition:background 0.2s;">コピー</button>
   </div>
 
   <!-- SNSリンク -->
@@ -742,6 +743,18 @@
 </div>
 
 <script>
+  function copyMail() {
+    navigator.clipboard.writeText('yokosuka.es.jp@gmail.com').then(() => {
+      const btn = document.getElementById('copy-btn');
+      btn.textContent = '✅ コピーしました';
+      btn.style.background = 'rgba(0,200,255,0.35)';
+      setTimeout(() => {
+        btn.textContent = 'コピー';
+        btn.style.background = 'rgba(0,200,255,0.15)';
+      }, 2000);
+    });
+  }
+
   // スクロールアニメーション
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
