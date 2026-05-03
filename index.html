@@ -6,37 +6,52 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&amp;family=Noto+Sans+JP:wght@300;400;700&amp;family=Bebas+Neue&amp;display=swap" rel="stylesheet">
 <style>
   :root {
-    --navy: #0a0e1a;
-    --deep: #0d1526;
-    --accent: #00c8ff;
-    --accent2: #ff6b35;
-    --gold: #f0c040;
-    --white: #f0f4ff;
-    --gray: #8899bb;
-    --card: rgba(255,255,255,0.04);
+    --bg: #ffffff;
+    --bg-alt: #f0f4fa;
+    --navy: #0c1f44;
+    --navy-deep: #071228;
+    --accent: #1648c8;
+    --accent-glow: #4f7fff;
+    --cyan: #0ea5c9;
+    --text: #0c1f44;
+    --text-sub: #374665;
+    --text-light: #5a6a88;
+    --border: #c8d3e8;
+    --card: #ffffff;
+    --gold: #b87200;
+    --white: #ffffff;
+    --gray: rgba(255,255,255,0.35);
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
-    background: var(--navy);
-    color: var(--white);
+    background: var(--bg);
+    color: var(--text);
     font-family: 'Noto Sans JP', sans-serif;
-    font-weight: 300;
+    font-weight: 400;
     overflow-x: hidden;
+    line-height: 1.7;
   }
 
   /* ── NAV ── */
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 20px 8vw;
+    z-index: 200;
+    padding: 0 8vw;
+    height: 68px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(10,14,26,0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 1px 16px rgba(15,34,68,0.07);
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled {
+    box-shadow: 0 4px 24px rgba(15,34,68,0.13);
   }
   .nav-logo {
     display: flex;
@@ -44,43 +59,129 @@
     gap: 10px;
     font-family: 'Noto Sans JP', sans-serif;
     font-weight: 700;
-    font-size: 17px;
-    letter-spacing: 0.05em;
+    font-size: 16px;
+    color: var(--navy);
+    letter-spacing: 0.03em;
+    text-decoration: none;
   }
-  /* ロゴ画像プレースホルダー：img#nav-logo-img を差し替えるだけでOK */
+  .nav-logo .e-accent { color: var(--accent-glow); }
   #nav-logo-img {
-    width: 32px;
-    height: 32px;
+    width: 32px; height: 32px;
     border-radius: 4px;
     object-fit: contain;
-    background: rgba(0,200,255,0.1);
-    border: 1px dashed rgba(0,200,255,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    color: var(--accent);
-    letter-spacing: 0;
   }
-  .nav-logo span { color: var(--accent); }
-  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
   .nav-links a {
-    color: var(--gray);
+    color: var(--text-sub);
     text-decoration: none;
     font-size: 13px;
-    letter-spacing: 0.1em;
+    font-weight: 500;
+    letter-spacing: 0.05em;
     transition: color 0.2s;
+    position: relative;
   }
-  .nav-links a:hover { color: var(--white); }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+    transform-origin: left;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+  .nav-links a.active { color: var(--accent); }
+  .nav-links a.active::after { transform: scaleX(1); }
+
   .status-pill {
     font-size: 11px;
-    background: rgba(240,192,64,0.15);
+    background: rgba(200,134,10,0.1);
     color: var(--gold);
-    border: 1px solid rgba(240,192,64,0.3);
+    border: 1px solid rgba(200,134,10,0.3);
     padding: 4px 12px;
     border-radius: 100px;
     letter-spacing: 0.05em;
+    font-weight: 600;
   }
+
+  /* ── HAMBURGER (mobile) ── */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    z-index: 300;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--navy);
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* モバイルメニュー */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(7,18,40,0.97);
+    z-index: 150;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 36px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  .mobile-menu.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .mobile-menu a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    font-family: 'Noto Serif JP', serif;
+    transition: color 0.2s, transform 0.2s;
+    transform: translateY(12px);
+    opacity: 0;
+    transition: color 0.2s, transform 0.4s ease, opacity 0.4s ease;
+  }
+  .mobile-menu.open a {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .mobile-menu.open a:nth-child(1) { transition-delay: 0.05s; }
+  .mobile-menu.open a:nth-child(2) { transition-delay: 0.10s; }
+  .mobile-menu.open a:nth-child(3) { transition-delay: 0.15s; }
+  .mobile-menu.open a:nth-child(4) { transition-delay: 0.20s; }
+  .mobile-menu.open a:nth-child(5) { transition-delay: 0.25s; }
+  .mobile-menu a:hover { color: var(--accent-glow); }
+  .mobile-menu-close {
+    position: absolute;
+    top: 24px; right: 24px;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.5);
+    font-size: 28px;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+  }
+  .mobile-menu-close:hover { color: #fff; }
 
   /* ── HERO ── */
   .hero {
@@ -89,218 +190,500 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    padding: 80px 8vw;
+    padding: 120px 8vw 80px;
     position: relative;
     overflow: hidden;
+    background: var(--navy-deep);
   }
+
+  /* グリッド背景 */
   .hero::before {
     content: '';
     position: absolute;
     inset: 0;
-    background:
-      radial-gradient(ellipse 60% 70% at 80% 50%, rgba(0,200,255,0.08) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 50% at 20% 80%, rgba(255,107,53,0.06) 0%, transparent 60%);
-    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(59,130,246,0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59,130,246,0.07) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 90% 90% at 60% 40%, black 0%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 90% at 60% 40%, black 0%, transparent 75%);
+    animation: gridDrift 20s ease-in-out infinite alternate;
   }
-  .hero-grid {
+  @keyframes gridDrift {
+    from { background-position: 0 0; }
+    to { background-position: 12px 12px; }
+  }
+
+  /* グラデーション光源 */
+  .hero::after {
+    content: '';
     position: absolute;
     inset: 0;
-    background-image:
-      linear-gradient(rgba(0,200,255,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,200,255,0.04) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: radial-gradient(ellipse 80% 80% at 70% 50%, black 0%, transparent 70%);
+    background:
+      radial-gradient(ellipse 55% 65% at 78% 42%, rgba(59,130,246,0.13) 0%, transparent 65%),
+      radial-gradient(ellipse 35% 45% at 12% 72%, rgba(6,182,212,0.08) 0%, transparent 55%),
+      radial-gradient(ellipse 25% 35% at 50% 80%, rgba(79,127,255,0.06) 0%, transparent 50%);
+    pointer-events: none;
+    animation: lightPulse 8s ease-in-out infinite alternate;
   }
-  .hero-label {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(11px, 1.2vw, 14px);
-    letter-spacing: 0.3em;
-    color: var(--accent);
+  @keyframes lightPulse {
+    from { opacity: 0.8; }
+    to { opacity: 1.2; }
+  }
+
+  /* 浮遊するパーティクル */
+  .hero-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: rgba(79,127,255,0.6);
+    border-radius: 50%;
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    0% { opacity: 0; transform: translateY(0) translateX(0); }
+    10% { opacity: 1; }
+    90% { opacity: 0.5; }
+    100% { opacity: 0; transform: translateY(-80vh) translateX(30px); }
+  }
+
+  .hero-eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    color: var(--cyan);
     margin-bottom: 24px;
     opacity: 0;
     animation: fadeUp 0.8s 0.2s forwards;
-  }
-  .hero-label span {
-    display: inline-block;
-    width: 40px;
-    height: 1px;
-    background: var(--accent);
-    vertical-align: middle;
-    margin-right: 12px;
-  }
-  .hero-title {
-    font-family: 'Noto Serif JP', serif;
-    font-weight: 900;
-    font-size: clamp(36px, 6vw, 88px);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin-bottom: 12px;
-    opacity: 0;
-    animation: fadeUp 0.8s 0.4s forwards;
-  }
-  .hero-title em { font-style: normal; color: var(--accent); }
-  .hero-title-sub {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(20px, 3vw, 44px);
-    letter-spacing: 0.15em;
-    color: var(--gray);
-    margin-bottom: 40px;
-    opacity: 0;
-    animation: fadeUp 0.8s 0.55s forwards;
-  }
-  .hero-desc {
-    font-size: clamp(14px, 1.4vw, 17px);
-    line-height: 2;
-    color: #aab8d0;
-    max-width: 520px;
-    margin-bottom: 48px;
-    opacity: 0;
-    animation: fadeUp 0.8s 0.7s forwards;
-  }
-  .hero-badges {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    opacity: 0;
-    animation: fadeUp 0.8s 0.85s forwards;
-  }
-  .badge {
-    border: 1px solid rgba(0,200,255,0.3);
-    background: rgba(0,200,255,0.06);
-    color: var(--accent);
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    padding: 6px 16px;
-    border-radius: 2px;
-  }
-
-  /* ── SECTIONS ── */
-  .divider {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(0,200,255,0.3), transparent);
-  }
-  .section { padding: 100px 8vw; }
-  .section-label {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 12px;
-    letter-spacing: 0.4em;
-    color: var(--accent);
-    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
     display: flex;
     align-items: center;
     gap: 12px;
   }
-  .section-label::after {
+  .hero-eyebrow::before {
     content: '';
     display: block;
-    width: 32px;
-    height: 1px;
+    width: 32px; height: 1px;
+    background: var(--cyan);
+  }
+  .hero-title {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 900;
+    font-size: clamp(36px, 5.5vw, 80px);
+    line-height: 1.15;
+    color: #ffffff;
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.35s forwards;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-title em {
+    font-style: normal;
+    color: var(--accent-glow);
+    text-shadow: 0 0 40px rgba(79,127,255,0.5), 0 0 80px rgba(59,130,246,0.2);
+  }
+  .hero-title-sub {
+    font-size: clamp(12px, 1.5vw, 15px);
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 36px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.5s forwards;
+    position: relative;
+    z-index: 1;
+    font-family: 'Bebas Neue', sans-serif;
+  }
+  .hero-desc {
+    font-size: clamp(14px, 1.4vw, 16px);
+    line-height: 2.1;
+    color: rgba(255,255,255,0.65);
+    max-width: 520px;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.65s forwards;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 44px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.75s forwards;
+    position: relative;
+    z-index: 1;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 14px 28px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Noto Sans JP', sans-serif;
+    transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+    box-shadow: 0 4px 20px rgba(22,72,200,0.4);
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .btn-primary:hover { background: #1d56e8; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(22,72,200,0.5); }
+  .btn-primary:hover::before { opacity: 1; }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    padding: 13px 24px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.2);
+    cursor: pointer;
+    font-family: 'Noto Sans JP', sans-serif;
+    transition: border-color 0.25s, color 0.25s, background 0.25s;
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.5); color: #fff; background: rgba(255,255,255,0.06); }
+
+  .hero-badges {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.9s forwards;
+    position: relative;
+    z-index: 1;
+  }
+  .badge {
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.65);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    padding: 6px 16px;
+    border-radius: 100px;
+    backdrop-filter: blur(4px);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .badge:hover { border-color: rgba(79,127,255,0.5); background: rgba(79,127,255,0.08); }
+
+  /* ── SCROLL INDICATOR ── */
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeIn 1s 1.5s forwards;
+    z-index: 1;
+  }
+  .scroll-hint span {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: rgba(255,255,255,0.25);
+    font-family: 'Bebas Neue', sans-serif;
+  }
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+    animation: scrollBounce 2s ease-in-out infinite;
+  }
+  @keyframes scrollBounce {
+    0%, 100% { transform: scaleY(1); opacity: 0.5; }
+    50% { transform: scaleY(1.3); opacity: 1; }
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
+  }
+
+  /* ── SECTIONS ── */
+  .section { padding: 96px 8vw; }
+  .section-alt { background: var(--bg-alt); }
+  .section-dark { background: var(--navy-deep); }
+
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    color: var(--accent);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-eyebrow::before {
+    content: '';
+    display: block;
+    width: 20px; height: 2px;
+    background: var(--accent);
+    border-radius: 1px;
   }
   .section-title {
     font-family: 'Noto Serif JP', serif;
     font-weight: 700;
-    font-size: clamp(26px, 3.5vw, 48px);
+    font-size: clamp(24px, 3vw, 42px);
     line-height: 1.3;
+    color: var(--navy);
     margin-bottom: 48px;
   }
+  .section-dark .section-title { color: #ffffff; }
+  .section-dark .section-eyebrow { color: var(--cyan); }
+  .section-dark .section-eyebrow::before { background: var(--cyan); }
+
   .mission-text {
-    font-size: clamp(15px, 1.5vw, 18px);
-    line-height: 2.2;
-    color: #c0cce0;
+    font-size: clamp(15px, 1.4vw, 17px);
+    line-height: 2.3;
+    color: var(--text-sub);
     max-width: 680px;
-    border-left: 2px solid var(--accent);
     padding-left: 28px;
+    border-left: 3px solid var(--accent);
+    position: relative;
+  }
+  .mission-quote {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(16px, 1.6vw, 19px);
+    font-weight: 700;
+    color: var(--navy);
+    margin-top: 32px;
+    padding: 20px 28px;
+    background: linear-gradient(135deg, rgba(22,72,200,0.04), rgba(14,165,201,0.04));
+    border: 1px solid rgba(22,72,200,0.12);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 4px 4px 0;
+    line-height: 1.7;
   }
 
   /* ── ACTIVITIES ── */
-  .activities-bg { background: var(--deep); }
   .grid-3 {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 2px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
   }
   .activity-card {
     background: var(--card);
-    border: 1px solid rgba(255,255,255,0.06);
-    padding: 40px 32px;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    padding: 32px 24px;
     position: relative;
     overflow: hidden;
-    transition: border-color 0.3s;
+    transition: box-shadow 0.3s, border-top-color 0.3s, transform 0.3s;
+    border-radius: 4px;
   }
-  .activity-card:hover { border-color: rgba(0,200,255,0.3); }
-  .activity-card::before {
+  .activity-card::after {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent), transparent);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(22,72,200,0.03) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
   }
-  .activity-card:hover::before { transform: scaleX(1); }
+  .activity-card:hover {
+    box-shadow: 0 8px 32px rgba(12,31,68,0.12);
+    border-top-color: var(--cyan);
+    transform: translateY(-4px);
+  }
+  .activity-card:hover::after { opacity: 1; }
   .activity-num {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 48px;
-    color: rgba(0,200,255,0.12);
+    font-size: 40px;
+    color: rgba(22,72,200,0.1);
     line-height: 1;
-    margin-bottom: 16px;
+    margin-bottom: 10px;
+    transition: color 0.3s;
   }
-  .activity-icon { font-size: 28px; margin-bottom: 16px; }
+  .activity-card:hover .activity-num { color: rgba(22,72,200,0.18); }
+  .activity-icon { font-size: 26px; margin-bottom: 12px; }
   .activity-title {
     font-family: 'Noto Serif JP', serif;
     font-weight: 700;
-    font-size: 18px;
-    margin-bottom: 12px;
-    color: var(--white);
+    font-size: 15px;
+    margin-bottom: 10px;
+    color: var(--navy);
+    line-height: 1.4;
   }
-  .activity-desc { font-size: 14px; line-height: 1.9; color: var(--gray); }
+  .activity-desc { font-size: 13px; line-height: 1.85; color: var(--text-sub); }
 
   /* ── LETTER / CONTACT ── */
   .contact-wrap {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 80px;
+    gap: 64px;
     align-items: start;
   }
   .contact-info dt {
-    font-size: 11px;
+    font-size: 10px;
+    font-weight: 700;
     letter-spacing: 0.3em;
     color: var(--accent);
     margin-bottom: 4px;
-    margin-top: 24px;
+    margin-top: 20px;
   }
   .contact-info dt:first-child { margin-top: 0; }
-  .contact-info dd { font-size: 16px; color: var(--white); }
+  .contact-info dd { font-size: 15px; color: var(--text); }
   .letter-box {
-    background: rgba(0,200,255,0.03);
-    border: 1px solid rgba(0,200,255,0.15);
-    padding: 48px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--navy);
+    padding: 44px;
     font-family: 'Noto Serif JP', serif;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 2.4;
-    color: #c8d8ec;
+    color: var(--text-sub);
+    box-shadow: 0 4px 24px rgba(15,34,68,0.07);
+    transition: box-shadow 0.3s;
   }
+  .letter-box:hover { box-shadow: 0 8px 40px rgba(15,34,68,0.11); }
   .letter-box .letter-title {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 700;
-    color: var(--white);
-    margin-bottom: 32px;
+    color: var(--navy);
+    margin-bottom: 28px;
     padding-bottom: 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid var(--border);
   }
   .letter-box .letter-sign {
-    margin-top: 32px;
+    margin-top: 28px;
     text-align: right;
-    color: var(--gray);
-    font-size: 14px;
+    color: var(--text-light);
+    font-size: 13px;
+  }
+
+  /* ── RECORDS ── */
+  .records-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .record-card {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 28px 32px;
+    position: relative;
+    transition: box-shadow 0.3s, border-left-color 0.3s, transform 0.3s, background 0.3s;
+    margin-bottom: 1px;
+  }
+  .record-card:hover {
+    box-shadow: 0 4px 24px rgba(15,34,68,0.1);
+    border-left-color: var(--cyan);
+    transform: translateX(4px);
+    background: rgba(240,244,250,0.5);
+  }
+  .record-date {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    min-width: 72px;
+    padding-top: 3px;
+  }
+  .record-body { flex: 1; }
+  .record-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    border: 1px solid rgba(200,134,10,0.3);
+    background: rgba(200,134,10,0.07);
+    padding: 2px 10px;
+    border-radius: 2px;
+    margin-bottom: 8px;
+  }
+  .record-title {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 6px;
+    color: var(--navy);
+  }
+  .record-desc { font-size: 13px; line-height: 1.9; color: var(--text-sub); }
+  .record-delete {
+    position: absolute;
+    top: 10px; right: 10px;
+    width: 24px; height: 24px;
+    background: rgba(220,38,38,0.08);
+    border: 1px solid rgba(220,38,38,0.25);
+    color: #dc2626;
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: 2px;
+    align-items: center;
+    justify-content: center;
+    display: none;
+  }
+  .record-delete:hover { background: rgba(220,38,38,0.18); }
+
+  /* ── SNS BUTTONS ── */
+  .sns-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text-sub);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: border-color 0.25s, color 0.25s, box-shadow 0.25s, transform 0.2s;
+    letter-spacing: 0.03em;
+  }
+  .sns-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 4px 16px rgba(26,86,219,0.12);
+    transform: translateY(-2px);
   }
 
   /* ── FOOTER ── */
   footer {
-    padding: 40px 8vw;
+    padding: 36px 8vw;
+    background: var(--navy-deep);
     border-top: 1px solid rgba(255,255,255,0.06);
     display: flex;
     justify-content: space-between;
@@ -309,214 +692,230 @@
     gap: 16px;
   }
   .footer-logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 18px;
-    letter-spacing: 0.08em;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: #ffffff;
     display: flex;
     align-items: center;
     gap: 8px;
   }
-  .footer-logo span { color: var(--accent); }
-  .footer-note { font-size: 12px; color: var(--gray); letter-spacing: 0.05em; }
+  .footer-logo .e-accent { color: var(--accent-glow); }
+  .footer-note { font-size: 12px; color: rgba(255,255,255,0.35); }
+  footer a { color: rgba(255,255,255,0.4); transition: color 0.2s; }
+  footer a:hover { color: rgba(255,255,255,0.9); }
+
+  /* ── SNS フッター ── */
+  .footer-sns a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.4);
+    transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.2s;
+  }
+  .footer-sns a:hover {
+    color: #fff;
+    border-color: rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.06);
+    transform: translateY(-2px);
+  }
 
   /* ── ANIMATIONS ── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(24px); }
     to   { opacity: 1; transform: translateY(0); }
   }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
   .reveal {
     opacity: 0;
-    transform: translateY(32px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1);
   }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
   /* ── EDIT MODE ── */
   #edit-toolbar {
     position: fixed;
-    bottom: 24px;
-    right: 24px;
+    bottom: 24px; right: 24px;
     z-index: 9999;
     display: flex;
     align-items: center;
     gap: 10px;
-    background: rgba(10,14,26,0.95);
-    border: 1px solid rgba(0,200,255,0.4);
+    background: var(--navy-deep);
+    border: 1px solid rgba(59,130,246,0.4);
     padding: 10px 16px;
-    border-radius: 4px;
+    border-radius: 8px;
     backdrop-filter: blur(12px);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
   }
   #edit-toolbar button {
-    background: rgba(0,200,255,0.15);
-    color: #00c8ff;
-    border: 1px solid rgba(0,200,255,0.4);
-    padding: 8px 18px;
-    font-size: 13px;
+    background: rgba(59,130,246,0.15);
+    color: var(--accent-glow);
+    border: 1px solid rgba(59,130,246,0.35);
+    padding: 7px 16px;
+    font-size: 12px;
     cursor: pointer;
-    border-radius: 2px;
+    border-radius: 4px;
     font-family: 'Noto Sans JP', sans-serif;
     transition: background 0.2s;
   }
-  #edit-toolbar button:hover { background: rgba(0,200,255,0.28); }
+  #edit-toolbar button:hover { background: rgba(59,130,246,0.28); }
   #btn-save {
-    background: rgba(0,200,255,0.85) !important;
-    color: #0a0e1a !important;
+    background: var(--accent) !important;
+    color: #fff !important;
     font-weight: 700 !important;
+    border-color: var(--accent) !important;
   }
-  #btn-save:hover { background: #00c8ff !important; }
-  #edit-hint { font-size: 12px; color: #8899bb; font-family: 'Noto Sans JP', sans-serif; }
+  #btn-save:hover { background: #1d4ed8 !important; }
+  #edit-hint { font-size: 11px; color: rgba(255,255,255,0.4); font-family: 'Noto Sans JP', sans-serif; }
   body.edit-active [contenteditable="true"] {
-    outline: 1px dashed rgba(0,200,255,0.5);
+    outline: 1px dashed rgba(59,130,246,0.5);
     cursor: text;
     min-height: 1em;
     border-radius: 2px;
-    transition: outline 0.2s, background 0.2s;
-  }
-  body.edit-active [contenteditable="true"]:hover {
-    outline: 1px solid rgba(0,200,255,0.8);
-    background: rgba(0,200,255,0.05);
   }
   body.edit-active [contenteditable="true"]:focus {
-    outline: 2px solid #00c8ff;
-    background: rgba(0,200,255,0.08);
+    outline: 2px solid var(--accent);
+    background: rgba(59,130,246,0.04);
   }
   .edit-saved-toast {
     position: fixed;
-    bottom: 80px;
-    right: 24px;
-    background: rgba(0,200,255,0.9);
-    color: #0a0e1a;
+    bottom: 80px; right: 24px;
+    background: var(--accent);
+    color: #fff;
     font-weight: 700;
     font-size: 13px;
     padding: 10px 20px;
-    border-radius: 2px;
+    border-radius: 4px;
     z-index: 99999;
+    box-shadow: 0 4px 16px rgba(26,86,219,0.3);
     animation: toastIn 0.3s ease;
   }
   @keyframes toastIn {
-    from { opacity:0; transform: translateY(10px); }
+    from { opacity:0; transform: translateY(8px); }
     to   { opacity:1; transform: translateY(0); }
   }
 
-  /* ── RECORDS ── */
-  .record-card {
-    display: flex;
-    gap: 32px;
-    align-items: flex-start;
-    background: var(--card);
-    border: 1px solid rgba(255,255,255,0.06);
-    padding: 32px 36px;
-    position: relative;
-    transition: border-color 0.3s;
-  }
-  .record-card:hover { border-color: rgba(0,200,255,0.2); }
-  .record-date {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 15px;
-    letter-spacing: 0.1em;
-    color: var(--accent);
-    min-width: 72px;
-    padding-top: 4px;
-  }
-  .record-body { flex: 1; }
-  .record-tag {
-    display: inline-block;
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    color: var(--gold);
-    border: 1px solid rgba(240,192,64,0.3);
-    background: rgba(240,192,64,0.06);
-    padding: 3px 10px;
-    border-radius: 2px;
-    margin-bottom: 10px;
-  }
-  .record-title {
-    font-family: 'Noto Serif JP', serif;
-    font-weight: 700;
-    font-size: 17px;
-    margin-bottom: 8px;
-    color: var(--white);
-  }
-  .record-desc { font-size: 14px; line-height: 1.9; color: var(--gray); }
-  .record-delete {
-    position: absolute;
-    top: 12px; right: 12px;
-    width: 24px; height: 24px;
-    background: rgba(255,80,80,0.15);
-    border: 1px solid rgba(255,80,80,0.3);
-    color: #ff6060;
-    font-size: 14px;
-    cursor: pointer;
-    border-radius: 2px;
-    align-items: center;
-    justify-content: center;
-    display: none;
-  }
-  .record-delete:hover { background: rgba(255,80,80,0.3); }
-
-  /* ── SNS BUTTONS ── */
-  .sns-btn {
+  /* ── CONTACT BOX ── */
+  .contact-mail-box {
+    margin-top: 32px;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    border: 1px solid rgba(255,255,255,0.12);
-    background: rgba(255,255,255,0.03);
-    color: var(--gray);
-    text-decoration: none;
-    font-size: 13px;
-    padding: 10px 20px;
+    gap: 16px;
+    background: rgba(22,72,200,0.04);
+    border: 1px solid rgba(22,72,200,0.15);
+    padding: 20px 32px;
+    border-radius: 4px;
+    transition: background 0.25s, border-color 0.25s, box-shadow 0.25s;
+  }
+  .contact-mail-box:hover {
+    background: rgba(22,72,200,0.07);
+    border-color: rgba(22,72,200,0.28);
+    box-shadow: 0 4px 20px rgba(22,72,200,0.08);
+  }
+  .copy-btn {
+    background: rgba(0,200,255,0.12);
+    color: var(--accent);
+    border: 1px solid rgba(0,200,255,0.35);
+    padding: 6px 16px;
+    font-size: 12px;
+    cursor: pointer;
     border-radius: 2px;
-    transition: border-color 0.2s, color 0.2s, background 0.2s;
-    letter-spacing: 0.05em;
+    font-family: 'Noto Sans JP', sans-serif;
+    white-space: nowrap;
+    transition: background 0.2s, transform 0.2s;
   }
-  .sns-btn:hover {
-    border-color: rgba(0,200,255,0.4);
-    color: var(--white);
-    background: rgba(0,200,255,0.06);
-  }
+  .copy-btn:hover { background: rgba(0,200,255,0.22); transform: scale(1.03); }
 
+  /* ── RESPONSIVE ── */
+  @media (max-width: 960px) {
+    .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  }
   @media (max-width: 768px) {
     .contact-wrap { grid-template-columns: 1fr; gap: 40px; }
-    .hero { padding: 80px 6vw; }
-    .section { padding: 80px 6vw; }
+    .hero { padding: 100px 6vw 80px; }
+    .section { padding: 72px 6vw; }
     .nav-links { display: none; }
+    .status-pill { display: none; }
+    .hamburger { display: flex; }
+    .mobile-menu { display: flex; }
+    .grid-3 { grid-template-columns: 1fr; }
+    .hero-cta { flex-direction: column; align-items: flex-start; }
+    .contact-mail-box { flex-wrap: wrap; gap: 12px; }
+    footer { flex-direction: column; text-align: center; }
+  }
+  @media (max-width: 480px) {
+    .hero-title { font-size: clamp(30px, 9vw, 46px); }
+    .letter-box { padding: 28px 20px; }
+    .record-card { flex-direction: column; gap: 12px; }
+    .record-date { min-width: unset; }
   }
 </style>
 </head>
 <body class="">
 
-<nav>
-  <div class="nav-logo">
-    <!-- ロゴ差し替え用：src属性にロゴ画像URLを入れるだけでOK -->
+<!-- モバイルメニュー -->
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-menu-close" onclick="closeMobileMenu()" aria-label="閉じる">✕</button>
+  <a href="#mission" onclick="closeMobileMenu()">ミッション</a>
+  <a href="#activities" onclick="closeMobileMenu()">活動内容</a>
+  <a href="#records" onclick="closeMobileMenu()">活動実績</a>
+  <a href="#letter" onclick="closeMobileMenu()">ご挨拶</a>
+  <a href="#contact" onclick="closeMobileMenu()">お問い合わせ</a>
+</div>
+
+<nav id="main-nav" class="scrolled">
+  <a href="#" class="nav-logo">
     <img id="nav-logo-img" src="" alt="logo" onerror="this.style.display='none'" width="32" height="32" style="display: none;">
-    <span>Yokosuka <em style="font-style:normal;color:var(--accent)">e</em>Generation</span>
-  </div>
+    Yokosuka <span class="e-accent">e</span>Generation
+  </a>
   <ul class="nav-links">
-    <li><a href="#mission">ミッション</a></li>
-    <li><a href="#activities">活動内容</a></li>
-    <li><a href="#records">活動実績</a></li>
-    <li><a href="#letter">ご挨拶</a></li>
+    <li><a href="#mission" class="">ミッション</a></li>
+    <li><a href="#activities" class="">活動内容</a></li>
+    <li><a href="#records" class="active">活動実績</a></li>
+    <li><a href="#letter" class="">ご挨拶</a></li>
     <li><a href="#contact">お問い合わせ</a></li>
   </ul>
   <div class="status-pill">設立準備中</div>
+  <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="メニューを開く">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-grid"></div>
-  <p class="hero-label"><span></span>YOKOSUKA eSPORTS PROMOTION</p>
+  <div class="hero-particles" id="hero-particles"><div class="particle" style="left: 14.942%; top: 81.4658%; width: 2.80028px; height: 1.48131px; animation-duration: 13.5886s; animation-delay: -12.2403s; opacity: 0.677251;"></div><div class="particle" style="left: 67.5063%; top: 84.4308%; width: 2.34393px; height: 2.54531px; animation-duration: 14.334s; animation-delay: -3.13446s; opacity: 0.544207;"></div><div class="particle" style="left: 80.8208%; top: 71.8824%; width: 2.05893px; height: 2.23578px; animation-duration: 13.1658s; animation-delay: -10.2788s; opacity: 0.649116;"></div><div class="particle" style="left: 79.739%; top: 86.5077%; width: 1.9456px; height: 2.80428px; animation-duration: 9.65094s; animation-delay: -4.96206s; opacity: 0.545712;"></div><div class="particle" style="left: 98.9042%; top: 93.3954%; width: 2.4217px; height: 2.58413px; animation-duration: 18.5006s; animation-delay: -11.6646s; opacity: 0.340444;"></div><div class="particle" style="left: 74.9423%; top: 87.957%; width: 1.47192px; height: 2.73983px; animation-duration: 17.8549s; animation-delay: -13.2384s; opacity: 0.905384;"></div><div class="particle" style="left: 91.593%; top: 84.3708%; width: 1.69044px; height: 1.71742px; animation-duration: 10.7238s; animation-delay: -6.13281s; opacity: 0.982242;"></div><div class="particle" style="left: 7.14456%; top: 93.731%; width: 2.20922px; height: 2.15677px; animation-duration: 13.2647s; animation-delay: -13.4466s; opacity: 0.381098;"></div><div class="particle" style="left: 65.5734%; top: 69.0849%; width: 1.45866px; height: 1.49614px; animation-duration: 13.6074s; animation-delay: -12.8034s; opacity: 0.626595;"></div><div class="particle" style="left: 0.797707%; top: 95.9253%; width: 2.86105px; height: 2.02927px; animation-duration: 21.395s; animation-delay: -0.372289s; opacity: 0.962916;"></div><div class="particle" style="left: 74.6991%; top: 74.583%; width: 1.03533px; height: 1.26854px; animation-duration: 18.9262s; animation-delay: -12.0621s; opacity: 0.542576;"></div><div class="particle" style="left: 72.8859%; top: 73.3937%; width: 1.32282px; height: 2.06521px; animation-duration: 13.1492s; animation-delay: -8.41076s; opacity: 0.747308;"></div><div class="particle" style="left: 54.6037%; top: 68.4067%; width: 2.20305px; height: 1.95922px; animation-duration: 8.5406s; animation-delay: -8.40189s; opacity: 0.304306;"></div><div class="particle" style="left: 11.4101%; top: 76.7054%; width: 1.97152px; height: 1.15843px; animation-duration: 21.8741s; animation-delay: -7.91836s; opacity: 0.884891;"></div><div class="particle" style="left: 69.3641%; top: 71.4506%; width: 1.8607px; height: 1.22143px; animation-duration: 20.1113s; animation-delay: -11.5651s; opacity: 0.458941;"></div><div class="particle" style="left: 75.4357%; top: 81.0258%; width: 2.28477px; height: 2.2695px; animation-duration: 18.1645s; animation-delay: -13.5648s; opacity: 0.34325;"></div><div class="particle" style="left: 36.4061%; top: 79.1627%; width: 1.65204px; height: 2.16036px; animation-duration: 21.9174s; animation-delay: -12.1968s; opacity: 0.310409;"></div><div class="particle" style="left: 58.4966%; top: 79.0753%; width: 1.56925px; height: 1.95528px; animation-duration: 18.274s; animation-delay: -7.35665s; opacity: 0.323175;"></div></div>
+  <p class="hero-eyebrow">YOKOSUKA eSPORTS PROMOTION</p>
   <h1 class="hero-title" spellcheck="false">eスポーツで、<br><em>横須賀</em>の<br>次世代を育てる。</h1>
   <p class="hero-title-sub" spellcheck="false">ESPORTS × EDUCATION × COMMUNITY</p>
   <p class="hero-desc" spellcheck="false">
     学校・地域・企業をつなぎ、次世代のためのeスポーツ環境を横須賀から作り上げる。<br>
     競技の枠を超えた、学びの場としてのeスポーツを推進します。
   </p>
+  <div class="hero-cta">
+    <a href="#contact" class="btn-primary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m2 7 10 7 10-7"></path></svg>
+      お問い合わせ
+    </a>
+    <a href="#activities" class="btn-ghost">
+      活動内容を見る →
+    </a>
+  </div>
   <div class="hero-badges">
     <span class="badge">学校訪問・出前授業</span>
     <span class="badge">コミュニティ運営</span>
     <span class="badge">行政・企業連携</span>
     <span class="badge">設立準備中（任意団体）</span>
+  </div>
+  <div class="scroll-hint">
+    <span>SCROLL</span>
+    <div class="scroll-line"></div>
   </div>
 </section>
 
@@ -524,22 +923,26 @@
 
 <!-- MISSION -->
 <section class="section" id="mission">
-  <p class="section-label reveal">MISSION</p>
-  <h2 class="section-title reveal" spellcheck="false">私たちが目指すもの</h2>
-  <p class="mission-text reveal" spellcheck="false">
-    eスポーツは、単なるゲームの競技ではありません。<br>
-    チームワーク、情報処理能力、コミュニケーション力——
-    現代社会に必要なスキルを育む場です。<br><br>
-    私たちは横須賀市を拠点に、学校・教育機関へのeスポーツ普及活動、
-    地域コミュニティの活性化、そして次世代プレイヤーの育成環境づくりに取り組みます。<br><br>
-    「eスポーツを通じて、すべての人が輝ける場所をつくる」<br>
-    それが Yokosuka eGeneration のミッションです。
-  </p>
+  <p class="section-eyebrow reveal visible">MISSION</p>
+  <h2 class="section-title reveal visible" spellcheck="false">私たちが目指すもの</h2>
+  <div class="reveal visible">
+    <p class="mission-text" spellcheck="false">
+      eスポーツは、単なるゲームの競技ではありません。<br>
+      チームワーク、情報処理能力、コミュニケーション力——
+      現代社会に必要なスキルを育む場です。<br><br>
+      私たちは横須賀市を拠点に、学校・教育機関へのeスポーツ普及活動、
+      地域コミュニティの活性化、そして次世代プレイヤーの育成環境づくりに取り組みます。
+    </p>
+    <p class="mission-quote" spellcheck="false">
+      「eスポーツを通じて、すべての人が輝ける場所をつくる」<br>
+      それが Yokosuka eGeneration のミッションです。
+    </p>
+  </div>
 </section>
 
 <!-- ACTIVITIES -->
-<section class="section activities-bg" id="activities">
-  <p class="section-label reveal visible">ACTIVITIES</p>
+<section class="section section-alt" id="activities">
+  <p class="section-eyebrow reveal visible">ACTIVITIES</p>
   <h2 class="section-title reveal visible" spellcheck="false">活動内容</h2>
   <div class="grid-3">
     <div class="activity-card reveal visible">
@@ -583,7 +986,7 @@
 
 <!-- 挨拶文 -->
 <section class="section" id="letter">
-  <p class="section-label reveal visible">GREETING</p>
+  <p class="section-eyebrow reveal visible">GREETING</p>
   <h2 class="section-title reveal visible" spellcheck="false">学校関係者・行政の皆さまへ</h2>
   <div class="contact-wrap">
     <div class="letter-box reveal visible">
@@ -610,7 +1013,7 @@
         <dt>ORGANIZATION</dt>
         <dd spellcheck="false">Yokosuka eGeneration</dd>
         <dt>STATUS</dt>
-        <dd spellcheck="false">一般社団法人 設立準備中<br><span style="font-size:13px;color:var(--gray);">任意団体として活動中</span></dd>
+        <dd spellcheck="false">一般社団法人 設立準備中<br><span style="font-size:13px;color:var(--text-light);">任意団体として活動中</span></dd>
         <dt>AREA</dt>
         <dd spellcheck="false">神奈川県横須賀市およびその周辺</dd>
         <dt>AFFILIATION</dt>
@@ -619,10 +1022,10 @@
         <dd spellcheck="false">yokosuka.es.jp@gmail.com</dd>
       </dl>
 
-      <div style="margin-top:40px;padding:24px;border:1px solid rgba(240,192,64,0.2);background:rgba(240,192,64,0.04);">
+      <div style="margin-top:40px;padding:24px;border:1px solid rgba(240,192,64,0.2);background:rgba(240,192,64,0.04);border-radius:4px;">
         <p style="font-size:12px;color:var(--gold);letter-spacing:0.1em;margin-bottom:8px;">▍ 出前授業について</p>
-        <p style="font-size:13px;color:#aab8d0;line-height:1.9;">
-          費用：<strong style="color:var(--white);">無償</strong><br>
+        <p style="font-size:13px;color:var(--text-sub);line-height:1.9;">
+          費用：<strong style="color:var(--navy);">無償</strong><br>
           対象：小学校〜高校<br>
           内容：eスポーツ体験・講義・部活支援<br>
           所要時間：45〜90分（応相談）
@@ -635,23 +1038,20 @@
 <div class="divider"></div>
 
 <!-- 活動実績 -->
-<section class="section activities-bg" id="records">
-  <p class="section-label reveal visible">RECORDS</p>
+<section class="section section-alt" id="records">
+  <p class="section-eyebrow reveal visible">RECORDS</p>
   <h2 class="section-title reveal visible" spellcheck="false">活動実績</h2>
-  <p class="reveal visible" style="color:var(--gray);font-size:13px;line-height:1.8;margin-bottom:40px;max-width:600px;">
+  <p class="reveal visible" style="color:var(--text-light);font-size:13px;line-height:1.8;margin-bottom:40px;max-width:600px;">
     ※ 編集モードで各カードのテキストを直接書き換えられます。カードを増やしたい場合は「＋実績を追加」ボタンを使ってください。
   </p>
 
-  <!-- 実績カード一覧 -->
-  <div id="records-list" style="display:flex;flex-direction:column;gap:2px;">
-
-    <!-- 実績カード（このブロックをコピーして増やす） -->
+  <div id="records-list" class="records-list">
     <div class="record-card reveal visible">
       <div class="record-date" spellcheck="false">2026</div>
       <div class="record-body">
         <div class="record-tag" spellcheck="false">学校訪問</div>
-        <h3 class="record-title" spellcheck="false">これから起こるであろう楽しいイベント名</h3>
-        <p class="record-desc" spellcheck="false">もうすっごくいい感じな内容</p>
+        <h3 class="record-title" spellcheck="false">これから起こす素晴らしいイベント名</h3>
+        <p class="record-desc" spellcheck="false">絶賛の限りを尽くす素晴らしい内容</p>
       </div>
     </div>
 
@@ -659,15 +1059,13 @@
       <div class="record-date" spellcheck="false">2026</div>
       <div class="record-body">
         <div class="record-tag" spellcheck="false">イベント</div>
-        <h3 class="record-title" spellcheck="false">これから起こす素晴らしいイベント名</h3>
-        <p class="record-desc" spellcheck="false">なんかもうすっごい感じの内容</p>
+        <h3 class="record-title" spellcheck="false">これから起きるいい感じの出来事</h3>
+        <p class="record-desc" spellcheck="false">日頃の徳がすべて詰まったような奇跡</p>
       </div>
     </div>
-
   </div>
 
-  <!-- 実績追加ボタン（編集モード時のみ表示） -->
-  <button id="btn-add-record" onclick="addRecord()" style="display: none; margin-top: 24px; background: rgba(0, 200, 255, 0.1); color: var(--accent); border: 1px dashed rgba(0, 200, 255, 0.4); padding: 12px 28px; font-size: 14px; cursor: pointer; border-radius: 2px; font-family: &quot;Noto Sans JP&quot;, sans-serif;">
+  <button id="btn-add-record" onclick="addRecord()" style="display: none; margin-top: 24px; background: rgba(26, 86, 219, 0.06); color: var(--accent); border: 1px dashed rgba(26, 86, 219, 0.3); padding: 12px 28px; font-size: 14px; cursor: pointer; border-radius: 2px; font-family: &quot;Noto Sans JP&quot;, sans-serif;">
     ＋ 実績を追加
   </button>
 </section>
@@ -676,41 +1074,34 @@
 
 <!-- CONTACT -->
 <section class="section" id="contact">
-  <p class="section-label reveal visible">CONTACT</p>
+  <p class="section-eyebrow reveal visible">CONTACT</p>
   <h2 class="section-title reveal visible" spellcheck="false">お問い合わせ</h2>
-  <p class="reveal visible" style="color:var(--gray);font-size:15px;line-height:2;max-width:560px;">
+  <p class="reveal visible" style="color:var(--text-sub);font-size:15px;line-height:2;max-width:560px;">
     学校訪問のご依頼、連携・協力のご相談、その他なんでもお気軽にご連絡ください。<br>
     まずはお話を聞かせていただくところから始めます。
   </p>
-  <div class="reveal visible" style="margin-top:32px;display:inline-flex;align-items:center;gap:16px;background:rgba(0,200,255,0.05);border:1px solid rgba(0,200,255,0.2);padding:20px 32px;">
+  <div class="contact-mail-box reveal visible">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m2 7 10 7 10-7"></path></svg>
-    <span style="color:var(--white);font-size:16px;letter-spacing:0.05em;font-family:'Noto Sans JP',sans-serif;">yokosuka.es.jp@gmail.com</span>
-    <button onclick="copyMail()" id="copy-btn" style="background: rgba(0, 200, 255, 0.15); color: var(--accent); border: 1px solid rgba(0, 200, 255, 0.4); padding: 6px 16px; font-size: 12px; cursor: pointer; border-radius: 2px; font-family: &quot;Noto Sans JP&quot;, sans-serif; white-space: nowrap; transition: background 0.2s;">コピー</button>
+    <span style="color:var(--text);font-size:16px;letter-spacing:0.05em;font-family:'Noto Sans JP',sans-serif;">yokosuka.es.jp@gmail.com</span>
+    <button onclick="copyMail()" id="copy-btn" class="copy-btn">コピー</button>
   </div>
 
   <!-- SNSリンク -->
   <div class="reveal visible" style="margin-top:48px;">
     <p style="font-size:11px;letter-spacing:0.3em;color:var(--accent);margin-bottom:20px;font-family:'Bebas Neue',sans-serif;">FOLLOW US</p>
     <div style="display:flex;gap:16px;flex-wrap:wrap;">
-
-      <!-- X (Twitter) -->
       <a href="https://x.com/Yokosuka_eGen" target="_blank" rel="noopener" class="sns-btn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
         X (Twitter)
       </a>
-
-      <!-- Instagram -->
       <a href="https://www.instagram.com/yokosuka.es/?hl=ja" target="_blank" rel="noopener" class="sns-btn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="5"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle></svg>
         Instagram
       </a>
-
-      <!-- YouTube -->
       <a href="https://www.youtube.com/channel/UCBBUEw_rtFROro70c-mUfQQ" target="_blank" rel="noopener" class="sns-btn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg>
         YouTube
       </a>
-
     </div>
   </div>
 </section>
@@ -718,17 +1109,17 @@
 <footer>
   <div class="footer-logo" spellcheck="false">
     <img id="footer-logo-img" src="" alt="" onerror="this.style.display='none'" width="28" height="28" style="border-radius: 3px; object-fit: contain; display: none;">
-    Yokosuka <span>e</span>Generation
+    Yokosuka <span class="e-accent">e</span>Generation
   </div>
-  <div style="display:flex;gap:20px;align-items:center;">
-    <a href="https://x.com/Yokosuka_eGen" target="_blank" rel="noopener" style="color:var(--gray);transition:color 0.2s;" onmouseover="this.style.color='#f0f4ff'" onmouseout="this.style.color='#8899bb'">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+  <div class="footer-sns" style="display:flex;gap:10px;align-items:center;">
+    <a href="https://x.com/Yokosuka_eGen" target="_blank" rel="noopener" aria-label="X (Twitter)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
     </a>
-    <a href="https://www.instagram.com/yokosuka.es/?hl=ja" target="_blank" rel="noopener" style="color:var(--gray);transition:color 0.2s;" onmouseover="this.style.color='#f0f4ff'" onmouseout="this.style.color='#8899bb'">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="5"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle></svg>
+    <a href="https://www.instagram.com/yokosuka.es/?hl=ja" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="5"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle></svg>
     </a>
-    <a href="https://www.youtube.com/channel/UCBBUEw_rtFROro70c-mUfQQ" target="_blank" rel="noopener" style="color:var(--gray);transition:color 0.2s;" onmouseover="this.style.color='#f0f4ff'" onmouseout="this.style.color='#8899bb'">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg>
+    <a href="https://www.youtube.com/channel/UCBBUEw_rtFROro70c-mUfQQ" target="_blank" rel="noopener" aria-label="YouTube">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg>
     </a>
   </div>
   <p class="footer-note" spellcheck="false">一般社団法人 設立準備中 ／ Yokosuka, Kanagawa, Japan</p>
@@ -742,31 +1133,86 @@
 </div>
 
 <script>
-  function copyMail() {
-    navigator.clipboard.writeText('yokosuka.es.jp@gmail.com').then(() => {
-      const btn = document.getElementById('copy-btn');
-      btn.textContent = '✅ コピーしました';
-      btn.style.background = 'rgba(0,200,255,0.35)';
-      setTimeout(() => {
-        btn.textContent = 'コピー';
-        btn.style.background = 'rgba(0,200,255,0.15)';
-      }, 2000);
-    });
-  }
+  /* ── パーティクル生成 ── */
+  (function() {
+    const container = document.getElementById('hero-particles');
+    for (let i = 0; i < 18; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.cssText = `
+        left: ${Math.random() * 100}%;
+        top: ${60 + Math.random() * 40}%;
+        width: ${1 + Math.random() * 2}px;
+        height: ${1 + Math.random() * 2}px;
+        animation-duration: ${8 + Math.random() * 14}s;
+        animation-delay: ${-Math.random() * 14}s;
+        opacity: ${0.3 + Math.random() * 0.7};
+      `;
+      container.appendChild(p);
+    }
+  })();
 
-  // スクロールアニメーション
+  /* ── スクロール：ナビシャドウ & アクティブリンク ── */
+  const nav = document.getElementById('main-nav');
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  window.addEventListener('scroll', () => {
+    // ナビスクロール効果
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+
+    // アクティブセクション検出
+    let current = '';
+    sections.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 100) current = sec.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  }, { passive: true });
+
+  /* ── スクロールアニメーション ── */
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
-      if (entry.isIntersecting) setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      if (entry.isIntersecting) setTimeout(() => entry.target.classList.add('visible'), i * 90);
     });
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-  // 編集モード
+  /* ── モバイルメニュー ── */
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const ham = document.getElementById('hamburger');
+    const open = menu.classList.toggle('open');
+    ham.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  function closeMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const ham = document.getElementById('hamburger');
+    menu.classList.remove('open');
+    ham.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  /* ── メールコピー ── */
+  function copyMail() {
+    navigator.clipboard.writeText('yokosuka.es.jp@gmail.com').then(() => {
+      const btn = document.getElementById('copy-btn');
+      btn.textContent = '✅ コピーしました';
+      btn.style.background = 'rgba(26,86,219,0.3)';
+      setTimeout(() => {
+        btn.textContent = 'コピー';
+        btn.style.background = '';
+      }, 2000);
+    });
+  }
+
+  /* ── 編集モード ── */
   let editMode = false;
   const EDITABLE = [
     '.hero-title', '.hero-title-sub', '.hero-desc',
-    '.mission-text', '.activity-title', '.activity-desc',
+    '.mission-text', '.mission-quote', '.activity-title', '.activity-desc',
     '.letter-box .letter-title', '.letter-box p:not(.letter-sign)', '.letter-box .letter-sign',
     '.section-title', 'footer .footer-logo', 'footer .footer-note', '.contact-info dd',
     '.record-title', '.record-desc', '.record-date', '.record-tag',
@@ -784,7 +1230,6 @@
         el.setAttribute('contenteditable', 'true');
         el.setAttribute('spellcheck', 'false');
       });
-      // 実績カードの削除ボタンを表示
       document.querySelectorAll('.record-delete').forEach(b => b.style.display = 'flex');
       btn.textContent = '👁 プレビュー';
       saveBtn.style.display = 'inline-block';
