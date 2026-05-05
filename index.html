@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="ja"><head>
+<html lang="ja">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yokosuka eGeneration</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&amp;family=Noto+Sans+JP:wght@300;400;700&amp;family=Bebas+Neue&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #ffffff;
@@ -64,7 +65,8 @@
     letter-spacing: 0.03em;
     text-decoration: none;
   }
-  .nav-logo .e-accent { color: var(--accent-glow); }
+  .nav-logo .e-accent { color: var(--accent-glow); letter-spacing: 0; }
+  .nav-logo span { letter-spacing: 0; }
   #nav-logo-img {
     width: 32px; height: 32px;
     border-radius: 4px;
@@ -700,7 +702,8 @@
     align-items: center;
     gap: 8px;
   }
-  .footer-logo .e-accent { color: var(--accent-glow); }
+  .footer-logo .e-accent { color: var(--accent-glow); letter-spacing: 0; }
+  .footer-logo span { letter-spacing: 0; }
   .footer-note { font-size: 12px; color: rgba(255,255,255,0.35); }
   footer a { color: rgba(255,255,255,0.4); transition: color 0.2s; }
   footer a:hover { color: rgba(255,255,255,0.9); }
@@ -858,7 +861,7 @@
   }
 </style>
 </head>
-<body class="">
+<body>
 
 <!-- モバイルメニュー -->
 <div class="mobile-menu" id="mobile-menu">
@@ -870,19 +873,19 @@
   <a href="#contact" onclick="closeMobileMenu()">お問い合わせ</a>
 </div>
 
-<nav id="main-nav" class="scrolled">
+<nav id="main-nav">
   <a href="#" class="nav-logo">
-    <img id="nav-logo-img" src="" alt="logo" onerror="this.style.display='none'" width="32" height="32" style="display: none;">
-    Yokosuka <span class="e-accent">e</span>Generation
+    <img id="nav-logo-img" src="" alt="logo" onerror="this.style.display='none'" width="32" height="32">
+    Yokosuka <span style="letter-spacing:0"><span class="e-accent">e</span>Generation</span>
   </a>
   <ul class="nav-links">
-    <li><a href="#mission" class="">ミッション</a></li>
-    <li><a href="#activities" class="">活動内容</a></li>
-    <li><a href="#records" class="active">活動実績</a></li>
-    <li><a href="#letter" class="">ご挨拶</a></li>
+    <li><a href="#mission">ミッション</a></li>
+    <li><a href="#activities">活動内容</a></li>
+    <li><a href="#records">活動実績</a></li>
+    <li><a href="#letter">ご挨拶</a></li>
     <li><a href="#contact">お問い合わせ</a></li>
   </ul>
-  <div class="status-pill">設立準備中</div>
+
   <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="メニューを開く">
     <span></span><span></span><span></span>
   </button>
@@ -890,17 +893,17 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-particles" id="hero-particles"><div class="particle" style="left: 14.942%; top: 81.4658%; width: 2.80028px; height: 1.48131px; animation-duration: 13.5886s; animation-delay: -12.2403s; opacity: 0.677251;"></div><div class="particle" style="left: 67.5063%; top: 84.4308%; width: 2.34393px; height: 2.54531px; animation-duration: 14.334s; animation-delay: -3.13446s; opacity: 0.544207;"></div><div class="particle" style="left: 80.8208%; top: 71.8824%; width: 2.05893px; height: 2.23578px; animation-duration: 13.1658s; animation-delay: -10.2788s; opacity: 0.649116;"></div><div class="particle" style="left: 79.739%; top: 86.5077%; width: 1.9456px; height: 2.80428px; animation-duration: 9.65094s; animation-delay: -4.96206s; opacity: 0.545712;"></div><div class="particle" style="left: 98.9042%; top: 93.3954%; width: 2.4217px; height: 2.58413px; animation-duration: 18.5006s; animation-delay: -11.6646s; opacity: 0.340444;"></div><div class="particle" style="left: 74.9423%; top: 87.957%; width: 1.47192px; height: 2.73983px; animation-duration: 17.8549s; animation-delay: -13.2384s; opacity: 0.905384;"></div><div class="particle" style="left: 91.593%; top: 84.3708%; width: 1.69044px; height: 1.71742px; animation-duration: 10.7238s; animation-delay: -6.13281s; opacity: 0.982242;"></div><div class="particle" style="left: 7.14456%; top: 93.731%; width: 2.20922px; height: 2.15677px; animation-duration: 13.2647s; animation-delay: -13.4466s; opacity: 0.381098;"></div><div class="particle" style="left: 65.5734%; top: 69.0849%; width: 1.45866px; height: 1.49614px; animation-duration: 13.6074s; animation-delay: -12.8034s; opacity: 0.626595;"></div><div class="particle" style="left: 0.797707%; top: 95.9253%; width: 2.86105px; height: 2.02927px; animation-duration: 21.395s; animation-delay: -0.372289s; opacity: 0.962916;"></div><div class="particle" style="left: 74.6991%; top: 74.583%; width: 1.03533px; height: 1.26854px; animation-duration: 18.9262s; animation-delay: -12.0621s; opacity: 0.542576;"></div><div class="particle" style="left: 72.8859%; top: 73.3937%; width: 1.32282px; height: 2.06521px; animation-duration: 13.1492s; animation-delay: -8.41076s; opacity: 0.747308;"></div><div class="particle" style="left: 54.6037%; top: 68.4067%; width: 2.20305px; height: 1.95922px; animation-duration: 8.5406s; animation-delay: -8.40189s; opacity: 0.304306;"></div><div class="particle" style="left: 11.4101%; top: 76.7054%; width: 1.97152px; height: 1.15843px; animation-duration: 21.8741s; animation-delay: -7.91836s; opacity: 0.884891;"></div><div class="particle" style="left: 69.3641%; top: 71.4506%; width: 1.8607px; height: 1.22143px; animation-duration: 20.1113s; animation-delay: -11.5651s; opacity: 0.458941;"></div><div class="particle" style="left: 75.4357%; top: 81.0258%; width: 2.28477px; height: 2.2695px; animation-duration: 18.1645s; animation-delay: -13.5648s; opacity: 0.34325;"></div><div class="particle" style="left: 36.4061%; top: 79.1627%; width: 1.65204px; height: 2.16036px; animation-duration: 21.9174s; animation-delay: -12.1968s; opacity: 0.310409;"></div><div class="particle" style="left: 58.4966%; top: 79.0753%; width: 1.56925px; height: 1.95528px; animation-duration: 18.274s; animation-delay: -7.35665s; opacity: 0.323175;"></div></div>
+  <div class="hero-particles" id="hero-particles"></div>
   <p class="hero-eyebrow">YOKOSUKA eSPORTS PROMOTION</p>
-  <h1 class="hero-title" spellcheck="false">eスポーツで、<br><em>横須賀</em>の<br>次世代を育てる。</h1>
-  <p class="hero-title-sub" spellcheck="false">ESPORTS × EDUCATION × COMMUNITY</p>
-  <p class="hero-desc" spellcheck="false">
+  <h1 class="hero-title">eスポーツで、<br><em>横須賀</em>の<br>次世代を育てる。</h1>
+  <p class="hero-title-sub">ESPORTS × EDUCATION × COMMUNITY</p>
+  <p class="hero-desc">
     学校・地域・企業をつなぎ、次世代のためのeスポーツ環境を横須賀から作り上げる。<br>
     競技の枠を超えた、学びの場としてのeスポーツを推進します。
   </p>
   <div class="hero-cta">
     <a href="#contact" class="btn-primary">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m2 7 10 7 10-7"></path></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
       お問い合わせ
     </a>
     <a href="#activities" class="btn-ghost">
@@ -908,10 +911,8 @@
     </a>
   </div>
   <div class="hero-badges">
-    <span class="badge">学校訪問・出前授業</span>
     <span class="badge">コミュニティ運営</span>
     <span class="badge">行政・企業連携</span>
-    <span class="badge">設立準備中（任意団体）</span>
   </div>
   <div class="scroll-hint">
     <span>SCROLL</span>
@@ -923,17 +924,17 @@
 
 <!-- MISSION -->
 <section class="section" id="mission">
-  <p class="section-eyebrow reveal visible">MISSION</p>
-  <h2 class="section-title reveal visible" spellcheck="false">私たちが目指すもの</h2>
-  <div class="reveal visible">
-    <p class="mission-text" spellcheck="false">
+  <p class="section-eyebrow reveal">MISSION</p>
+  <h2 class="section-title reveal">私たちが目指すもの</h2>
+  <div class="reveal">
+    <p class="mission-text">
       eスポーツは、単なるゲームの競技ではありません。<br>
       チームワーク、情報処理能力、コミュニケーション力——
       現代社会に必要なスキルを育む場です。<br><br>
       私たちは横須賀市を拠点に、学校・教育機関へのeスポーツ普及活動、
       地域コミュニティの活性化、そして次世代プレイヤーの育成環境づくりに取り組みます。
     </p>
-    <p class="mission-quote" spellcheck="false">
+    <p class="mission-quote">
       「eスポーツを通じて、すべての人が輝ける場所をつくる」<br>
       それが Yokosuka eGeneration のミッションです。
     </p>
@@ -942,65 +943,65 @@
 
 <!-- ACTIVITIES -->
 <section class="section section-alt" id="activities">
-  <p class="section-eyebrow reveal visible">ACTIVITIES</p>
-  <h2 class="section-title reveal visible" spellcheck="false">活動内容</h2>
+  <p class="section-eyebrow reveal">ACTIVITIES</p>
+  <h2 class="section-title reveal">活動内容</h2>
   <div class="grid-3">
-    <div class="activity-card reveal visible">
+    <div class="activity-card reveal">
       <div class="activity-num">01</div>
       <div class="activity-icon">🏫</div>
-      <h3 class="activity-title" spellcheck="false">学校・教育機関への訪問</h3>
-      <p class="activity-desc" spellcheck="false">小・中・高校を対象に出前授業や部活支援を行います。eスポーツを通じた情報活用教育・キャリア教育を提供します。</p>
+      <h3 class="activity-title">学校・教育機関への訪問</h3>
+      <p class="activity-desc">小・中・高校を対象に出前授業や部活支援を行います。eスポーツを通じた情報活用教育・キャリア教育を提供します。</p>
     </div>
-    <div class="activity-card reveal visible">
+    <div class="activity-card reveal">
       <div class="activity-num">02</div>
       <div class="activity-icon">🎮</div>
-      <h3 class="activity-title" spellcheck="false">大会・イベントの企画・開催</h3>
-      <p class="activity-desc" spellcheck="false">地域の若者が気軽に参加できる大会や体験イベントを企画。ネット上だけでなくリアルでの活動も行います。</p>
+      <h3 class="activity-title">大会・イベントの企画・開催</h3>
+      <p class="activity-desc">地域の若者が気軽に参加できる大会や体験イベントを企画。ネット上だけでなくリアルでの活動も行います。</p>
     </div>
-    <div class="activity-card reveal visible">
+    <div class="activity-card reveal">
       <div class="activity-num">03</div>
       <div class="activity-icon">💬</div>
-      <h3 class="activity-title" spellcheck="false">オンラインコミュニティの運営</h3>
-      <p class="activity-desc" spellcheck="false">Discordサーバーをはじめとするオンラインコミュニティを継続的に運営・発展させ、地域や学校の枠を超えたつながりを創出します。</p>
+      <h3 class="activity-title">オンラインコミュニティの運営</h3>
+      <p class="activity-desc">Discordサーバーをはじめとするオンラインコミュニティを継続的に運営・発展させ、地域や学校の枠を超えたつながりを創出します。</p>
     </div>
-    <div class="activity-card reveal visible">
+    <div class="activity-card reveal">
       <div class="activity-num">04</div>
       <div class="activity-icon">🤝</div>
-      <h3 class="activity-title" spellcheck="false">行政・企業との連携</h3>
-      <p class="activity-desc" spellcheck="false">横須賀市や地域企業と連携し、持続可能なeスポーツ振興の仕組みを構築。Yokosuka e-Sports Partnersとも協力します。</p>
+      <h3 class="activity-title">行政・企業との連携</h3>
+      <p class="activity-desc">横須賀市や地域企業と連携し、持続可能なeスポーツ振興の仕組みを構築。Yokosuka e-Sports Partnersとも協力します。</p>
     </div>
-    <div class="activity-card reveal visible">
+    <div class="activity-card reveal">
       <div class="activity-num">05</div>
       <div class="activity-icon">📡</div>
-      <h3 class="activity-title" spellcheck="false">情報発信・調査研究</h3>
-      <p class="activity-desc" spellcheck="false">eスポーツに関する最新情報の収集・発信を行い、地域の皆さまが正しい知識を持てるよう努めます。</p>
+      <h3 class="activity-title">情報発信・調査研究</h3>
+      <p class="activity-desc">eスポーツに関する最新情報の収集・発信を行い、地域の皆さまが正しい知識を持てるよう努めます。</p>
     </div>
-    <div class="activity-card reveal visible">
+    <div class="activity-card reveal">
       <div class="activity-num">06</div>
       <div class="activity-icon">🌱</div>
-      <h3 class="activity-title" spellcheck="false">次世代育成プログラム</h3>
-      <p class="activity-desc" spellcheck="false">若い世代がeスポーツを通じてスキルを磨き、将来の選択肢を広げられるようなプログラムを開発・実施します。</p>
+      <h3 class="activity-title">次世代育成プログラム</h3>
+      <p class="activity-desc">若い世代がeスポーツを通じてスキルを磨き、将来の選択肢を広げられるようなプログラムを開発・実施します。</p>
     </div>
   </div>
 </section>
 
 <!-- 挨拶文 -->
 <section class="section" id="letter">
-  <p class="section-eyebrow reveal visible">GREETING</p>
-  <h2 class="section-title reveal visible" spellcheck="false">学校関係者・行政の皆さまへ</h2>
+  <p class="section-eyebrow reveal">GREETING</p>
+  <h2 class="section-title reveal">学校関係者・行政の皆さまへ</h2>
   <div class="contact-wrap">
-    <div class="letter-box reveal visible">
-      <p class="letter-title" spellcheck="false">ご挨拶およびご協力のお願い</p>
-      <p spellcheck="false">拝啓　時下ますますご清栄のこととお慶び申し上げます。</p>
+    <div class="letter-box reveal">
+      <p class="letter-title">ご挨拶およびご協力のお願い</p>
+      <p>拝啓　時下ますますご清栄のこととお慶び申し上げます。</p>
       <br>
-      <p spellcheck="false">私どもは、eスポーツ（電子競技）の教育的価値と地域への貢献を信じ、横須賀市を拠点として活動する「Yokosuka eGeneration」を設立準備中の団体です。</p>
+      <p>私どもは、eスポーツ（電子競技）の教育的価値と地域への貢献を信じ、横須賀市を拠点として活動する「Yokosuka eGeneration」を設立準備中の団体です。</p>
       <br>
-      <p spellcheck="false">近年、eスポーツは国内外の教育現場でも注目を集めており、チームワーク・論理的思考・コミュニケーション能力を育む場として多くの学校で取り入れられ始めています。</p>
+      <p>近年、eスポーツは国内外の教育現場でも注目を集めており、チームワーク・論理的思考・コミュニケーション能力を育む場として多くの学校で取り入れられ始めています。</p>
       <br>
-      <p spellcheck="false">私どもでは、学校・教育機関の皆さまのご要望に合わせた訪問授業や部活動支援を無償にて提供させていただきたく、まずはご挨拶とご意見を伺う機会をいただければ幸いに存じます。</p>
+      <p>私どもでは、学校・教育機関の皆さまのご要望に合わせた訪問授業や部活動支援を無償にて提供させていただきたく、まずはご挨拶とご意見を伺う機会をいただければ幸いに存じます。</p>
       <br>
-      <p spellcheck="false">ご多忙のところ誠に恐縮ではございますが、ご検討のほどよろしくお願い申し上げます。</p>
-      <p class="letter-sign" spellcheck="false">
+      <p>ご多忙のところ誠に恐縮ではございますが、ご検討のほどよろしくお願い申し上げます。</p>
+      <p class="letter-sign">
         敬具<br><br>
         Yokosuka eGeneration<br>
         代表　ぽよ<br>
@@ -1008,29 +1009,16 @@
       </p>
     </div>
 
-    <div class="reveal visible">
+    <div class="reveal">
       <dl class="contact-info">
         <dt>ORGANIZATION</dt>
-        <dd spellcheck="false">Yokosuka eGeneration</dd>
-        <dt>STATUS</dt>
-        <dd spellcheck="false">一般社団法人 設立準備中<br><span style="font-size:13px;color:var(--text-light);">任意団体として活動中</span></dd>
+        <dd>Yokosuka eGeneration</dd>
         <dt>AREA</dt>
-        <dd spellcheck="false">神奈川県横須賀市およびその周辺</dd>
-        <dt>AFFILIATION</dt>
-        <dd spellcheck="false">Yokosuka e-Sports Partners 参画申請中</dd>
+        <dd>神奈川県横須賀市およびその周辺</dd>
         <dt>CONTACT</dt>
-        <dd spellcheck="false">yokosuka.es.jp@gmail.com</dd>
+        <dd>yokosuka.es.jp@gmail.com</dd>
       </dl>
 
-      <div style="margin-top:40px;padding:24px;border:1px solid rgba(240,192,64,0.2);background:rgba(240,192,64,0.04);border-radius:4px;">
-        <p style="font-size:12px;color:var(--gold);letter-spacing:0.1em;margin-bottom:8px;">▍ 出前授業について</p>
-        <p style="font-size:13px;color:var(--text-sub);line-height:1.9;">
-          費用：<strong style="color:var(--navy);">無償</strong><br>
-          対象：小学校〜高校<br>
-          内容：eスポーツ体験・講義・部活支援<br>
-          所要時間：45〜90分（応相談）
-        </p>
-      </div>
     </div>
   </div>
 </section>
@@ -1039,33 +1027,20 @@
 
 <!-- 活動実績 -->
 <section class="section section-alt" id="records">
-  <p class="section-eyebrow reveal visible">RECORDS</p>
-  <h2 class="section-title reveal visible" spellcheck="false">活動実績</h2>
-  <p class="reveal visible" style="color:var(--text-light);font-size:13px;line-height:1.8;margin-bottom:40px;max-width:600px;">
-    ※ 編集モードで各カードのテキストを直接書き換えられます。カードを増やしたい場合は「＋実績を追加」ボタンを使ってください。
-  </p>
-
+  <p class="section-eyebrow reveal">RECORDS</p>
+  <h2 class="section-title reveal">活動実績</h2>
   <div id="records-list" class="records-list">
-    <div class="record-card reveal visible">
-      <div class="record-date" spellcheck="false">2026</div>
+    <div class="record-card reveal">
+      <div class="record-date">2025.05</div>
       <div class="record-body">
-        <div class="record-tag" spellcheck="false">学校訪問</div>
-        <h3 class="record-title" spellcheck="false">これから起こす素晴らしいイベント名</h3>
-        <p class="record-desc" spellcheck="false">絶賛の限りを尽くす素晴らしい内容</p>
-      </div>
-    </div>
-
-    <div class="record-card reveal visible">
-      <div class="record-date" spellcheck="false">2026</div>
-      <div class="record-body">
-        <div class="record-tag" spellcheck="false">イベント</div>
-        <h3 class="record-title" spellcheck="false">これから起きるいい感じの出来事</h3>
-        <p class="record-desc" spellcheck="false">日頃の徳がすべて詰まったような奇跡</p>
+        <div class="record-tag">活動開始</div>
+        <h3 class="record-title">Yokosuka eGeneration 活動開始</h3>
+        <p class="record-desc">横須賀市を拠点としたeスポーツ推進団体「Yokosuka eGeneration」として活動を開始。SNSアカウントを開設し、地域のeスポーツ情報の発信をスタートしました。</p>
       </div>
     </div>
   </div>
 
-  <button id="btn-add-record" onclick="addRecord()" style="display: none; margin-top: 24px; background: rgba(26, 86, 219, 0.06); color: var(--accent); border: 1px dashed rgba(26, 86, 219, 0.3); padding: 12px 28px; font-size: 14px; cursor: pointer; border-radius: 2px; font-family: &quot;Noto Sans JP&quot;, sans-serif;">
+  <button id="btn-add-record" onclick="addRecord()" style="display:none;margin-top:24px;background:rgba(26,86,219,0.06);color:var(--accent);border:1px dashed rgba(26,86,219,0.3);padding:12px 28px;font-size:14px;cursor:pointer;border-radius:2px;font-family:'Noto Sans JP',sans-serif;">
     ＋ 実績を追加
   </button>
 </section>
@@ -1074,32 +1049,32 @@
 
 <!-- CONTACT -->
 <section class="section" id="contact">
-  <p class="section-eyebrow reveal visible">CONTACT</p>
-  <h2 class="section-title reveal visible" spellcheck="false">お問い合わせ</h2>
-  <p class="reveal visible" style="color:var(--text-sub);font-size:15px;line-height:2;max-width:560px;">
+  <p class="section-eyebrow reveal">CONTACT</p>
+  <h2 class="section-title reveal">お問い合わせ</h2>
+  <p class="reveal" style="color:var(--text-sub);font-size:15px;line-height:2;max-width:560px;">
     学校訪問のご依頼、連携・協力のご相談、その他なんでもお気軽にご連絡ください。<br>
     まずはお話を聞かせていただくところから始めます。
   </p>
-  <div class="contact-mail-box reveal visible">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m2 7 10 7 10-7"></path></svg>
+  <div class="contact-mail-box reveal">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
     <span style="color:var(--text);font-size:16px;letter-spacing:0.05em;font-family:'Noto Sans JP',sans-serif;">yokosuka.es.jp@gmail.com</span>
     <button onclick="copyMail()" id="copy-btn" class="copy-btn">コピー</button>
   </div>
 
   <!-- SNSリンク -->
-  <div class="reveal visible" style="margin-top:48px;">
+  <div class="reveal" style="margin-top:48px;">
     <p style="font-size:11px;letter-spacing:0.3em;color:var(--accent);margin-bottom:20px;font-family:'Bebas Neue',sans-serif;">FOLLOW US</p>
     <div style="display:flex;gap:16px;flex-wrap:wrap;">
       <a href="https://x.com/Yokosuka_eGen" target="_blank" rel="noopener" class="sns-btn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         X (Twitter)
       </a>
       <a href="https://www.instagram.com/yokosuka.es/?hl=ja" target="_blank" rel="noopener" class="sns-btn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="5"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
         Instagram
       </a>
       <a href="https://www.youtube.com/channel/UCBBUEw_rtFROro70c-mUfQQ" target="_blank" rel="noopener" class="sns-btn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
         YouTube
       </a>
     </div>
@@ -1107,29 +1082,29 @@
 </section>
 
 <footer>
-  <div class="footer-logo" spellcheck="false">
-    <img id="footer-logo-img" src="" alt="" onerror="this.style.display='none'" width="28" height="28" style="border-radius: 3px; object-fit: contain; display: none;">
-    Yokosuka <span class="e-accent">e</span>Generation
+  <div class="footer-logo">
+    <img id="footer-logo-img" src="" alt="" onerror="this.style.display='none'" width="28" height="28" style="border-radius:3px;object-fit:contain;">
+    Yokosuka <span style="letter-spacing:0"><span class="e-accent">e</span>Generation</span>
   </div>
   <div class="footer-sns" style="display:flex;gap:10px;align-items:center;">
     <a href="https://x.com/Yokosuka_eGen" target="_blank" rel="noopener" aria-label="X (Twitter)">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
     </a>
     <a href="https://www.instagram.com/yokosuka.es/?hl=ja" target="_blank" rel="noopener" aria-label="Instagram">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="5"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle></svg>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
     </a>
     <a href="https://www.youtube.com/channel/UCBBUEw_rtFROro70c-mUfQQ" target="_blank" rel="noopener" aria-label="YouTube">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
     </a>
   </div>
-  <p class="footer-note" spellcheck="false">一般社団法人 設立準備中 ／ Yokosuka, Kanagawa, Japan</p>
+  <p class="footer-note">Yokosuka, Kanagawa, Japan</p>
 </footer>
 
 <!-- 編集ツールバー -->
-<div id="edit-toolbar">
-  <button id="btn-edit" onclick="toggleEdit()">👁 プレビュー</button>
-  <button id="btn-save" onclick="saveFile()" style="display: inline-block;">💾 index.htmlを保存</button>
-  <span id="edit-hint" style="display: inline;">クリックして編集 · ＋で実績追加 → 保存でDL</span>
+<div id="edit-toolbar" style="display:none">
+  <button id="btn-edit" onclick="toggleEdit()">✏️ 編集モード</button>
+  <button id="btn-save" onclick="saveFile()" style="display:none">💾 index.htmlを保存</button>
+  <span id="edit-hint" style="display:none">クリックして編集 · ＋で実績追加 → 保存でDL</span>
 </div>
 
 <script>
@@ -1208,7 +1183,19 @@
     });
   }
 
-  /* ── 編集モード ── */
+  /* ── 編集ツールバー：秘密のキー入力で表示 (E → G → E → N) ── */
+  (function() {
+    const SEQ = ['e','g','e','n'];
+    let buf = [];
+    document.addEventListener('keydown', e => {
+      buf.push(e.key.toLowerCase());
+      if (buf.length > SEQ.length) buf.shift();
+      if (buf.join('') === SEQ.join('')) {
+        const tb = document.getElementById('edit-toolbar');
+        tb.style.display = tb.style.display === 'none' ? 'flex' : 'none';
+      }
+    });
+  })();
   let editMode = false;
   const EDITABLE = [
     '.hero-title', '.hero-title-sub', '.hero-desc',
@@ -1292,6 +1279,5 @@
     setTimeout(() => toast.remove(), 4000);
   }
 </script>
-
-
-</body></html>
+</body>
+</html>
