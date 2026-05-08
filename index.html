@@ -929,6 +929,21 @@
     .record-card { flex-direction: column; gap: 12px; }
     .record-date { min-width: unset; }
   }
+
+  /* ── 役員カード編集スタイル ── */
+  .member-editable[contenteditable="true"] {
+    border-radius: 4px;
+    padding: 2px 4px;
+    cursor: text;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    outline: 1px dashed rgba(59,130,246,0.4);
+  }
+  .member-editable[contenteditable="true"]:focus {
+    outline: 2px solid rgba(59,130,246,0.9);
+    background: rgba(59,130,246,0.1);
+  }
 </style>
 </head>
 <body class="">
@@ -938,6 +953,7 @@
   <button class="mobile-menu-close" onclick="closeMobileMenu()" aria-label="閉じる">✕</button>
   <a href="#mission" onclick="closeMobileMenu()">ミッション</a>
   <a href="#activities" onclick="closeMobileMenu()">活動内容</a>
+  <a href="#members" onclick="closeMobileMenu()">役員紹介</a>
   <a href="#records" onclick="closeMobileMenu()">活動実績</a>
   <a href="#letter" onclick="closeMobileMenu()">ご挨拶</a>
   <a href="#contact" onclick="closeMobileMenu()">お問い合わせ</a>
@@ -949,11 +965,12 @@
     Yokosuka <span style="letter-spacing:0"><span class="e-accent">e</span>Generation</span>
   </a>
   <ul class="nav-links">
-    <li><a href="#mission" class="">ミッション</a></li>
+    <li><a href="#mission" class="active">ミッション</a></li>
     <li><a href="#activities" class="">活動内容</a></li>
-    <li><a href="#records">活動実績</a></li>
-    <li><a href="#letter" class="active">ご挨拶</a></li>
-    <li><a href="#contact">お問い合わせ</a></li>
+    <li><a href="#members" class="">役員紹介</a></li>
+    <li><a href="#records" class="">活動実績</a></li>
+    <li><a href="#letter" class="">ご挨拶</a></li>
+    <li><a href="#contact" class="">お問い合わせ</a></li>
   </ul>
 
   <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="メニューを開く">
@@ -963,7 +980,7 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-particles" id="hero-particles"><div class="particle" style="left: 43.8412%; top: 66.4024%; width: 1.68162px; height: 1.10174px; animation-duration: 8.69558s; animation-delay: -2.65425s; opacity: 0.639148;"></div><div class="particle" style="left: 17.1359%; top: 86.148%; width: 1.9291px; height: 1.80505px; animation-duration: 20.3724s; animation-delay: -13.5625s; opacity: 0.380195;"></div><div class="particle" style="left: 34.8266%; top: 89.6111%; width: 2.55801px; height: 1.9946px; animation-duration: 12.783s; animation-delay: -2.72652s; opacity: 0.434121;"></div><div class="particle" style="left: 11.1797%; top: 81.7761%; width: 2.24857px; height: 2.34233px; animation-duration: 9.3306s; animation-delay: -11.7469s; opacity: 0.325932;"></div><div class="particle" style="left: 55.7293%; top: 98.9078%; width: 1.30992px; height: 1.90936px; animation-duration: 15.9633s; animation-delay: -1.74172s; opacity: 0.823369;"></div><div class="particle" style="left: 27.5739%; top: 84.8713%; width: 2.81202px; height: 1.79888px; animation-duration: 20.1362s; animation-delay: -8.7303s; opacity: 0.77767;"></div><div class="particle" style="left: 85.5163%; top: 90.445%; width: 1.26422px; height: 2.26704px; animation-duration: 19.7042s; animation-delay: -6.01248s; opacity: 0.632589;"></div><div class="particle" style="left: 59.2609%; top: 98.7558%; width: 2.48502px; height: 2.21081px; animation-duration: 18.1395s; animation-delay: -6.54506s; opacity: 0.822827;"></div><div class="particle" style="left: 40.2687%; top: 79.2491%; width: 1.35944px; height: 2.74986px; animation-duration: 15.7115s; animation-delay: -13.6698s; opacity: 0.422835;"></div><div class="particle" style="left: 96.7477%; top: 93.9338%; width: 2.3413px; height: 2.70939px; animation-duration: 19.7179s; animation-delay: -4.53359s; opacity: 0.560367;"></div><div class="particle" style="left: 79.0075%; top: 68.3493%; width: 1.69385px; height: 1.97829px; animation-duration: 19.4528s; animation-delay: -12.1278s; opacity: 0.88018;"></div><div class="particle" style="left: 89.4426%; top: 82.7354%; width: 1.56167px; height: 2.37178px; animation-duration: 21.7264s; animation-delay: -0.284284s; opacity: 0.507377;"></div><div class="particle" style="left: 74.8407%; top: 70.374%; width: 2.15322px; height: 1.74903px; animation-duration: 16.6481s; animation-delay: -5.79143s; opacity: 0.53469;"></div><div class="particle" style="left: 94.0102%; top: 89.6577%; width: 2.70989px; height: 2.66956px; animation-duration: 11.8259s; animation-delay: -3.00069s; opacity: 0.330425;"></div><div class="particle" style="left: 66.1938%; top: 87.832%; width: 2.92547px; height: 1.7149px; animation-duration: 11.4795s; animation-delay: -4.85228s; opacity: 0.745838;"></div><div class="particle" style="left: 31.3143%; top: 79.0168%; width: 1.25614px; height: 2.87693px; animation-duration: 16.5732s; animation-delay: -13.3491s; opacity: 0.576644;"></div><div class="particle" style="left: 64.6165%; top: 83.0472%; width: 2.1644px; height: 1.79895px; animation-duration: 13.3761s; animation-delay: -5.41491s; opacity: 0.450295;"></div><div class="particle" style="left: 60.8309%; top: 89.2371%; width: 2.39063px; height: 2.30696px; animation-duration: 9.64472s; animation-delay: -6.27324s; opacity: 0.36975;"></div></div>
+  <div class="hero-particles" id="hero-particles"><div class="particle" style="left: 43.8412%; top: 66.4024%; width: 1.68162px; height: 1.10174px; animation-duration: 8.69558s; animation-delay: -2.65425s; opacity: 0.639148;"></div><div class="particle" style="left: 17.1359%; top: 86.148%; width: 1.9291px; height: 1.80505px; animation-duration: 20.3724s; animation-delay: -13.5625s; opacity: 0.380195;"></div><div class="particle" style="left: 34.8266%; top: 89.6111%; width: 2.55801px; height: 1.9946px; animation-duration: 12.783s; animation-delay: -2.72652s; opacity: 0.434121;"></div><div class="particle" style="left: 11.1797%; top: 81.7761%; width: 2.24857px; height: 2.34233px; animation-duration: 9.3306s; animation-delay: -11.7469s; opacity: 0.325932;"></div><div class="particle" style="left: 55.7293%; top: 98.9078%; width: 1.30992px; height: 1.90936px; animation-duration: 15.9633s; animation-delay: -1.74172s; opacity: 0.823369;"></div><div class="particle" style="left: 27.5739%; top: 84.8713%; width: 2.81202px; height: 1.79888px; animation-duration: 20.1362s; animation-delay: -8.7303s; opacity: 0.77767;"></div><div class="particle" style="left: 85.5163%; top: 90.445%; width: 1.26422px; height: 2.26704px; animation-duration: 19.7042s; animation-delay: -6.01248s; opacity: 0.632589;"></div><div class="particle" style="left: 59.2609%; top: 98.7558%; width: 2.48502px; height: 2.21081px; animation-duration: 18.1395s; animation-delay: -6.54506s; opacity: 0.822827;"></div><div class="particle" style="left: 40.2687%; top: 79.2491%; width: 1.35944px; height: 2.74986px; animation-duration: 15.7115s; animation-delay: -13.6698s; opacity: 0.422835;"></div><div class="particle" style="left: 96.7477%; top: 93.9338%; width: 2.3413px; height: 2.70939px; animation-duration: 19.7179s; animation-delay: -4.53359s; opacity: 0.560367;"></div><div class="particle" style="left: 79.0075%; top: 68.3493%; width: 1.69385px; height: 1.97829px; animation-duration: 19.4528s; animation-delay: -12.1278s; opacity: 0.88018;"></div><div class="particle" style="left: 89.4426%; top: 82.7354%; width: 1.56167px; height: 2.37178px; animation-duration: 21.7264s; animation-delay: -0.284284s; opacity: 0.507377;"></div><div class="particle" style="left: 74.8407%; top: 70.374%; width: 2.15322px; height: 1.74903px; animation-duration: 16.6481s; animation-delay: -5.79143s; opacity: 0.53469;"></div><div class="particle" style="left: 94.0102%; top: 89.6577%; width: 2.70989px; height: 2.66956px; animation-duration: 11.8259s; animation-delay: -3.00069s; opacity: 0.330425;"></div><div class="particle" style="left: 66.1938%; top: 87.832%; width: 2.92547px; height: 1.7149px; animation-duration: 11.4795s; animation-delay: -4.85228s; opacity: 0.745838;"></div><div class="particle" style="left: 31.3143%; top: 79.0168%; width: 1.25614px; height: 2.87693px; animation-duration: 16.5732s; animation-delay: -13.3491s; opacity: 0.576644;"></div><div class="particle" style="left: 64.6165%; top: 83.0472%; width: 2.1644px; height: 1.79895px; animation-duration: 13.3761s; animation-delay: -5.41491s; opacity: 0.450295;"></div><div class="particle" style="left: 60.8309%; top: 89.2371%; width: 2.39063px; height: 2.30696px; animation-duration: 9.64472s; animation-delay: -6.27324s; opacity: 0.36975;"></div><div class="particle" style="left: 94.5068%; top: 83.3697%; width: 2.92677px; height: 2.03842px; animation-duration: 17.3129s; animation-delay: -12.3014s; opacity: 0.901324;"></div><div class="particle" style="left: 95.0658%; top: 85.2948%; width: 2.17716px; height: 1.991px; animation-duration: 19.3661s; animation-delay: -5.87655s; opacity: 0.599759;"></div><div class="particle" style="left: 26.1748%; top: 98.0591%; width: 1.89997px; height: 1.57239px; animation-duration: 10.4246s; animation-delay: -0.562822s; opacity: 0.818545;"></div><div class="particle" style="left: 6.98001%; top: 74.3568%; width: 2.50251px; height: 1.412px; animation-duration: 13.7195s; animation-delay: -3.32774s; opacity: 0.627832;"></div><div class="particle" style="left: 39.481%; top: 68.5376%; width: 2.59419px; height: 2.21345px; animation-duration: 10.6555s; animation-delay: -6.11589s; opacity: 0.887894;"></div><div class="particle" style="left: 96.7641%; top: 99.2919%; width: 1.53271px; height: 1.999px; animation-duration: 10.4846s; animation-delay: -8.91305s; opacity: 0.914902;"></div><div class="particle" style="left: 35.9298%; top: 63.8076%; width: 1.22869px; height: 2.19361px; animation-duration: 18.4298s; animation-delay: -9.64336s; opacity: 0.752257;"></div><div class="particle" style="left: 79.3381%; top: 65.7626%; width: 2.41058px; height: 1.60592px; animation-duration: 8.17581s; animation-delay: -2.45492s; opacity: 0.517498;"></div><div class="particle" style="left: 86.0001%; top: 97.176%; width: 2.39152px; height: 1.84248px; animation-duration: 15.388s; animation-delay: -10.3935s; opacity: 0.451033;"></div><div class="particle" style="left: 43.8476%; top: 64.4002%; width: 1.81034px; height: 2.13573px; animation-duration: 20.0537s; animation-delay: -6.82383s; opacity: 0.803488;"></div><div class="particle" style="left: 45.8431%; top: 82.7538%; width: 2.83135px; height: 1.93356px; animation-duration: 15.2431s; animation-delay: -4.63485s; opacity: 0.85629;"></div><div class="particle" style="left: 49.9823%; top: 84.0825%; width: 2.99233px; height: 1.28384px; animation-duration: 11.7991s; animation-delay: -1.67456s; opacity: 0.561948;"></div><div class="particle" style="left: 40.191%; top: 86.9486%; width: 1.70381px; height: 1.77725px; animation-duration: 19.4749s; animation-delay: -12.8436s; opacity: 0.674331;"></div><div class="particle" style="left: 76.5201%; top: 78.8571%; width: 1.13032px; height: 2.58674px; animation-duration: 10.4604s; animation-delay: -11.2275s; opacity: 0.871289;"></div><div class="particle" style="left: 71.4763%; top: 84.093%; width: 1.04389px; height: 2.42319px; animation-duration: 10.2647s; animation-delay: -7.07592s; opacity: 0.685954;"></div><div class="particle" style="left: 19.3053%; top: 78.6983%; width: 2.56635px; height: 2.7307px; animation-duration: 8.7781s; animation-delay: -3.98354s; opacity: 0.787812;"></div><div class="particle" style="left: 55.6701%; top: 69.0532%; width: 2.24736px; height: 1.58764px; animation-duration: 21.2018s; animation-delay: -2.83456s; opacity: 0.927861;"></div><div class="particle" style="left: 37.741%; top: 85.7789%; width: 1.91106px; height: 2.5983px; animation-duration: 21.0821s; animation-delay: -2.2401s; opacity: 0.592721;"></div><div class="particle" style="left: 84.2736%; top: 98.8743%; width: 2.52022px; height: 1.98359px; animation-duration: 12.6057s; animation-delay: -8.83487s; opacity: 0.617749;"></div><div class="particle" style="left: 51.7647%; top: 66.8199%; width: 2.86246px; height: 2.66605px; animation-duration: 14.7785s; animation-delay: -11.5729s; opacity: 0.756371;"></div><div class="particle" style="left: 2.87729%; top: 85.4519%; width: 1.388px; height: 2.20609px; animation-duration: 15.4142s; animation-delay: -13.6772s; opacity: 0.925243;"></div><div class="particle" style="left: 87.4655%; top: 99.2921%; width: 1.37598px; height: 1.26348px; animation-duration: 19.3297s; animation-delay: -0.353184s; opacity: 0.429077;"></div><div class="particle" style="left: 53.5859%; top: 83.6307%; width: 1.40513px; height: 1.66208px; animation-duration: 9.51434s; animation-delay: -2.11615s; opacity: 0.788689;"></div><div class="particle" style="left: 7.85961%; top: 91.2002%; width: 2.57587px; height: 2.50069px; animation-duration: 11.3382s; animation-delay: -11.2811s; opacity: 0.975244;"></div><div class="particle" style="left: 98.7884%; top: 63.15%; width: 1.98139px; height: 1.41034px; animation-duration: 17.9971s; animation-delay: -2.56738s; opacity: 0.617114;"></div><div class="particle" style="left: 71.0241%; top: 77.7144%; width: 2.49946px; height: 1.87329px; animation-duration: 8.99046s; animation-delay: -2.38987s; opacity: 0.550848;"></div><div class="particle" style="left: 79.5837%; top: 79.432%; width: 2.20244px; height: 1.90738px; animation-duration: 19.7036s; animation-delay: -0.852683s; opacity: 0.727969;"></div><div class="particle" style="left: 61.4656%; top: 91.3713%; width: 1.36644px; height: 2.79921px; animation-duration: 11.4862s; animation-delay: -10.319s; opacity: 0.863989;"></div><div class="particle" style="left: 57.2193%; top: 97.5514%; width: 2.02435px; height: 2.88045px; animation-duration: 17.9743s; animation-delay: -11.5074s; opacity: 0.897179;"></div><div class="particle" style="left: 80.4238%; top: 91.544%; width: 1.84898px; height: 2.6788px; animation-duration: 20.9311s; animation-delay: -7.55939s; opacity: 0.643286;"></div><div class="particle" style="left: 45.9664%; top: 73.2804%; width: 1.45596px; height: 1.66658px; animation-duration: 11.5122s; animation-delay: -4.98302s; opacity: 0.708961;"></div><div class="particle" style="left: 69.8645%; top: 80.7578%; width: 1.92998px; height: 2.27394px; animation-duration: 12.3358s; animation-delay: -3.26235s; opacity: 0.996311;"></div><div class="particle" style="left: 77.3644%; top: 93.776%; width: 1.44701px; height: 2.73392px; animation-duration: 19.7877s; animation-delay: -2.37718s; opacity: 0.990732;"></div><div class="particle" style="left: 94.6685%; top: 64.0972%; width: 1.25716px; height: 1.7085px; animation-duration: 20.0345s; animation-delay: -1.29991s; opacity: 0.470233;"></div><div class="particle" style="left: 7.30535%; top: 67.2646%; width: 2.73098px; height: 1.68098px; animation-duration: 20.7252s; animation-delay: -5.4631s; opacity: 0.883523;"></div><div class="particle" style="left: 4.61691%; top: 74.4384%; width: 2.71512px; height: 2.75498px; animation-duration: 12.6148s; animation-delay: -0.249741s; opacity: 0.855597;"></div></div>
   
   <p class="hero-eyebrow">YOKOSUKA eSPORTS PROMOTION</p>
   <h1 class="hero-title" spellcheck="false">eスポーツで、<br><em>横須賀</em>の<br>次世代を育てる。</h1>
@@ -1006,13 +1023,10 @@
       eスポーツは、単なるゲームの競技ではありません。<br>
       チームワーク、情報処理能力、コミュニケーション力——
       現代社会に必要なスキルを育む場です。<br><br>
-      私たちは横須賀市を拠点に、学校・教育機関へのeスポーツ普及活動、
-      地域コミュニティの活性化、そして次世代プレイヤーの育成環境づくりに取り組みます。
+      私たちは大会の開催やイベント運営、コミュニティ形成を通してesportsに触れる機会を提供し、esportsに取り組む学生のサポートを通じてesportsの発展、普及を目指していきます。
     </p>
-    <p class="mission-quote" spellcheck="false">
-      「eスポーツを通じて、すべての人が輝ける場所をつくる」<br>
-      それが Yokosuka eGeneration のミッションです。
-    </p>
+    <p class="mission-quote" spellcheck="false">横須賀市を、次世代が輝く「eスポーツの聖地」へ</p>
+    <p class="mission-text" spellcheck="false">それが Yokosuka eGeneration のミッションです。</p>
   </div>
 </section>
 
@@ -1023,9 +1037,9 @@
   <div class="grid-3">
     <div class="activity-card reveal visible">
       <div class="activity-num">01</div>
-      <div class="activity-icon">🏫</div>
-      <h3 class="activity-title" spellcheck="false">学校・教育機関への訪問</h3>
-      <p class="activity-desc" spellcheck="false">小・中・高校を対象に出前授業や部活支援を行います。eスポーツを通じた情報活用教育・キャリア教育を提供します。</p>
+      <div class="activity-icon">🤝</div>
+      <h3 class="activity-title" spellcheck="false">行政・企業との連携</h3>
+      <p class="activity-desc" spellcheck="false">横須賀市と連携し、持続可能なeスポーツ振興の仕組みを構築。</p>
     </div>
     <div class="activity-card reveal visible">
       <div class="activity-num">02</div>
@@ -1037,25 +1051,25 @@
       <div class="activity-num">03</div>
       <div class="activity-icon">💬</div>
       <h3 class="activity-title" spellcheck="false">オンラインコミュニティの運営</h3>
-      <p class="activity-desc" spellcheck="false">Discordサーバーをはじめとするオンラインコミュニティを継続的に運営・発展させ、地域や学校の枠を超えたつながりを創出します。</p>
+      <p class="activity-desc" spellcheck="false">Discord上の横須賀市高校交流サーバーをはじめとするオンラインコミュニティを継続的に運営・発展させ、地域や学校の枠を超えたつながりを創出します。</p>
     </div>
     <div class="activity-card reveal visible">
       <div class="activity-num">04</div>
-      <div class="activity-icon">🤝</div>
-      <h3 class="activity-title" spellcheck="false">行政・企業との連携</h3>
-      <p class="activity-desc" spellcheck="false">横須賀市や地域企業と連携し、持続可能なeスポーツ振興の仕組みを構築。Yokosuka e-Sports Partnersとも協力します。</p>
+      <div class="activity-icon">🌱</div>
+      <h3 class="activity-title" spellcheck="false">次世代育成プログラム</h3>
+      <p class="activity-desc" spellcheck="false">若い世代がeスポーツを通じてスキルを磨き、eスポーツ業界に触れることで将来の選択肢となる知見を広げます。</p>
     </div>
     <div class="activity-card reveal visible">
       <div class="activity-num">05</div>
-      <div class="activity-icon">📡</div>
-      <h3 class="activity-title" spellcheck="false">情報発信・調査研究</h3>
-      <p class="activity-desc" spellcheck="false">eスポーツに関する最新情報の収集・発信を行い、地域の皆さまが正しい知識を持てるよう努めます。</p>
+      <div class="activity-icon">🏫</div>
+      <h3 class="activity-title" spellcheck="false">学校・教育機関への訪問</h3>
+      <p class="activity-desc" spellcheck="false">小・中・高校を対象に部活支援を行います。eスポーツに触れる機会、競技での技術向上を提供します。</p>
     </div>
     <div class="activity-card reveal visible">
       <div class="activity-num">06</div>
-      <div class="activity-icon">🌱</div>
-      <h3 class="activity-title" spellcheck="false">次世代育成プログラム</h3>
-      <p class="activity-desc" spellcheck="false">若い世代がeスポーツを通じてスキルを磨き、将来の選択肢を広げられるようなプログラムを開発・実施します。</p>
+      <div class="activity-icon">📡</div>
+      <h3 class="activity-title" spellcheck="false">情報発信・調査研究</h3>
+      <p class="activity-desc" spellcheck="false">eスポーツに関する最新情報の収集・発信を行い、地域の皆さまが正しい知識を持てるよう努めます。</p>
     </div>
   </div>
 </section>
@@ -1073,15 +1087,15 @@
       <br>
       <p spellcheck="false">近年、eスポーツは国内外の教育現場でも注目を集めており、チームワーク・論理的思考・コミュニケーション能力を育む場として多くの学校で取り入れられ始めています。</p>
       <br>
-      <p spellcheck="false">私どもでは、学校・教育機関の皆さまのご要望に合わせた訪問授業や部活動支援を無償にて提供させていただきたく、まずはご挨拶とご意見を伺う機会をいただければ幸いに存じます。</p>
+      <p spellcheck="false">私どもでは、学校・教育機関の皆さまのご要望に合わせた部活動支援を提供させていただきたく、まずはご挨拶とご意見を伺う機会をいただければ幸いに存じます。</p>
       <br>
       <p spellcheck="false">ご多忙のところ誠に恐縮ではございますが、ご検討のほどよろしくお願い申し上げます。</p>
       <p class="letter-sign" spellcheck="false">
         敬具<br><br>
         Yokosuka eGeneration<br>
-        代表　ぽよ<br>
+        代表　　ぽよ</p><div>広報統括　テルル<br>
         Email: yokosuka.es.jp@gmail.com
-      </p>
+      </div><p spellcheck="false"></p>
     </div>
 
     <div class="reveal visible">
@@ -1101,11 +1115,57 @@
 <div class="divider"></div>
 
 <!-- 活動実績 -->
+
+<div class="divider"></div>
+
+<!-- MEMBERS -->
+<section class="section section-alt" id="members">
+  <p class="section-eyebrow reveal visible">MEMBERS</p>
+  <h2 class="section-title reveal visible" spellcheck="false">役員紹介</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;">
+
+    <div class="reveal visible" style="background:var(--navy-mid);border:1px solid rgba(59,130,246,0.2);border-radius:12px;padding:28px 24px;text-align:center;">
+      <div style="width:72px;height:72px;border-radius:50%;background:rgba(59,130,246,0.15);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:32px;">👤</div>
+      <h3 style="font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;" class="member-editable" data-field="name" spellcheck="false"><div style="text-align: start;"><font color="#000725" face="gg sans, Hiragino Sans, ヒラギノ角ゴ ProN W3, Hiragino Kaku Gothic ProN, メイリオ, Meiryo, Osaka, MS PGothic, Noto Sans, Helvetica Neue, Helvetica, Arial, sans-serif"><span style="font-size: 16px; font-weight: 400; white-space-collapse: break-spaces; background-color: oklab(0.678923 0.00325415 -0.0111644 / 0.0784314);">ぽよ</span></font></div></h3>
+      <p style="font-size:12px;color:var(--accent);margin-bottom:12px;" class="member-editable" data-field="role-ja" spellcheck="false">代表</p>
+      <p style="font-size:12px;color:var(--text-sub);line-height:1.8;" class="member-editable" data-field="message" spellcheck="false">新進気鋭のいい感じの言動</p>
+    </div>
+
+    <div class="reveal visible" style="background:var(--navy-mid);border:1px solid rgba(59,130,246,0.2);border-radius:12px;padding:28px 24px;text-align:center;">
+      <div style="width:72px;height:72px;border-radius:50%;background:rgba(59,130,246,0.15);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:32px;">👤</div>
+      <h3 style="font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;" class="member-editable" data-field="name" spellcheck="false"><font color="#000725"><span style="font-weight: 400;">NovelKaye</span></font></h3>
+      <p style="font-size:12px;color:var(--accent);margin-bottom:12px;" class="member-editable" data-field="role-ja" spellcheck="false">副代表</p>
+      <p style="font-size:12px;color:var(--text-sub);line-height:1.8;" class="member-editable" data-field="message" spellcheck="false">二番手としての含みのある言動</p>
+    </div>
+
+    <div class="reveal visible" style="background:var(--navy-mid);border:1px solid rgba(59,130,246,0.2);border-radius:12px;padding:28px 24px;text-align:center;">
+      <div style="width:72px;height:72px;border-radius:50%;background:rgba(59,130,246,0.15);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:32px;">👤</div>
+      <h3 style="font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;" class="member-editable" data-field="name" spellcheck="false"><font color="#000725" face="gg sans, Hiragino Sans, ヒラギノ角ゴ ProN W3, Hiragino Kaku Gothic ProN, メイリオ, Meiryo, Osaka, MS PGothic, Noto Sans, Helvetica Neue, Helvetica, Arial, sans-serif"><span style="font-size: 16px; font-weight: 400; white-space-collapse: break-spaces; background-color: oklab(0.678923 0.00325415 -0.0111644 / 0.0784314);">テルル</span></font></h3>
+      <p style="font-size:12px;color:var(--accent);margin-bottom:12px;" class="member-editable" data-field="role-ja" spellcheck="false">事務局長/広報統括</p>
+      <p style="font-size:12px;color:var(--text-sub);line-height:1.8;" class="member-editable" data-field="message" spellcheck="false">素晴らしい性格のきれいな言動</p>
+    </div>
+
+    <div class="reveal visible" style="background:var(--navy-mid);border:1px solid rgba(59,130,246,0.2);border-radius:12px;padding:28px 24px;text-align:center;">
+      <div style="width:72px;height:72px;border-radius:50%;background:rgba(59,130,246,0.15);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:32px;">👤</div>
+      <h3 style="font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;" class="member-editable" data-field="name" spellcheck="false"><div style="text-align: start;"><font color="#000725" face="gg sans, Hiragino Sans, ヒラギノ角ゴ ProN W3, Hiragino Kaku Gothic ProN, メイリオ, Meiryo, Osaka, MS PGothic, Noto Sans, Helvetica Neue, Helvetica, Arial, sans-serif"><span style="font-size: 16px; font-weight: 400; white-space-collapse: break-spaces; background-color: oklab(0.678923 0.00325415 -0.0111644 / 0.0784314);">よるは</span></font></div></h3>
+      <p style="font-size:12px;color:var(--accent);margin-bottom:12px;" class="member-editable" data-field="role-ja" spellcheck="false">会計統括</p>
+      <p style="font-size:12px;color:var(--text-sub);line-height:1.8;" class="member-editable" data-field="message" spellcheck="false">雰囲気担当してそうな言動</p>
+    </div>
+
+    <div class="reveal visible" style="background:var(--navy-mid);border:1px solid rgba(59,130,246,0.2);border-radius:12px;padding:28px 24px;text-align:center;">
+      <div style="width:72px;height:72px;border-radius:50%;background:rgba(59,130,246,0.15);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:32px;">👤</div>
+      <h3 style="font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;" class="member-editable" data-field="name" spellcheck="false"><div style="text-align: start;"><font color="#000725" face="gg sans, Hiragino Sans, ヒラギノ角ゴ ProN W3, Hiragino Kaku Gothic ProN, メイリオ, Meiryo, Osaka, MS PGothic, Noto Sans, Helvetica Neue, Helvetica, Arial, sans-serif"><span style="font-size: 16px; font-weight: 400; white-space-collapse: break-spaces; background-color: oklab(0.678923 0.00325415 -0.0111644 / 0.0784314);">emiria</span></font></div></h3>
+      <p style="font-size:12px;color:var(--accent);margin-bottom:12px;" class="member-editable" data-field="role-ja" spellcheck="false">クリエイティブ統括</p>
+      <p style="font-size:12px;color:var(--text-sub);line-height:1.8;" class="member-editable" data-field="message" spellcheck="false">もらってるので中身を文章量と要相談、そんな感じ</p>
+    </div>
+
+  </div>
+</section>
 <section class="section section-alt" id="records">
-  <p class="section-eyebrow reveal">RECORDS</p>
-  <h2 class="section-title reveal" spellcheck="false">活動実績</h2>
+  <p class="section-eyebrow reveal visible">RECORDS</p>
+  <h2 class="section-title reveal visible" spellcheck="false">活動実績</h2>
   <div id="records-list" class="records-list">
-    <div class="record-card reveal">
+    <div class="record-card reveal visible">
       <div class="record-date" spellcheck="false">2025.05</div>
       <div class="record-body">
         <div class="record-tag" spellcheck="false">活動開始</div>
@@ -1124,20 +1184,20 @@
 
 <!-- CONTACT -->
 <section class="section" id="contact">
-  <p class="section-eyebrow reveal">CONTACT</p>
-  <h2 class="section-title reveal" spellcheck="false">お問い合わせ</h2>
-  <p class="reveal" style="color:var(--text-sub);font-size:15px;line-height:2;max-width:560px;">
+  <p class="section-eyebrow reveal visible">CONTACT</p>
+  <h2 class="section-title reveal visible" spellcheck="false">お問い合わせ</h2>
+  <p class="reveal visible" style="color:var(--text-sub);font-size:15px;line-height:2;max-width:560px;">
     学校訪問のご依頼、連携・協力のご相談、その他なんでもお気軽にご連絡ください。<br>
     まずはお話を聞かせていただくところから始めます。
   </p>
-  <div class="contact-mail-box reveal">
+  <div class="contact-mail-box reveal visible">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m2 7 10 7 10-7"></path></svg>
     <span style="color:var(--text);font-size:16px;letter-spacing:0.05em;font-family:'Noto Sans JP',sans-serif;">yokosuka.es.jp@gmail.com</span>
-    <button onclick="copyMail()" id="copy-btn" class="copy-btn">コピー</button>
+    <button onclick="copyMail()" id="copy-btn" class="copy-btn" style="">コピー</button>
   </div>
 
   <!-- SNSリンク -->
-  <div class="reveal" style="margin-top:48px;">
+  <div class="reveal visible" style="margin-top:48px;">
     <p style="font-size:11px;letter-spacing:0.3em;color:var(--accent);margin-bottom:20px;font-family:'Bebas Neue',sans-serif;">FOLLOW US</p>
     <div style="display:flex;gap:16px;flex-wrap:wrap;">
       <a href="https://x.com/Yokosuka_eGen" target="_blank" rel="noopener" class="sns-btn">
@@ -1177,9 +1237,9 @@
 
 <!-- 編集ツールバー -->
 <div id="edit-toolbar">
-  <button id="btn-edit" onclick="toggleEdit()">👁 プレビュー</button>
-  <button id="btn-save" onclick="saveFile()" style="display: inline-block;">💾 index.htmlを保存</button>
-  <span id="edit-hint" style="display: inline;">クリックして編集 · ＋で実績追加 → 保存でDL</span>
+  <button id="btn-edit" onclick="toggleEdit()">✏️ 編集モード</button>
+  <button id="btn-save" onclick="saveFile()" style="display: none;">💾 index.htmlを保存</button>
+  <span id="edit-hint" style="display: none;">クリックして編集 · ＋で実績追加 → 保存でDL</span>
 </div>
 
 <script>
@@ -1267,7 +1327,7 @@
       if (buf.length > SEQ.length) buf.shift();
       if (buf.join('') === SEQ.join('')) {
         const tb = document.getElementById('edit-toolbar');
-        tb.classList.toggle('tb-open');
+        tb.classList.toggle('tb-open'); setMemberEditable(tb.classList.contains('tb-open'));
       }
     });
   })();
@@ -1278,6 +1338,7 @@
     '.letter-box .letter-title', '.letter-box p:not(.letter-sign)', '.letter-box .letter-sign',
     '.section-title', 'footer .footer-logo', 'footer .footer-note', '.contact-info dd',
     '.record-title', '.record-desc', '.record-date', '.record-tag',
+    '.member-editable',
   ].join(',');
 
   function toggleEdit() {
@@ -1366,7 +1427,7 @@
         if (tapCount >= 5) {
           tapCount = 0;
           const tb = document.getElementById('edit-toolbar');
-          tb.classList.toggle('tb-open');
+          tb.classList.toggle('tb-open'); setMemberEditable(tb.classList.contains('tb-open')); setMemberEditable(tb.classList.contains('tb-open'));
         }
       });
     }
