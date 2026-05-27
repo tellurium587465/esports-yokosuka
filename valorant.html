@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>活動記録 | Yokosuka eGeneration（YeG）</title>
+<title>VALORANT勢力図 | Yokosuka eGeneration（YeG）</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -625,6 +625,7 @@
     .article-card-thumb { width: 100%; height: 140px; }
   }
 </style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 </head>
 <body>
 
@@ -636,8 +637,8 @@
   <a href="index.html#activities" onclick="closeMobileMenu()">活動内容</a>
   <a href="index.html#members" onclick="closeMobileMenu()">役員紹介</a>
   <a href="index.html#records" onclick="closeMobileMenu()">活動実績</a>
-  <a href="news.html" onclick="closeMobileMenu()" style="color:var(--accent-glow)">活動記録</a>
-  <a href="valorant.html" onclick="closeMobileMenu()">勢力図</a>
+  <a href="news.html" onclick="closeMobileMenu()">活動記録</a>
+  <a href="valorant.html" onclick="closeMobileMenu()" style="color:var(--accent-glow)">勢力図</a>
 </div>
 
 <nav id="main-nav" class="scrolled">
@@ -651,8 +652,8 @@
     <li><a href="index.html#activities">活動内容</a></li>
     <li><a href="index.html#members">役員紹介</a></li>
     <li><a href="index.html#records">活動実績</a></li>
-    <li><a href="news.html" class="active">活動記録</a></li>
-    <li><a href="valorant.html">勢力図</a></li>
+    <li><a href="news.html">活動記録</a></li>
+    <li><a href="valorant.html" class="active">勢力図</a></li>
   </ul>
   <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="メニューを開く">
     <span></span><span></span><span></span>
@@ -661,419 +662,273 @@
 
 <!-- ページヘッダー -->
 <div class="page-header">
-  <p class="eyebrow">ACTIVITY LOG</p>
-  <h1>活動記録</h1>
-  <p>イベント・大会・日常の活動をまとめています</p>
+  <p class="eyebrow">VALORANT</p>
+  <h1>横須賀市 高校 勢力図</h1>
+  <p>Discordで申告された学年・ランクをもとにした参考データです</p>
 </div>
 
-<!-- メインコンテンツ -->
-<main>
-  <div class="article-list" id="article-list">
-    <!-- 記事はJSで動的に生成 -->
+<main style="padding: 40px 8vw 80px; max-width: 1200px; margin: 0 auto;">
+
+  <!-- ステータスバー -->
+  <div id="val-status" style="
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:12px;color:var(--text-light);
+    margin-bottom:24px;padding:6px 14px;
+    background:var(--bg-alt);border-radius:99px;
+    border:1px solid var(--border);
+  ">🔄 データ読み込み中...</div>
+
+  <!-- 説明文 -->
+  <p style="color:var(--text-sub);font-size:14px;margin-bottom:28px;max-width:640px;line-height:1.8;">
+    横須賀市内の高校生VALORANTプレイヤーの分布データです。<br>
+    YeG公式Discordサーバーで申告されたランク・学年情報を自動集計しています。
+    <a href="https://discord.gg/yokosuka-eGen" style="color:var(--accent);text-decoration:none;margin-left:4px;">Discordに参加する →</a>
+  </p>
+
+  <!-- マップ＋サイドバー レイアウト -->
+  <div style="
+    display:grid;
+    grid-template-columns: 1fr 300px;
+    gap:0;
+    height:560px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 4px 24px rgba(15,34,68,0.08);
+    background:#fff;
+    margin-bottom:32px;
+  ">
+    <!-- 地図 -->
+    <div style="position:relative;">
+      <div id="val-map" style="width:100%;height:100%;"></div>
+      <div style="
+        position:absolute;top:12px;left:12px;z-index:400;
+        background:rgba(255,255,255,0.93);
+        border:1px solid var(--border);border-radius:6px;
+        padding:8px 13px;font-size:11px;color:var(--text-sub);
+        box-shadow:0 2px 8px rgba(15,34,68,0.08);
+        backdrop-filter:blur(4px);line-height:1.6;
+      ">
+        <strong style="display:block;font-size:12px;color:var(--navy);">📍 神奈川県横須賀市</strong>
+        バブルをクリックして詳細を表示
+      </div>
+    </div>
+
+    <!-- サイドバー -->
+    <div style="background:var(--bg-alt);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;">
+      <div style="padding:10px 16px 8px;font-size:10px;font-weight:700;color:var(--text-light);letter-spacing:0.14em;text-transform:uppercase;background:#fff;border-bottom:1px solid var(--border);flex-shrink:0;">
+        加入者数ランキング
+      </div>
+      <div id="val-ranking" style="flex:1;overflow-y:auto;padding:6px 8px;"></div>
+      <div style="border-top:1px solid var(--border);background:#fff;padding:7px 14px;display:flex;align-items:center;gap:8px;font-size:10px;color:var(--text-light);flex-shrink:0;">
+        <span style="font-weight:700;color:var(--text-sub);white-space:nowrap;">バブル：</span>
+        <div style="display:flex;align-items:center;gap:5px;">
+          <div style="width:9px;height:9px;border-radius:50%;background:#1648c8;opacity:0.5;"></div><span>少</span>
+          <div style="width:16px;height:16px;border-radius:50%;background:#1648c8;opacity:0.5;"></div><span>中</span>
+          <div style="width:25px;height:25px;border-radius:50%;background:#1648c8;opacity:0.5;"></div><span>多</span>
+        </div>
+        <span style="margin-left:auto;font-size:9px;white-space:nowrap;">総加入者数</span>
+      </div>
+      <div id="val-detail" style="border-top:2px solid var(--accent);background:#fff;padding:14px 16px;min-height:180px;flex-shrink:0;">
+        <div style="color:var(--text-light);font-size:11px;text-align:center;padding:28px 0;">学校をクリックして詳細を表示</div>
+      </div>
+    </div>
   </div>
-  <div class="empty-state" id="empty-state" style="display:none;">
-    <div class="icon">📝</div>
-    <p>まだ記事がありません。<br>編集モードをONにして「＋ 記事を追加」ボタンで投稿できます。</p>
-  </div>
+
+  <!-- 注意書き -->
+  <p style="font-size:12px;color:var(--text-light);margin-top:8px;">
+    ※ データはDiscord申告に基づく参考値です。実際の人数と異なる場合があります。
+  </p>
 </main>
 
-<!-- 記事詳細モーダル -->
-<div id="article-overlay" onclick="closeArticle()"></div>
-<div id="article-modal">
-  <div class="modal-header" id="modal-header">
-    <img id="modal-cover-img" src="" alt="" style="display:none;">
-    <div class="modal-header-text">
-      <p class="modal-header-date" id="modal-date"></p>
-      <h2 class="modal-header-title" id="modal-title"></h2>
-      <a id="modal-note-link" href="#" target="_blank" rel="noopener"
-        style="display:none;margin-top:12px;padding:8px 18px;background:rgba(255,255,255,0.18);backdrop-filter:blur(8px);color:#fff;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none;align-items:center;gap:6px;border:1px solid rgba(255,255,255,0.4);letter-spacing:0.05em;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.28)'" onmouseout="this.style.background='rgba(255,255,255,0.18)'">
-        📝 noteで全文を読む →
-      </a>
-    </div>
-    <button class="modal-close" onclick="closeArticle()">✕</button>
-  </div>
-  <div class="modal-body">
-    <p id="modal-body-text"></p>
-    <div class="modal-images" id="modal-images"></div>
-  </div>
-</div>
-
-<!-- 記事作成モーダル -->
-<div id="compose-overlay" onclick="closeCompose()"></div>
-<div id="compose-modal">
-  <h2 id="compose-title-label">📝 記事を追加</h2>
-  <div class="form-group">
-    <label>タイトル</label>
-    <input type="text" id="f-title" placeholder="例：第2回スカリンピック開催レポート">
-  </div>
-  <div class="form-group">
-    <label>日付</label>
-    <input type="date" id="f-date">
-  </div>
-  <div class="form-group">
-    <label>本文</label>
-    <textarea id="f-body" placeholder="活動内容・感想・エピソードなどを書いてください。&#10;&#10;改行はそのまま反映されます。"></textarea>
-  </div>
-  <div class="form-group">
-    <label>写真（ファイル）</label>
-    <div class="img-drop-area" onclick="document.getElementById('f-img-input').click()">
-      <div style="font-size:28px;">📷</div>
-      <p>クリックして画像を追加<br><span style="font-size:11px;">複数選択可。JPG・PNG・GIF対応</span></p>
-      <input type="file" id="f-img-input" accept="image/*" multiple onchange="addImages(this)">
-    </div>
-    <div class="img-preview-list" id="img-preview-list"></div>
-  </div>
-  <div class="form-group">
-    <label>写真（URL）</label>
-    <div class="url-list" id="url-list">
-      <div class="url-item">
-        <input type="url" placeholder="https://drive.google.com/... など">
-        <button onclick="this.parentElement.remove()">削除</button>
-      </div>
-    </div>
-    <button class="add-url-btn" onclick="addUrlField()">＋ URLを追加</button>
-  </div>
-  <div class="compose-actions">
-    <button class="btn-cancel" onclick="closeCompose()">キャンセル</button>
-    <button class="btn-save-article" onclick="saveArticle()">保存する</button>
-  </div>
-</div>
-
-<!-- 編集ツールバー -->
-<div id="edit-toolbar">
-  <button id="btn-edit" onclick="toggleEdit()">✏️ 編集モード</button>
-  <button id="btn-add-article" onclick="openCompose()" style="display:none;">＋ 記事を追加</button>
-  <button id="btn-save" onclick="saveFile()" style="display:none;">💾 news.htmlを保存</button>
-</div>
-
+<!-- 編集ツールバー（news.htmlと同様） -->
+<div id="edit-toolbar" style="display:none;"></div>
 <script>
-// ─── 記事データ ───────────────────────────────────────────
-let ARTICLES_DEFAULT = [{"title": "［イベント協力］ストリートファイター6 体験会 in よこすかカレーフェスティバル 2026", "date": "2026-05-26", "body": "5/16・5/17に行われたよこすかカレーフェスティバル ストリートファイター体験会の運営に協力しました。\n\n1日目はイベント会場の設営から始まり、初めて格ゲーを触る来場者向けに昇龍拳チャレンジを案内したり、対戦会を行いました。\n\n2日目はゲストに倉持由香さんが春麗のコスプレで登場！来場者との対戦会に加え、ミニトーナメント「よこすかカレー杯」の進行もお手伝いしました。\n\n当初8名予定だったトーナメントに応募者が約40名集まり、スト6の人気の高さを改めて実感。決勝ではまさかのダルシムミラーが勃発し、大会名に相応しい盛り上がりとなりました。\n\n格闘ゲーム未経験者から上級者、小さなお子さんからゲームセンター時代から格ゲーを愛するベテランまで、幅広い層にストリートファイターを楽しんでいただけました。", "noteUrl": "https://note.com/yokosuka_egen/n/n8e6fbcf46ab2", "images": [{"src": "https://assets.st-note.com/img/1779765229-5enfl6TPgIAtFHG9W2Eu4J8K.png?width=1200", "type": "url"}, {"src": "https://assets.st-note.com/img/1779765209-trcwRDeAuaCyk87hUOsG9dKi.png?width=1200", "type": "url"}, {"src": "https://assets.st-note.com/img/1779766251-2dg6DYjvuzmrJTRZ41sKEnaf.jpg?width=1200", "type": "url"}]}];
-let ARTICLES = JSON.parse(localStorage.getItem('yeg_news_articles') || 'null') || ARTICLES_DEFAULT;
-let editMode = false;
-let editIndex = null; // 編集中の記事インデックス
-let pendingImages = []; // 作成中の画像 {src, type} 配列
-
-// ─── 記事レンダリング ──────────────────────────────────────
-function renderArticles() {
-  const list = document.getElementById('article-list');
-  const empty = document.getElementById('empty-state');
-  list.innerHTML = '';
-
-  // 新着順
-  const sorted = [...ARTICLES].sort((a,b) => new Date(b.date) - new Date(a.date));
-
-  if (sorted.length === 0) {
-    empty.style.display = 'block';
-    return;
-  }
-  empty.style.display = 'none';
-
-  sorted.forEach((article, i) => {
-    const origIndex = ARTICLES.indexOf(article);
-    const cover = article.images && article.images[0] ? article.images[0].src : null;
-    const excerpt = article.body ? article.body.replace(/\n/g,'  ').slice(0,80) + (article.body.length > 80 ? '…' : '') : '';
-    const dateStr = article.date ? new Date(article.date).toLocaleDateString('ja-JP', {year:'numeric',month:'long',day:'numeric'}) : '';
-
-    const card = document.createElement('div');
-    card.className = 'article-card';
-    card.innerHTML = `
-      <button class="article-delete-btn" onclick="deleteArticle(${origIndex},event)">🗑 削除</button>
-      <div class="article-card-thumb">
-        ${cover ? `<img src="${cover}" alt="" onerror="this.parentElement.innerHTML='<div class=\'no-img\'>📸</div>'">` : '<div class="no-img">📸</div>'}
-      </div>
-      <div class="article-card-body" onclick="openArticle(${origIndex})">
-        <div class="article-card-date">${dateStr}</div>
-        <div class="article-card-title">${article.title || '（タイトルなし）'}</div>
-        <div class="article-card-excerpt">${excerpt || '（本文なし）'}</div>
-      </div>
-      <div class="article-card-arrow" onclick="openArticle(${origIndex})">→</div>
-    `;
-    list.appendChild(card);
-  });
+// ナビスクロール挙動
+window.addEventListener('scroll',function(){
+  var nav=document.getElementById('main-nav');
+  if(nav) nav.classList.toggle('scrolled',window.scrollY>10);
+});
+function toggleMobileMenu(){
+  var m=document.getElementById('mobile-menu');
+  var h=document.getElementById('hamburger');
+  if(m&&h){m.classList.toggle('open');h.classList.toggle('open');}
 }
+function closeMobileMenu(){
+  var m=document.getElementById('mobile-menu');
+  var h=document.getElementById('hamburger');
+  if(m&&h){m.classList.remove('open');h.classList.remove('open');}
+}
+</script>
 
-// ─── 記事詳細を開く ────────────────────────────────────────
-function openArticle(index) {
-  const article = ARTICLES[index];
-  if (!article) return;
+<!-- Leaflet -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var RANKS=[
+    {key:'iron',name:'Iron',color:'#909090',bg:'#f0f0f0'},
+    {key:'bronze',name:'Bronze',color:'#a06030',bg:'#f5ede4'},
+    {key:'silver',name:'Silver',color:'#507a90',bg:'#e6eef5'},
+    {key:'gold',name:'Gold',color:'#c09010',bg:'#faf3dc'},
+    {key:'plat',name:'Platinum',color:'#0090b0',bg:'#e0f5f8'},
+    {key:'diamond',name:'Diamond',color:'#7840c0',bg:'#efe8f8'},
+    {key:'ascendant',name:'Ascendant',color:'#008050',bg:'#e0f5ec'},
+    {key:'immortal',name:'Immortal',color:'#c02040',bg:'#fce8ec'},
+    {key:'radiant',name:'Radiant',color:'#b08000',bg:'#fdf5d8'},
+  ];
+  var GRADE_COLORS=['#1648c8','#2a9d8f','#e76f51'];
+  var RANK_NAME_MAP={Iron:'iron',Bronze:'bronze',Silver:'silver',Gold:'gold',Platinum:'plat',Diamond:'diamond',Ascendant:'ascendant',Immortal:'immortal',Radiant:'radiant','未申告':'iron'};
+  function rk(k){return RANKS.find(function(r){return r.key===k;})||RANKS[0];}
 
-  const dateStr = article.date ? new Date(article.date).toLocaleDateString('ja-JP', {year:'numeric',month:'long',day:'numeric'}) : '';
-  document.getElementById('modal-date').textContent = dateStr;
-  document.getElementById('modal-title').textContent = article.title || '';
-  document.getElementById('modal-body-text').textContent = article.body || '';
+  var SCHOOL_META=[
+    {id:1,name:'追浜高校',short:'追浜',lat:35.3042,lng:139.6920,note:'安定した中堅勢力'},
+    {id:2,name:'横須賀高校',short:'横高',lat:35.2875,lng:139.6612,note:'進学校、少数精鋭'},
+    {id:3,name:'県立横須賀工業高校',short:'工業',lat:35.2910,lng:139.6658,note:'技術系志向'},
+    {id:4,name:'横須賀大津高校',short:'大津',lat:35.2740,lng:139.6495,note:'西北部の雄'},
+    {id:5,name:'横須賀学院高校',short:'学院',lat:35.2828,lng:139.6745,note:'部活動あり、参加者多め'},
+    {id:6,name:'横須賀総合高校',short:'総合',lat:35.2648,lng:139.6580,note:'成長中'},
+    {id:7,name:'三浦学苑高校',short:'学苑',lat:35.2745,lng:139.6380,note:'衣笠エリア'},
+    {id:8,name:'湘南学院高校',short:'湘南',lat:35.2548,lng:139.6298,note:'北久里浜エリア'},
+    {id:9,name:'横須賀南高校',short:'南高',lat:35.2488,lng:139.6652,note:'南エリア'},
+    {id:10,name:'津久井浜高校',short:'津久井',lat:35.2218,lng:139.6198,note:'南西部・新興勢力'},
+    {id:11,name:'海洋科学高校',short:'海洋',lat:35.2195,lng:139.6458,note:'専門高校、少数精鋭'},
+  ];
 
-  // カバー画像
-  const cover = article.images && article.images[0] ? article.images[0].src : null;
-  const coverImg = document.getElementById('modal-cover-img');
-  if (cover) {
-    coverImg.src = cover;
-    coverImg.style.display = 'block';
-    document.getElementById('modal-header').style.minHeight = '220px';
-  } else {
-    coverImg.style.display = 'none';
-    document.getElementById('modal-header').style.minHeight = '120px';
+  function dominantRank(rc){
+    if(!rc||!Object.keys(rc).length)return'iron';
+    var top=Object.entries(rc).reduce(function(a,b){return b[1]>a[1]?b:a;})[0];
+    return RANK_NAME_MAP[top]||'iron';
   }
-
-  // 画像ギャラリー（全部）
-  const gallery = document.getElementById('modal-images');
-  gallery.innerHTML = '';
-  if (article.images && article.images.length > 0) {
-    article.images.forEach(img => {
-      const el = document.createElement('img');
-      el.src = img.src;
-      el.alt = '';
-      el.onclick = () => window.open(img.src, '_blank');
-      gallery.appendChild(el);
+  function merge(summary){
+    return SCHOOL_META.map(function(m){
+      var d=summary[m.name]||{};
+      return Object.assign({},m,{y1:d.y1||0,y2:d.y2||0,y3:d.y3||0,avgRank:dominantRank(d.ranks),note:d.note||m.note});
     });
   }
 
-  // noteリンク
-  const noteLink = document.getElementById('modal-note-link');
-  if (article.noteUrl) {
-    noteLink.href = article.noteUrl;
-    noteLink.style.display = 'inline-flex';
-  } else {
-    noteLink.style.display = 'none';
+  var schools=SCHOOL_META.map(function(m){return Object.assign({},m,{y1:0,y2:0,y3:0,avgRank:'iron'});});
+  var selectedId=null,cmarkers={};
+
+  function total(s){return(s.y1||0)+(s.y2||0)+(s.y3||0);}
+  function radius(s){
+    var tots=schools.map(total);
+    var mx=Math.max.apply(null,tots),mn=Math.min.apply(null,tots);
+    var n=mx===mn?0.5:(total(s)-mn)/(mx-mn);
+    return 14+n*34;
+  }
+  function sorted(){return schools.slice().sort(function(a,b){return total(b)-total(a);});}
+
+  var map=L.map('val-map',{center:[35.265,139.655],zoom:12});
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
+    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+    subdomains:'abcd',maxZoom:19
+  }).addTo(map);
+
+  function renderMarkers(){
+    Object.values(cmarkers).forEach(function(m){m.remove();});
+    cmarkers={};
+    schools.forEach(function(s){
+      var r=radius(s),rank=rk(s.avgRank),sel=s.id===selectedId;
+      var pos=sorted().findIndex(function(x){return x.id===s.id;})+1;
+      var tot=total(s);
+      var cm=L.circleMarker([s.lat,s.lng],{
+        radius:r,color:sel?rank.color:'#1648c8',weight:sel?3:1.5,
+        fillColor:rank.color,fillOpacity:sel?0.75:0.50,opacity:1,
+      }).addTo(map);
+      var pop='<div style="padding:12px 14px;font-family:'Noto Sans JP',sans-serif;">'
+        +'<div style="font-size:13px;font-weight:700;color:#0c1f44;margin-bottom:7px;">'+s.name+' <span style="font-size:11px;color:#5a6a88;font-weight:400;">— #'+pos+'</span></div>'
+        +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:7px;">'
+        +[1,2,3].map(function(g,i){return'<div style="background:#f0f4fa;border:1px solid #c8d3e8;border-radius:4px;padding:5px;text-align:center;"><div style="font-size:9px;color:#5a6a88;font-weight:700;">'+g+'年生</div><div style="font-size:17px;font-weight:700;color:'+GRADE_COLORS[i]+';line-height:1;">'+(s['y'+g]||0)+'<span style="font-size:10px;color:#374665;">人</span></div></div>';}).join('')
+        +'</div><div style="font-size:11px;color:#374665;margin-bottom:4px;">合計 <strong style="color:#1648c8;">'+tot+'人</strong></div>'
+        +'<div style="font-size:10px;color:#5a6a88;">'+s.note+'</div></div>';
+      cm.bindPopup(pop,{maxWidth:240,minWidth:210});
+      cm.on('click',function(){selectedId=s.id;renderAll();cm.openPopup();});
+      var lbl=L.divIcon({
+        html:'<div style="font-family:'Noto Sans JP',sans-serif;font-size:'+Math.max(9,r*0.46)+'px;font-weight:700;color:#fff;text-shadow:0 0 3px rgba(0,0,0,0.5);white-space:nowrap;pointer-events:none;">'+s.short+'</div>',
+        className:'',iconAnchor:[r*0.5,r*0.5]
+      });
+      L.marker([s.lat,s.lng],{icon:lbl,interactive:false}).addTo(map);
+      cmarkers[s.id]=cm;
+    });
   }
 
-  const overlay = document.getElementById('article-overlay');
-  const modal = document.getElementById('article-modal');
-  overlay.style.display = 'block';
-  modal.style.display = 'block';
-  document.body.style.overflow = 'hidden';
-  requestAnimationFrame(() => {
-    modal.style.opacity = '1';
-    modal.style.transform = 'translate(-50%,-50%) scale(1)';
-  });
-}
-
-function closeArticle() {
-  const overlay = document.getElementById('article-overlay');
-  const modal = document.getElementById('article-modal');
-  modal.style.opacity = '0';
-  modal.style.transform = 'translate(-50%,-48%) scale(0.96)';
-  setTimeout(() => {
-    overlay.style.display = 'none';
-    modal.style.display = 'none';
-    document.body.style.overflow = '';
-  }, 220);
-}
-
-// ─── 記事作成モーダル ──────────────────────────────────────
-function openCompose(index = null) {
-  editIndex = index;
-  pendingImages = [];
-
-  const label = document.getElementById('compose-title-label');
-  const modal = document.getElementById('compose-modal');
-  const overlay = document.getElementById('compose-overlay');
-
-  if (index !== null) {
-    const a = ARTICLES[index];
-    document.getElementById('f-title').value = a.title || '';
-    document.getElementById('f-date').value = a.date || '';
-    document.getElementById('f-body').value = a.body || '';
-    pendingImages = a.images ? [...a.images] : [];
-    label.textContent = '✏️ 記事を編集';
-  } else {
-    document.getElementById('f-title').value = '';
-    document.getElementById('f-date').value = new Date().toISOString().slice(0,10);
-    document.getElementById('f-body').value = '';
-    label.textContent = '📝 記事を追加';
+  function renderRanking(){
+    var list=document.getElementById('val-ranking');
+    list.innerHTML='';
+    sorted().forEach(function(s,i){
+      var nc=i===0?'#c8900a':i===1?'#6890a8':i===2?'#9a6030':'#5a6a88';
+      var rank=rk(s.avgRank);
+      var el=document.createElement('div');
+      var active=s.id===selectedId;
+      el.style.cssText='display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:5px;cursor:pointer;border:1.5px solid '+(active?'var(--accent)':'transparent')+';background:'+(active?'rgba(22,72,200,0.06)':'transparent')+';margin-bottom:2px;transition:all 0.15s;';
+      el.innerHTML='<div style="font-size:15px;font-weight:700;width:22px;text-align:center;color:'+nc+';flex-shrink:0;">'+(i+1)+'</div>'
+        +'<div style="flex:1;min-width:0;">'
+        +'<div style="font-size:12px;font-weight:700;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+s.name+'</div>'
+        +'<div style="display:flex;gap:4px;margin-top:1px;">'
+        +[1,2,3].map(function(g,gi){return'<span style="font-size:9px;color:'+GRADE_COLORS[gi]+';background:var(--bg-alt);border-radius:3px;padding:0 4px;"><b>'+(s['y'+g]||0)+'</b>人('+g+'年)</span>';}).join('')
+        +'</div></div>'
+        +'<div style="font-size:16px;font-weight:700;color:'+(active?'var(--accent)':'#5a6a88')+';flex-shrink:0;width:34px;text-align:right;">'+total(s)+'<span style="font-size:9px;">人</span></div>';
+      el.onclick=function(){
+        selectedId=(selectedId===s.id?null:s.id);
+        if(selectedId)map.setView([s.lat,s.lng],13,{animate:true});
+        renderAll();
+      };
+      list.appendChild(el);
+    });
   }
 
-  document.getElementById('url-list').innerHTML = `
-    <div class="url-item">
-      <input type="url" placeholder="https://... など">
-      <button onclick="this.parentElement.remove()">削除</button>
-    </div>
-  `;
-  renderImagePreviews();
-
-  overlay.style.display = 'block';
-  modal.style.display = 'block';
-  document.body.style.overflow = 'hidden';
-  requestAnimationFrame(() => {
-    modal.style.opacity = '1';
-    modal.style.transform = 'translate(-50%,-50%) scale(1)';
-  });
-}
-
-function closeCompose() {
-  const overlay = document.getElementById('compose-overlay');
-  const modal = document.getElementById('compose-modal');
-  modal.style.opacity = '0';
-  modal.style.transform = 'translate(-50%,-48%) scale(0.96)';
-  setTimeout(() => {
-    overlay.style.display = 'none';
-    modal.style.display = 'none';
-    document.body.style.overflow = '';
-  }, 220);
-}
-
-// ─── 画像追加（ファイル）──────────────────────────────────
-function addImages(input) {
-  const files = Array.from(input.files);
-  let loaded = 0;
-  files.forEach(file => {
-    const reader = new FileReader();
-    reader.onload = e => {
-      pendingImages.push({src: e.target.result, type: 'file'});
-      loaded++;
-      if (loaded === files.length) renderImagePreviews();
-    };
-    reader.readAsDataURL(file);
-  });
-  input.value = '';
-}
-
-function renderImagePreviews() {
-  const list = document.getElementById('img-preview-list');
-  list.innerHTML = '';
-  pendingImages.forEach((img, i) => {
-    const item = document.createElement('div');
-    item.className = 'img-preview-item';
-    item.innerHTML = `
-      <img src="${img.src}" alt="">
-      <button onclick="removeImage(${i})">✕</button>
-    `;
-    list.appendChild(item);
-  });
-}
-
-function removeImage(i) {
-  pendingImages.splice(i, 1);
-  renderImagePreviews();
-}
-
-// ─── URLフィールド追加 ────────────────────────────────────
-function addUrlField() {
-  const list = document.getElementById('url-list');
-  const div = document.createElement('div');
-  div.className = 'url-item';
-  div.innerHTML = `
-    <input type="url" placeholder="https://... など">
-    <button onclick="this.parentElement.remove()">削除</button>
-  `;
-  list.appendChild(div);
-}
-
-// ─── 記事保存 ─────────────────────────────────────────────
-function saveArticle() {
-  const title = document.getElementById('f-title').value.trim();
-  const date = document.getElementById('f-date').value;
-  const body = document.getElementById('f-body').value.trim();
-
-  if (!title) { alert('タイトルを入力してください'); return; }
-
-  // URL画像を追加
-  const urlInputs = document.querySelectorAll('#url-list input[type="url"]');
-  urlInputs.forEach(input => {
-    const url = input.value.trim();
-    if (url) pendingImages.push({src: url, type: 'url'});
-  });
-
-  const article = { title, date, body, images: pendingImages };
-
-  if (editIndex !== null) {
-    ARTICLES[editIndex] = article;
-  } else {
-    ARTICLES.push(article);
-  }
-
-  try { localStorage.setItem('yeg_news_articles', JSON.stringify(ARTICLES)); } catch(e) {}
-  closeCompose();
-  renderArticles();
-}
-
-// ─── 記事削除 ─────────────────────────────────────────────
-function deleteArticle(index, event) {
-  event.stopPropagation();
-  if (!confirm('この記事を削除しますか？')) return;
-  ARTICLES.splice(index, 1);
-  try { localStorage.setItem('yeg_news_articles', JSON.stringify(ARTICLES)); } catch(e) {}
-  renderArticles();
-}
-
-// ─── 編集モード ───────────────────────────────────────────
-function toggleEdit() {
-  editMode = !editMode;
-  document.body.classList.toggle('edit-active', editMode);
-  document.getElementById('btn-edit').textContent = editMode ? '👁 プレビュー' : '✏️ 編集モード';
-  document.getElementById('btn-add-article').style.display = editMode ? 'inline-block' : 'none';
-  document.getElementById('btn-save').style.display = editMode ? 'inline-block' : 'none';
-}
-
-// ─── HTMLとして保存 ───────────────────────────────────────
-function saveFile() {
-  // 記事データをHTMLに埋め込む
-  const articlesJson = JSON.stringify(ARTICLES);
-  let pageHtml = document.documentElement.outerHTML;
-  // ARTICLESの初期値を現在のデータで書き換え
-  pageHtml = pageHtml.replace(
-    /let ARTICLES = JSON\.parse\(localStorage\.getItem\('yeg_news_articles'\) \|\| '\[\]'\);/,
-    `let ARTICLES = ${articlesJson};\ntry { localStorage.setItem('yeg_news_articles', JSON.stringify(ARTICLES)); } catch(e) {}\nARTICLES = JSON.parse(localStorage.getItem('yeg_news_articles') || JSON.stringify(ARTICLES));`
-  );
-
-  const blob = new Blob(['<!DOCTYPE html>\n' + pageHtml], {type: 'text/html;charset=utf-8'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'news.html';
-  a.click();
-  URL.revokeObjectURL(a.href);
-
-  const toast = document.createElement('div');
-  toast.className = 'edit-saved-toast';
-  toast.textContent = '✅ news.htmlを保存！GitHubに上書きアップロードしてください';
-  document.body.appendChild(toast);
-  setTimeout(() => toast.remove(), 4000);
-}
-
-// ─── ナビゲーション ───────────────────────────────────────
-function toggleMobileMenu() {
-  const menu = document.getElementById('mobile-menu');
-  const ham = document.getElementById('hamburger');
-  const open = menu.classList.toggle('open');
-  ham.classList.toggle('open', open);
-  document.body.style.overflow = open ? 'hidden' : '';
-}
-function closeMobileMenu() {
-  const menu = document.getElementById('mobile-menu');
-  const ham = document.getElementById('hamburger');
-  menu.classList.remove('open');
-  ham.classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-// ─── キーボードショートカット（E→G→E→N）────────────────
-(function() {
-  const SEQ = ['e','g','e','n'];
-  let buf = [];
-  document.addEventListener('keydown', e => {
-    buf.push(e.key.toLowerCase());
-    if (buf.length > SEQ.length) buf.shift();
-    if (buf.join('') === SEQ.join('')) {
-      const tb = document.getElementById('edit-toolbar');
-      const isOpen = tb.classList.toggle('tb-open');
-      if (isOpen && !editMode) toggleEdit();
-      if (!isOpen && editMode) toggleEdit();
+  function renderDetail(){
+    var panel=document.getElementById('val-detail');
+    if(!selectedId){
+      panel.innerHTML='<div style="color:var(--text-light);font-size:11px;text-align:center;padding:28px 0;">学校をクリックして詳細を表示</div>';
+      return;
     }
-  });
+    var s=schools.find(function(x){return x.id===selectedId;});
+    var pos=sorted().findIndex(function(x){return x.id===s.id;})+1;
+    var rank=rk(s.avgRank);
+    var tot=total(s);
+    var maxG=Math.max(s.y1||0,s.y2||0,s.y3||0,1);
+    panel.innerHTML='<div style="font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;padding-bottom:8px;border-bottom:1px solid var(--bg-alt);">'
+      +'<span style="color:var(--navy);">'+s.name+'</span>'
+      +'<span style="font-size:10px;font-weight:700;color:#fff;background:var(--accent);padding:2px 8px;border-radius:3px;"># '+pos+'</span>'
+      +'</div>'
+      +'<div style="background:rgba(22,72,200,0.06);border:1px solid rgba(22,72,200,0.15);border-radius:5px;padding:7px 11px;display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">'
+      +'<span style="font-size:11px;font-weight:700;color:var(--text-sub);">総加入者数</span>'
+      +'<span style="font-size:22px;font-weight:700;color:var(--accent);">'+tot+'<small style="font-size:12px;color:var(--text-sub);">人</small></span>'
+      +'</div>'
+      +'<div style="font-size:10px;font-weight:700;color:var(--text-light);letter-spacing:0.12em;margin-bottom:5px;">学年別 加入人数</div>'
+      +[1,2,3].map(function(g,gi){return'<div style="display:flex;align-items:center;gap:7px;margin-bottom:4px;">'
+        +'<span style="font-size:11px;font-weight:700;color:var(--text-sub);width:22px;flex-shrink:0;">'+g+'年</span>'
+        +'<div style="flex:1;height:13px;background:var(--bg-alt);border-radius:2px;overflow:hidden;">'
+        +'<div style="height:100%;border-radius:2px;background:'+GRADE_COLORS[gi]+';opacity:0.75;width:'+((s['y'+g]||0)/maxG*100)+'%;transition:width 0.4s;"></div>'
+        +'</div><span style="font-size:13px;font-weight:700;color:var(--navy);width:28px;text-align:right;">'+(s['y'+g]||0)+'<small style="font-size:9px;color:var(--text-light);">人</small></span></div>';}).join('')
+      +'<div style="display:flex;align-items:center;gap:7px;margin-top:7px;">'
+      +'<span style="font-size:10px;color:var(--text-light);">平均ランク</span>'
+      +'<span style="display:inline-flex;align-items:center;padding:2px 9px;border-radius:99px;font-size:11px;font-weight:700;color:'+rank.color+';background:'+rank.bg+';border:1.5px solid '+rank.color+'50;">'+rank.name+'</span>'
+      +'</div>';
+  }
+
+  function renderAll(){renderMarkers();renderRanking();renderDetail();}
+
+  function loadSummary(){
+    var st=document.getElementById('val-status');
+    fetch('summary.json?t='+Date.now())
+      .then(function(r){if(!r.ok)throw new Error();return r.json();})
+      .then(function(d){
+        schools=merge(d);
+        st.textContent='🟢 Discord連携済み — データ取得完了';
+        st.style.color='#008050';
+        renderAll();
+      })
+      .catch(function(){
+        st.textContent='🟡 Discordデータ未取得 — サンプル表示中';
+        st.style.color='#c09010';
+        renderAll();
+      });
+  }
+
+  loadSummary();
 })();
-
-// ─── ESCキー ──────────────────────────────────────────────
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeArticle(); closeCompose(); }
-});
-
-// ─── ナビスクロール ───────────────────────────────────────
-window.addEventListener('scroll', () => {
-  document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 40);
-}, {passive: true});
-
-// ─── 初期表示 ─────────────────────────────────────────────
-renderArticles();
 </script>
 </body>
 </html>
