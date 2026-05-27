@@ -1,0 +1,47 @@
+name: Deploy summary.json to GitHub Pages
+
+on:
+  # ボットが summary.json を push したときに自動実行
+  push:
+    paths:
+      - 'summary.json'
+      - 'index.html'
+      - 'valorant_map.html'
+
+  # 手動実行ボタン（GitHub Actions画面から）
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      # summary.json が存在しない場合は空ファイルを生成
+      - name: summary.json が存在しない場合は空ファイルを生成
+        run: |
+          if [ ! -f summary.json ]; then
+            echo '{}' > summary.json
+            echo "summary.json を新規作成しました"
+          else
+            echo "summary.json が存在します"
+            cat summary.json
+          fi
+
+      - name: GitHub Pages にデプロイ
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+          publish_branch: gh-pages
+          # デプロイ対象ファイルを指定
+          include_files: |
+            index.html
+            valorant_map.html
+            summary.json
