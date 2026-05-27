@@ -683,6 +683,10 @@
     <div class="modal-header-text">
       <p class="modal-header-date" id="modal-date"></p>
       <h2 class="modal-header-title" id="modal-title"></h2>
+      <a id="modal-note-link" href="#" target="_blank" rel="noopener"
+        style="display:none;margin-top:12px;padding:8px 18px;background:rgba(255,255,255,0.18);backdrop-filter:blur(8px);color:#fff;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none;align-items:center;gap:6px;border:1px solid rgba(255,255,255,0.4);letter-spacing:0.05em;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.28)'" onmouseout="this.style.background='rgba(255,255,255,0.18)'">
+        📝 noteで全文を読む →
+      </a>
     </div>
     <button class="modal-close" onclick="closeArticle()">✕</button>
   </div>
@@ -742,7 +746,8 @@
 
 <script>
 // ─── 記事データ ───────────────────────────────────────────
-let ARTICLES = JSON.parse(localStorage.getItem('yeg_news_articles') || '[]');
+let ARTICLES_DEFAULT = [{"title": "［イベント協力］ストリートファイター6 体験会 in よこすかカレーフェスティバル 2026", "date": "2026-05-26", "body": "5/16・5/17に行われたよこすかカレーフェスティバル ストリートファイター体験会の運営に協力しました。\n\n1日目はイベント会場の設営から始まり、初めて格ゲーを触る来場者向けに昇龍拳チャレンジを案内したり、対戦会を行いました。\n\n2日目はゲストに倉持由香さんが春麗のコスプレで登場！来場者との対戦会に加え、ミニトーナメント「よこすかカレー杯」の進行もお手伝いしました。\n\n当初8名予定だったトーナメントに応募者が約40名集まり、スト6の人気の高さを改めて実感。決勝ではまさかのダルシムミラーが勃発し、大会名に相応しい盛り上がりとなりました。\n\n格闘ゲーム未経験者から上級者、小さなお子さんからゲームセンター時代から格ゲーを愛するベテランまで、幅広い層にストリートファイターを楽しんでいただけました。", "noteUrl": "https://note.com/yokosuka_egen/n/n8e6fbcf46ab2", "images": [{"src": "https://assets.st-note.com/img/1779765229-5enfl6TPgIAtFHG9W2Eu4J8K.png?width=1200", "type": "url"}, {"src": "https://assets.st-note.com/img/1779765209-trcwRDeAuaCyk87hUOsG9dKi.png?width=1200", "type": "url"}, {"src": "https://assets.st-note.com/img/1779766251-2dg6DYjvuzmrJTRZ41sKEnaf.jpg?width=1200", "type": "url"}]}];
+let ARTICLES = JSON.parse(localStorage.getItem('yeg_news_articles') || 'null') || ARTICLES_DEFAULT;
 let editMode = false;
 let editIndex = null; // 編集中の記事インデックス
 let pendingImages = []; // 作成中の画像 {src, type} 配列
@@ -773,7 +778,7 @@ function renderArticles() {
     card.innerHTML = `
       <button class="article-delete-btn" onclick="deleteArticle(${origIndex},event)">🗑 削除</button>
       <div class="article-card-thumb">
-        ${cover ? `<img src="${cover}" alt="">` : '<div class="no-img">📸</div>'}
+        ${cover ? `<img src="${cover}" alt="" onerror="this.parentElement.innerHTML='<div class=\'no-img\'>📸</div>'">` : '<div class="no-img">📸</div>'}
       </div>
       <div class="article-card-body" onclick="openArticle(${origIndex})">
         <div class="article-card-date">${dateStr}</div>
@@ -819,6 +824,15 @@ function openArticle(index) {
       el.onclick = () => window.open(img.src, '_blank');
       gallery.appendChild(el);
     });
+  }
+
+  // noteリンク
+  const noteLink = document.getElementById('modal-note-link');
+  if (article.noteUrl) {
+    noteLink.href = article.noteUrl;
+    noteLink.style.display = 'inline-flex';
+  } else {
+    noteLink.style.display = 'none';
   }
 
   const overlay = document.getElementById('article-overlay');
