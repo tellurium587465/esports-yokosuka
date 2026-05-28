@@ -19,10 +19,18 @@ from datetime import datetime
 from dotenv import load_dotenv
 
 load_dotenv()
-TOKEN        = os.getenv("DISCORD_TOKEN")
-GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")   # GitHub PAT（repo権限）
-GITHUB_REPO  = os.getenv("GITHUB_REPO")    # 例: YourOrg/yeg-website
-DATA_FILE    = "data.json"
+
+# 環境変数を直接取得（GitHub Actions の Secrets から）
+TOKEN         = os.getenv("DISCORD_TOKEN")
+GITHUB_TOKEN  = os.getenv("GITHUB_TOKEN") 
+GITHUB_REPO   = os.getenv("GITHUB_REPO")
+PANEL_CHANNEL_ID = os.getenv("PANEL_CHANNEL_ID")
+
+# デバッグ出力（エラー診断用）
+print(f"DISCORD_TOKEN: {'***' if TOKEN else '未設定'}")
+print(f"GITHUB_TOKEN: {'***' if GITHUB_TOKEN else '未設定'}")
+print(f"GITHUB_REPO: {GITHUB_REPO}")
+print(f"PANEL_CHANNEL_ID: {PANEL_CHANNEL_ID}")
 
 # ── VALORANT ランク定義 ──────────────────────────────────────
 RANKS = [
