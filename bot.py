@@ -449,4 +449,4 @@ if __name__ == "__main__":
     if not TOKEN:
         print("❌ .env に DISCORD_TOKEN が設定されていません")
     else:
-        bot.run(TOKEN)	
+        bot.run(TOKEN)
