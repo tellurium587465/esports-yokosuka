@@ -20,10 +20,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# 環境変数を直接取得（GitHub Actions の Secrets から）
 TOKEN         = os.getenv("DISCORD_TOKEN")
-GITHUB_TOKEN  = os.getenv("GITHUB_TOKEN") 
-GITHUB_REPO   = os.getenv("GITHUB_REPO")
+MY_GITHUB_TOKEN  = os.getenv("MY_GITHUB_TOKEN")    # 変更
+MY_GITHUB_REPO   = os.getenv("MY_GITHUB_REPO")      # 変更
 PANEL_CHANNEL_ID = os.getenv("PANEL_CHANNEL_ID")
 
 # デバッグ出力（エラー診断用）
@@ -242,10 +241,8 @@ async def push_summary_to_github(school: str, rank: str):
 
 
 def _git_push(school: str, rank: str):
-    """同期的な git 操作（別スレッドで実行）"""
     # リモートURLにトークンを埋め込む
-    remote_url = f"https://x-access-token:{GITHUB_TOKEN}@github.com/{GITHUB_REPO}.git"
-
+    remote_url = f"https://x-access-token:{MY_GITHUB_TOKEN}@github.com/{MY_GITHUB_REPO}.git"
     def run(cmd):
         result = subprocess.run(cmd, capture_output=True, text=True)
         if result.returncode != 0:
