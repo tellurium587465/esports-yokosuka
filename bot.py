@@ -19,17 +19,10 @@ from datetime import datetime
 from dotenv import load_dotenv
 
 load_dotenv()
-
-TOKEN         = os.getenv("DISCORD_TOKEN")
-MY_GITHUB_TOKEN  = os.getenv("MY_GITHUB_TOKEN")    # 変更
-MY_GITHUB_REPO   = os.getenv("MY_GITHUB_REPO")      # 変更
-PANEL_CHANNEL_ID = os.getenv("PANEL_CHANNEL_ID")
-
-# デバッグ出力（エラー診断用）
-print(f"DISCORD_TOKEN: {'***' if TOKEN else '未設定'}")
-print(f"GITHUB_TOKEN: {'***' if GITHUB_TOKEN else '未設定'}")
-print(f"GITHUB_REPO: {GITHUB_REPO}")
-print(f"PANEL_CHANNEL_ID: {PANEL_CHANNEL_ID}")
+TOKEN        = os.getenv("DISCORD_TOKEN")
+MY_GITHUB_TOKEN = os.getenv("MY_GITHUB_TOKEN")   # GitHub PAT（repo権限）
+MY_GITHUB_REPO  = os.getenv("MY_GITHUB_REPO")    # 例: YourOrg/yeg-website
+DATA_FILE    = "data.json"
 
 # ── VALORANT ランク定義 ──────────────────────────────────────
 RANKS = [
@@ -226,10 +219,10 @@ async def push_summary_to_github(school: str, rank: str):
     """
     summary.json を GitHub リポジトリに push する。
     push されると GitHub Actions が自動でデプロイを実行する。
-    GITHUB_TOKEN と GITHUB_REPO が .env に設定されている場合のみ動作。
+    MY_GITHUB_TOKEN と MY_GITHUB_REPO が .env に設定されている場合のみ動作。
     """
-    if not GITHUB_TOKEN or not GITHUB_REPO:
-        print("⚠️  GITHUB_TOKEN / GITHUB_REPO が未設定のため push をスキップ")
+    if not MY_GITHUB_TOKEN or not MY_GITHUB_REPO:
+        print("⚠️  MY_GITHUB_TOKEN / MY_GITHUB_REPO が未設定のため push をスキップ")
         return
 
     try:
@@ -241,8 +234,10 @@ async def push_summary_to_github(school: str, rank: str):
 
 
 def _git_push(school: str, rank: str):
+    """同期的な git 操作（別スレッドで実行）"""
     # リモートURLにトークンを埋め込む
     remote_url = f"https://x-access-token:{MY_GITHUB_TOKEN}@github.com/{MY_GITHUB_REPO}.git"
+
     def run(cmd):
         result = subprocess.run(cmd, capture_output=True, text=True)
         if result.returncode != 0:
@@ -288,6 +283,62 @@ async def on_ready():
         print(f"✅ {bot.user} 起動完了 | スラッシュコマンド {len(synced)} 件同期")
     except Exception as e:
         print(f"⚠️ コマンド同期エラー: {e}")
+
+    # 自動パネル投稿
+    await auto_post_panel()
+
+
+async def auto_post_panel():
+    """
+    起動時にパネルチャンネルを確認し、
+    ・パネルが存在しない → 新規投稿
+    ・パネルが存在する   → Viewを再アタッチ（ボタンを有効化）するだけ
+    PANEL_CHANNEL_ID が未設定の場合はスキップ。
+    """
+    channel_id = os.getenv("PANEL_CHANNEL_ID")
+    if not channel_id:
+        print("ℹ️  PANEL_CHANNEL_ID 未設定のため自動投稿をスキップ")
+        return
+
+    channel = bot.get_channel(int(channel_id))
+    if not channel:
+        print(f"⚠️  チャンネル {channel_id} が見つかりません")
+        return
+
+    # チャンネルの直近100件からボット自身のパネルメッセージを探す
+    panel_msg = None
+    async for msg in channel.history(limit=100):
+        if msg.author == bot.user and msg.embeds:
+            if msg.embeds[0].title and "VALORANT" in msg.embeds[0].title:
+                panel_msg = msg
+                break
+
+    embed = discord.Embed(
+        title="🎮 VALORANT ランク申告",
+        description=(
+            "現在のランクを選択してください。\n"
+            "いつでも押し直すことで更新できます。\n\n"
+            "ランクは高校・学年ロールと紐づけて記録され、\n"
+            "**横須賀市 高校 VALORANT 勢力図**に反映されます。"
+        ),
+        color=0x0057A8,
+    )
+    embed.set_footer(text="YeG — Yokosuka eGeneration")
+
+    if panel_msg:
+        # 既存メッセージのViewを更新（ボタンを再有効化）
+        try:
+            await panel_msg.edit(embed=embed, view=RankSelectView())
+            print(f"✅ 既存パネルを更新: #{channel.name}")
+        except Exception as e:
+            print(f"⚠️  パネル更新エラー: {e}")
+    else:
+        # 新規投稿
+        try:
+            await channel.send(embed=embed, view=RankSelectView())
+            print(f"✅ パネルを新規投稿: #{channel.name}")
+        except Exception as e:
+            print(f"⚠️  パネル投稿エラー: {e}")
 
 
 # ── /panel コマンド ───────────────────────────────────────────
@@ -398,4 +449,4 @@ if __name__ == "__main__":
     if not TOKEN:
         print("❌ .env に DISCORD_TOKEN が設定されていません")
     else:
-        bot.run(TOKEN)
+        bot.run(TOKEN)	
