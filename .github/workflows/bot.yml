@@ -1,0 +1,28 @@
+name: YeG Bot
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 * * * *'
+
+jobs:
+  bot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          pip install discord.py python-dotenv
+      
+      - name: Run bot
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+          MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+          MY_GITHUB_REPO: ${{ secrets.MY_GITHUB_REPO }}
+          PANEL_CHANNEL_ID: ${{ secrets.PANEL_CHANNEL_ID }}
+        run: timeout 3600 python bot.py || true
