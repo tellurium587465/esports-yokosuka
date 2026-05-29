@@ -27,7 +27,7 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: \'Noto Sans JP\', sans-serif;
+    font-family: 'Noto Sans JP', sans-serif;
     font-weight: 400;
     overflow-x: hidden;
     line-height: 1.7;
@@ -54,7 +54,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    font-family: \'Noto Sans JP\', sans-serif;
+    font-family: 'Noto Sans JP', sans-serif;
     font-weight: 700;
     font-size: 16px;
     color: var(--navy);
@@ -408,7 +408,7 @@
     font-size: 12px;
     cursor: pointer;
     border-radius: 4px;
-    font-family: \'Noto Sans JP\', sans-serif;
+    font-family: 'Noto Sans JP', sans-serif;
     transition: background 0.2s;
   }
   #edit-toolbar button:hover { background: rgba(59,130,246,0.28); }
@@ -475,7 +475,7 @@
     border-radius: 8px;
     padding: 10px 14px;
     font-size: 14px;
-    font-family: \'Noto Sans JP\', sans-serif;
+    font-family: 'Noto Sans JP', sans-serif;
     color: var(--navy);
     outline: none;
     transition: border-color 0.2s;
@@ -576,7 +576,7 @@
     padding: 10px 20px;
     font-size: 13px;
     cursor: pointer;
-    font-family: \'Noto Sans JP\', sans-serif;
+    font-family: 'Noto Sans JP', sans-serif;
     color: var(--text-sub);
   }
   .btn-save-article {
@@ -587,7 +587,7 @@
     font-size: 13px;
     font-weight: 700;
     cursor: pointer;
-    font-family: \'Noto Sans JP\', sans-serif;
+    font-family: 'Noto Sans JP', sans-serif;
     color: #fff;
     transition: background 0.2s;
   }
@@ -844,7 +844,7 @@ function closeMobileMenu(){
       cm.bindPopup(pop,{maxWidth:240,minWidth:210});
       cm.on('click',function(){selectedId=s.id;renderAll();cm.openPopup();});
       var lbl=L.divIcon({
-        html:'<div style="font-family: \'Noto Sans JP\',sans-serif;font-size:'+Math.max(9,r*0.46)+'px;font-weight:700;color:#fff;text-shadow:0 0 3px rgba(0,0,0,0.5);white-space:nowrap;pointer-events:none;">'+s.short+'</div>',
+        html:'<div style="font-family: Noto Sans JP,sans-serif;font-size:'+Math.max(9,r*0.46)+'px;font-weight:700;color:#fff;text-shadow:0 0 3px rgba(0,0,0,0.5);white-space:nowrap;pointer-events:none;">'+s.short+'</div>',
         className:'',iconAnchor:[r*0.5,r*0.5]
       });
       L.marker([s.lat,s.lng],{icon:lbl,interactive:false}).addTo(map);
