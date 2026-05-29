@@ -269,7 +269,10 @@ def _git_push(school: str, rank: str):
 # ── Bot セットアップ ──────────────────────────────────────────
 
 intents = discord.Intents.default()
+intents.message_content = True
 intents.members = True
+intents.guilds = True
+intents.presences = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
