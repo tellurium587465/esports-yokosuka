@@ -3,26 +3,28 @@ name: YeG Bot
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:  # 手動起動ボタン
   schedule:
-    - cron: '0 * * * *'
+    - cron: '0 */5 * * *'  # 5時間ごとに再起動
 
 jobs:
   bot:
     runs-on: ubuntu-latest
+    timeout-minutes: 350  # GitHub上限6時間の手前で安全に打ち切り
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-      
+
       - name: Install dependencies
-        run: |
-          pip install discord.py python-dotenv
-      
+        run: pip install -r requirements.txt
+
       - name: Run bot
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
           MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
           MY_GITHUB_REPO: ${{ secrets.MY_GITHUB_REPO }}
           PANEL_CHANNEL_ID: ${{ secrets.PANEL_CHANNEL_ID }}
-        run: timeout 3600 python bot.py || true
+        run: timeout 20700 python bot.py || true
+        # 20700秒 = 5時間45分（次の起動と15分重複してシームレスに繋がる）
