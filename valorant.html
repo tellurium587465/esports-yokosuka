@@ -10,131 +10,65 @@
   <style>
     :root {
       --bg: #ffffff; --bg-alt: #f0f4fa; --navy: #0c1f44; --navy-deep: #071228;
-      --accent: #1648c8; --accent-glow: #4f7fff; --cyan: #0ea5c9;
-      --text: #0c1f44; --text-sub: #374665; --text-light: #5a6a88;
-      --border: #c8d3e8; --card: #ffffff; --gold: #b87200;
+      --accent: #1648c8; --text: #0c1f44; --text-sub: #374665; --text-light: #5a6a88;
+      --border: #c8d3e8;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: "Noto Sans JP", sans-serif; background: var(--bg-alt); color: var(--text); }
-
-    /* ナビゲーション */
     nav {
-      background: var(--navy);
-      padding: 0 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 64px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+      background: var(--navy); padding: 0 40px; display: flex; align-items: center;
+      justify-content: space-between; height: 64px; position: sticky; top: 0; z-index: 1000;
       box-shadow: 0 2px 12px rgba(0,0,0,0.2);
     }
     .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
     .nav-logo span { color: white; font-family: "Bebas Neue", sans-serif; font-size: 22px; letter-spacing: 2px; }
     .nav-links { display: flex; gap: 8px; list-style: none; }
-    .nav-links a {
-      color: rgba(255,255,255,0.8);
-      text-decoration: none;
-      font-size: 13px;
-      padding: 6px 12px;
-      border-radius: 4px;
-      transition: all 0.2s;
-    }
-    .nav-links a:hover, .nav-links a.active {
-      color: white;
-      background: rgba(255,255,255,0.1);
-    }
+    .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13px; padding: 6px 12px; border-radius: 4px; transition: all 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: white; background: rgba(255,255,255,0.1); }
     .nav-links a.active { color: #4f7fff; }
-
-    /* メインコンテンツ */
-    .page-header {
-      background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy) 100%);
-      padding: 40px;
-      color: white;
-    }
+    .page-header { background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy) 100%); padding: 40px; color: white; }
     .page-header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
     .page-header p { color: rgba(255,255,255,0.7); font-size: 14px; }
-
     .container { max-width: 1200px; margin: 0 auto; padding: 32px 40px; }
-
-    .map-layout {
-      display: grid;
-      grid-template-columns: 1fr 300px;
-      gap: 20px;
-      height: 560px;
-    }
-
-    #val-map {
-      width: 100%;
-      height: 100%;
-      border-radius: 12px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-    }
-
-    .sidebar {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      overflow-y: auto;
-    }
-
-    .sidebar-card {
-      background: white;
-      border-radius: 12px;
-      padding: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    }
-
-    .sidebar-card h3 {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text-sub);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 12px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .rank-list { display: flex; flex-direction: column; gap: 8px; }
-    .rank-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px;
-      border-radius: 6px;
-      background: var(--bg-alt);
-      font-size: 13px;
-    }
-    .rank-num {
-      font-weight: 700;
-      color: var(--text-light);
-      width: 20px;
-      text-align: center;
-    }
-    .rank-name { flex: 1; font-weight: 500; }
-    .rank-count { font-weight: 700; color: var(--accent); }
-
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      padding: 4px 10px;
-      border-radius: 20px;
-      background: rgba(22, 72, 200, 0.1);
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
+    .map-layout { display: grid; grid-template-columns: 1fr 300px; gap: 20px; height: 560px; }
+    #val-map { width: 100%; height: 100%; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+    .sidebar { display: flex; flex-direction: column; gap: 16px; overflow-y: auto; }
+    .sidebar-card { background: white; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .sidebar-card h3 { font-size: 13px; font-weight: 700; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    .rank-list { display: flex; flex-direction: column; gap: 6px; }
+    .rank-item { display: flex; align-items: center; gap: 6px; padding: 8px 10px; border-radius: 6px; background: var(--bg-alt); font-size: 13px; cursor: pointer; transition: background 0.15s; }
+    .rank-item:hover { background: #dce6f5; }
+    .rank-item.rank-1 { background: #fff8e1; }
+    .rank-item.rank-2 { background: #f5f5f5; }
+    .rank-item.rank-3 { background: #fff3e0; }
+    .rank-medal { font-size: 15px; width: 22px; text-align: center; }
+    .rank-num { font-weight: 700; color: var(--text-light); width: 22px; text-align: center; font-size: 12px; }
+    .rank-name { flex: 1; font-weight: 500; font-size: 12px; }
+    .rank-count { font-weight: 700; color: var(--accent); font-size: 13px; }
+    .status-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 4px 10px; border-radius: 20px; background: rgba(156,163,175,0.2); color: #6b7280; margin-bottom: 10px; }
+    .status-badge.live { background: rgba(16,185,129,0.1); color: #059669; }
     .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .rank-dist { display: flex; flex-wrap: wrap; gap: 4px; }
+    .rank-badge { font-size: 11px; padding: 2px 7px; border-radius: 10px; background: var(--bg-alt); border: 1px solid var(--border); color: var(--text-sub); }
+    .updated-at { font-size: 11px; color: var(--text-light); margin-top: 8px; text-align: right; }
+    .leaflet-popup-content { font-family: "Noto Sans JP", sans-serif; min-width: 160px; }
+    .popup-school { font-weight: 700; font-size: 14px; margin-bottom: 6px; color: #0c1f44; }
+    .popup-total { font-size: 13px; font-weight: 700; color: #1648c8; margin: 4px 0; }
+    .popup-row { display: flex; justify-content: space-between; font-size: 12px; padding: 2px 0; color: #374665; }
+    .popup-ranks { font-size: 11px; color: #5a6a88; margin-top: 6px; }
+    .school-label { background: transparent !important; border: none !important; box-shadow: none !important; font-size: 10px; font-weight: 700; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.9); pointer-events: none; }
+    @media (max-width: 768px) {
+      nav { padding: 0 16px; } .nav-links { display: none; }
+      .page-header { padding: 24px 16px; } .page-header h1 { font-size: 20px; }
+      .container { padding: 16px; }
+      .map-layout { grid-template-columns: 1fr; height: auto; }
+      #val-map { height: 400px; } .sidebar { max-height: 320px; }
+    }
   </style>
 </head>
 <body>
   <nav>
-    <a href="index.html" class="nav-logo">
-      <span>YeG</span>
-    </a>
+    <a href="index.html" class="nav-logo"><span>YeG</span></a>
     <ul class="nav-links">
       <li><a href="index.html">TOP</a></li>
       <li><a href="index.html#mission">ミッション</a></li>
@@ -156,11 +90,18 @@
       <div id="val-map"></div>
       <div class="sidebar">
         <div class="sidebar-card">
-          <div class="status-badge"><span class="dot"></span> サンプル表示中</div>
+          <div id="status-badge" class="status-badge">
+            <span class="dot"></span><span id="status-text">読み込み中...</span>
+          </div>
           <h3>加入者数ランキング</h3>
           <div class="rank-list" id="rank-list">
-            <div class="rank-item"><span class="rank-num">-</span><span class="rank-name">データなし</span></div>
+            <div class="rank-item"><span class="rank-num">-</span><span class="rank-name">データなし</span><span class="rank-count">0人</span></div>
           </div>
+          <div class="updated-at" id="updated-at"></div>
+        </div>
+        <div class="sidebar-card" id="dist-card" style="display:none">
+          <h3>ランク分布（全体）</h3>
+          <div class="rank-dist" id="rank-dist"></div>
         </div>
       </div>
     </div>
@@ -168,81 +109,98 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script>
-    // 正確な座標データ（NAVITIMEより取得）
     const schools = [
-      { name: "追浜高校",        short: "追浜", lat: 35.320459, lng: 139.632173, count: 0 },
-      { name: "横須賀高校",      short: "横高", lat: 35.257006, lng: 139.670255, count: 0 },
-      { name: "横須賀工業高校",  short: "工業", lat: 35.255318, lng: 139.677026, count: 0 },
-      { name: "大津高校",        short: "大津", lat: 35.270800, lng: 139.682400, count: 0 },
-      { name: "横須賀学院高校",  short: "学院", lat: 35.284767, lng: 139.671915, count: 0 },
-      { name: "横須賀総合高校",  short: "総合", lat: 35.229613, lng: 139.708970, count: 0 },
-      { name: "三浦学苑高校",    short: "学苑", lat: 35.264200, lng: 139.662800, count: 0 },
-      { name: "湘南学院高校",    short: "湘南", lat: 35.236500, lng: 139.697200, count: 0 },
-      { name: "横須賀南高校",    short: "南高", lat: 35.228500, lng: 139.700200, count: 0 },
-      { name: "津久井浜高校",    short: "津久井", lat: 35.207000, lng: 139.689500, count: 0 },
-      { name: "海洋科学高校",    short: "海洋", lat: 35.242000, lng: 139.640000, count: 0 }
-    ];
+      { name: "追浜高校",          short: "追浜",   lat: 35.320459, lng: 139.632173 },
+      { name: "横須賀高校",        short: "横高",   lat: 35.257006, lng: 139.670255 },
+      { name: "県立横須賀工業高校", short: "工業",   lat: 35.255318, lng: 139.677026 },
+      { name: "横須賀大津高校",    short: "大津",   lat: 35.270800, lng: 139.682400 },
+      { name: "横須賀学院高校",    short: "学院",   lat: 35.284767, lng: 139.671915 },
+      { name: "横須賀総合高校",    short: "総合",   lat: 35.229613, lng: 139.708970 },
+      { name: "三浦学苑高校",      short: "学苑",   lat: 35.264200, lng: 139.662800 },
+      { name: "湘南学院高校",      short: "湘南",   lat: 35.236500, lng: 139.697200 },
+      { name: "横須賀南高校",      short: "南高",   lat: 35.228500, lng: 139.700200 },
+      { name: "津久井浜高校",      short: "津久井", lat: 35.207000, lng: 139.689500 },
+      { name: "海洋科学高校",      short: "海洋",   lat: 35.242000, lng: 139.640000 }
+    ].map(s => ({ ...s, count: 0, y1: 0, y2: 0, y3: 0, ranks: {} }));
 
-    // 地図初期化
-    const map = L.map("val-map").setView([35.26, 139.67], 12);
+    const map = L.map("val-map").setView([35.255, 139.672], 12);
     L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-      attribution: "&copy; OpenStreetMap &copy; CartoDB",
-      maxZoom: 18
+      attribution: "&copy; OpenStreetMap &copy; CartoDB", maxZoom: 18
     }).addTo(map);
 
-    // summary.json を取得して反映
-    fetch("summary.json")
+    fetch("summary.json?t=" + Date.now())
       .then(r => r.json())
       .then(data => {
-        if (data.schools) {
-          data.schools.forEach(d => {
-            const s = schools.find(s => s.name === d.name);
-            if (s) s.count = d.total || 0;
-          });
+        let totalAll = 0;
+        const allRanks = {};
+        Object.entries(data).forEach(function(entry) {
+          var name = entry[0], d = entry[1];
+          var s = schools.find(function(s){ return s.name === name; });
+          if (!s) return;
+          s.y1 = d.y1 || 0; s.y2 = d.y2 || 0; s.y3 = d.y3 || 0;
+          s.count = s.y1 + s.y2 + s.y3;
+          s.ranks = d.ranks || {};
+          totalAll += s.count;
+          Object.entries(s.ranks).forEach(function(re){ allRanks[re[0]] = (allRanks[re[0]] || 0) + re[1]; });
+        });
+
+        var badge = document.getElementById("status-badge");
+        var text  = document.getElementById("status-text");
+        if (totalAll > 0) {
+          badge.className = "status-badge live";
+          text.textContent = "ライブ — " + totalAll + "人申告済み";
+        } else {
+          text.textContent = "申告者なし";
+        }
+        document.getElementById("updated-at").textContent = "取得: " + new Date().toLocaleString("ja-JP");
+
+        var rankOrder = ["Radiant","Immortal","Ascendant","Diamond","Platinum","Gold","Silver","Bronze","Iron","未申告"];
+        if (Object.keys(allRanks).length > 0) {
+          document.getElementById("dist-card").style.display = "";
+          document.getElementById("rank-dist").innerHTML = rankOrder.filter(function(r){ return allRanks[r]; })
+            .map(function(r){ return '<span class="rank-badge">' + r + ' ' + allRanks[r] + '</span>'; }).join("");
         }
         renderMap();
       })
-      .catch(() => renderMap());
-
-    function renderMap() {
-      schools.sort((a, b) => b.count - a.count);
-
-      // マーカーを配置
-      schools.forEach((s, i) => {
-        const radius = Math.max(10, Math.min(30, 10 + s.count * 3));
-        L.circleMarker([s.lat, s.lng], {
-          radius: radius,
-          fillColor: "#1648c8",
-          color: "#ffffff",
-          weight: 2,
-          opacity: 1,
-          fillOpacity: 0.7
-        }).addTo(map)
-          .bindTooltip(s.short, { permanent: true, direction: "center", className: "school-label" })
-          .bindPopup("<b>" + s.name + "</b><br>加入者: " + s.count + "人");
+      .catch(function(err) {
+        console.warn("summary.json 取得失敗:", err);
+        document.getElementById("status-text").textContent = "データ未取得";
+        renderMap();
       });
 
-      // ランキング更新
-      const list = document.getElementById("rank-list");
-      list.innerHTML = schools.map((s, i) =>
-        "<div class='rank-item'>" +
-        "<span class='rank-num'>" + (i + 1) + "</span>" +
-        "<span class='rank-name'>" + s.name + "</span>" +
-        "<span class='rank-count'>" + s.count + "人</span>" +
-        "</div>"
-      ).join("");
+    function renderMap() {
+      schools.sort(function(a, b){ return b.count - a.count; });
+      schools.forEach(function(s) {
+        var radius = s.count > 0 ? Math.max(12, Math.min(38, 12 + s.count * 4)) : 10;
+        var color  = s.count > 0 ? "#1648c8" : "#9ca3af";
+        var fillOp = s.count > 0 ? 0.75 : 0.3;
+        var rankOrder = ["Radiant","Immortal","Ascendant","Diamond","Platinum","Gold","Silver","Bronze","Iron","未申告"];
+        var topRank = rankOrder.find(function(r){ return s.ranks[r]; }) || null;
+        var rankLines = Object.entries(s.ranks).map(function(re){ return re[0] + ": " + re[1] + "人"; }).join("、") || "申告なし";
+        var popup = '<div class="popup-school">' + s.name + '</div>'
+          + '<div class="popup-total">合計 ' + s.count + ' 人</div>'
+          + '<div class="popup-row"><span>1年生</span><span>' + s.y1 + '人</span></div>'
+          + '<div class="popup-row"><span>2年生</span><span>' + s.y2 + '人</span></div>'
+          + '<div class="popup-row"><span>3年生</span><span>' + s.y3 + '人</span></div>'
+          + (topRank ? '<div class="popup-ranks">最高: ' + topRank + '<br>' + rankLines + '</div>' : '');
+        L.circleMarker([s.lat, s.lng], {
+          radius: radius, fillColor: color, color: "#fff", weight: 2, opacity: 1, fillOpacity: fillOp
+        }).addTo(map)
+          .bindTooltip(s.short, { permanent: true, direction: "center", className: "school-label" })
+          .bindPopup(popup);
+      });
+
+      var medals = ["🥇","🥈","🥉"];
+      document.getElementById("rank-list").innerHTML = schools.map(function(s, i) {
+        var cls = i < 3 ? " rank-" + (i+1) : "";
+        var left = i < 3
+          ? '<span class="rank-medal">' + medals[i] + '</span>'
+          : '<span class="rank-num">' + (i+1) + '</span>';
+        return '<div class="rank-item' + cls + '">' + left
+          + '<span class="rank-name">' + s.name + '</span>'
+          + '<span class="rank-count">' + s.count + '人</span></div>';
+      }).join("");
     }
   </script>
-
-  <style>
-    .school-label {
-      background: transparent !important;
-      border: none !important;
-      box-shadow: none !important;
-      font-size: 10px;
-      font-weight: 700;
-      color: white;
-    }
-  </style>
 </body>
 </html>
