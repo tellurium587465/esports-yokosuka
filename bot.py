@@ -14,9 +14,9 @@ import json
 import os
 import re
 import asyncio
-import subprocess
 from datetime import datetime
 from dotenv import load_dotenv
+from aiohttp import web
 
 load_dotenv()
 TOKEN        = os.getenv("DISCORD_TOKEN")
@@ -482,10 +482,31 @@ async def panel_error(interaction: discord.Interaction, error):
         )
 
 
+# ── ヘルスチェックサーバー（Renderスリープ防止用） ──────────────
+
+async def health_server():
+    async def handle(request):
+        return web.Response(text="OK")
+
+    app = web.Application()
+    app.router.add_get("/", handle)
+    runner = web.AppRunner(app)
+    await runner.setup()
+    port = int(os.getenv("PORT", 8080))
+    site = web.TCPSite(runner, "0.0.0.0", port)
+    await site.start()
+    print(f"✅ ヘルスチェックサーバー起動: port {port}")
+
+
 # ── 起動 ─────────────────────────────────────────────────────
+
+async def main():
+    async with bot:
+        await health_server()
+        await bot.start(TOKEN)
 
 if __name__ == "__main__":
     if not TOKEN:
         print("❌ .env に DISCORD_TOKEN が設定されていません")
     else:
-        bot.run(TOKEN)
+        asyncio.run(main())
