@@ -651,7 +651,7 @@
     <li><a href="index.html#members">役員紹介</a></li>
     <li><a href="index.html#records">活動実績</a></li>
     <li><a href="news.html" class="active">活動記録</a></li>
-    <li><a href="valorant.html">勢力図</a></li>
+    <li><a href="valorant.html">分布図</a></li>
   </ul>
   <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="メニューを開く">
     <span></span><span></span><span></span>
@@ -747,7 +747,7 @@
 
 <script>
 // ─── 記事データ ───────────────────────────────────────────
-let ARTICLES_DEFAULT = [{"title": "［イベント協力］ストリートファイター6 体験会 in よこすかカレーフェスティバル 2026", "date": "2026-05-26", "body": "5/16・5/17に行われたよこすかカレーフェスティバル ストリートファイター体験会の運営に協力しました。\n\n1日目はイベント会場の設営から始まり、初めて格ゲーを触る来場者向けに昇龍拳チャレンジを案内したり、対戦会を行いました。\n\n2日目はゲストに倉持由香さんが春麗のコスプレで登場！来場者との対戦会に加え、ミニトーナメント「よこすかカレー杯」の進行もお手伝いしました。\n\n当初8名予定だったトーナメントに応募者が約40名集まり、スト6の人気の高さを改めて実感。決勝ではまさかのダルシムミラーが勃発し、大会名に相応しい盛り上がりとなりました。\n\n格闘ゲーム未経験者から上級者、小さなお子さんからゲームセンター時代から格ゲーを愛するベテランまで、幅広い層にストリートファイターを楽しんでいただけました。", "noteUrl": "https://note.com/yokosuka_egen/n/n8e6fbcf46ab2", "images": [{"src": "https://assets.st-note.com/img/1779765229-5enfl6TPgIAtFHG9W2Eu4J8K.png?width=1200", "type": "url"}, {"src": "https://assets.st-note.com/img/1779765209-trcwRDeAuaCyk87hUOsG9dKi.png?width=1200", "type": "url"}, {"src": "https://assets.st-note.com/img/1779766251-2dg6DYjvuzmrJTRZ41sKEnaf.jpg?width=1200", "type": "url"}]}];
+let ARTICLES_DEFAULT = [{"title": "eSports業界交流会「eジョブ」に参加しました！", "date": "2026-06-04", "body": "eSports業界交流会「eジョブ」に参加しました。\n\n100名以上の参加者が集まり、「eスポーツの本質とは」をテーマに交流が行われました。\n\n会場には、プロeSportsチームの関連企業や運営者、IT企業、eSportsカフェの店長など幅広い業界関係者が参加。主催者から「eSports業界は転職者が多く、新卒や新社会人が関わる機会が少ない」という指摘があり、現役学生時代から業界との繋がりを持つ環境の重要性を実感しました。\n\n「eSportsは年齢や性別、障がいの有無に関係なく、共通の想いでつながれる場」であることを改めて認識し、多様な価値観に触れることで視野が広がりました。横須賀でのプロジェクトについても多くの企業に認知されており、今後の連携に期待が高まる機会となりました。", "noteUrl": "https://note.com/yokosuka_egen/n/n8aa25fdaee71", "images": [{"src": "https://assets.st-note.com/production/uploads/images/282303741/rectangle_large_type_2_45ff36e965e7cb4981722af4e8e15e8f.jpeg?width=1280", "type": "url"}]}, {"title": "［イベント協力］ストリートファイター6 体験会 in よこすかカレーフェスティバル 2026", "date": "2026-05-26", "body": "5/16・5/17に行われたよこすかカレーフェスティバル ストリートファイター体験会の運営に協力しました。\n\n1日目はイベント会場の設営から始まり、初めて格ゲーを触る来場者向けに昇龍拳チャレンジを案内したり、対戦会を行いました。\n\n2日目はゲストに倉持由香さんが春麗のコスプレで登場！来場者との対戦会に加え、ミニトーナメント「よこすかカレー杯」の進行もお手伝いしました。\n\n当初8名予定だったトーナメントに応募者が約40名集まり、スト6の人気の高さを改めて実感。決勝ではまさかのダルシムミラーが勃発し、大会名に相応しい盛り上がりとなりました。\n\n格闘ゲーム未経験者から上級者、小さなお子さんからゲームセンター時代から格ゲーを愛するベテランまで、幅広い層にストリートファイターを楽しんでいただけました。", "noteUrl": "https://note.com/yokosuka_egen/n/n8e6fbcf46ab2", "images": [{"src": "https://assets.st-note.com/img/1779765229-5enfl6TPgIAtFHG9W2Eu4J8K.png?width=1200", "type": "url"}, {"src": "https://assets.st-note.com/img/1779765209-trcwRDeAuaCyk87hUOsG9dKi.png?width=1200", "type": "url"}, {"src": "https://assets.st-note.com/img/1779766251-2dg6DYjvuzmrJTRZ41sKEnaf.jpg?width=1200", "type": "url"}]}];
 let ARTICLES = JSON.parse(localStorage.getItem('yeg_news_articles') || 'null') || ARTICLES_DEFAULT;
 let editMode = false;
 let editIndex = null; // 編集中の記事インデックス
