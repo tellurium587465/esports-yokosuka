@@ -14,9 +14,9 @@ import json
 import os
 import re
 import asyncio
-import subprocess
 from datetime import datetime
 from dotenv import load_dotenv
+from aiohttp import web
 
 load_dotenv()
 TOKEN        = os.getenv("DISCORD_TOKEN")
@@ -83,10 +83,36 @@ def get_grade(member: discord.Member) -> int | None:
     return None
 
 
+def fetch_json_from_github(filename: str) -> dict | None:
+    """GitHub API でファイルの内容を取得する（起動時のデータ復元用）"""
+    if not MY_GITHUB_TOKEN or not MY_GITHUB_REPO:
+        return None
+    import urllib.request, base64
+    url = f"https://api.github.com/repos/{MY_GITHUB_REPO}/contents/{filename}"
+    req = urllib.request.Request(url, headers={
+        "Authorization": f"token {MY_GITHUB_TOKEN}",
+        "Accept": "application/vnd.github.v3+json",
+    })
+    try:
+        with urllib.request.urlopen(req) as res:
+            body = json.loads(res.read())
+            content = base64.b64decode(body["content"]).decode("utf-8")
+            return json.loads(content)
+    except Exception as e:
+        print(f"⚠️  GitHub から {filename} 取得失敗: {e}")
+        return None
+
+
 def load_data() -> dict:
     if os.path.exists(DATA_FILE):
         with open(DATA_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
+    # ローカルになければ GitHub から復元（クラウド再起動対策）
+    remote = fetch_json_from_github(DATA_FILE)
+    if remote is not None:
+        print(f"✅ GitHub から {DATA_FILE} を復元しました")
+        save_data(remote)
+        return remote
     return {}
 
 
@@ -196,7 +222,7 @@ class RankButton(discord.ui.Button):
             json.dump(summary, f, ensure_ascii=False, indent=2)
 
         # ── GitHub Pages に自動 push ──
-        asyncio.create_task(push_summary_to_github(school, self.rank_name))
+        asyncio.create_task(push_data_to_github(school, self.rank_name))
 
         # ── 返信 ──
         rank_info = next(r for r in RANKS if r[0] == self.rank_name)
@@ -215,11 +241,11 @@ class RankButton(discord.ui.Button):
 
 # ── GitHub Pages 自動 push ───────────────────────────────────
 
-async def push_summary_to_github(school: str, rank: str):
+async def push_data_to_github(school: str, rank: str):
     """
-    summary.json を GitHub リポジトリに push する。
-    push されると GitHub Actions が自動でデプロイを実行する。
-    MY_GITHUB_TOKEN と MY_GITHUB_REPO が .env に設定されている場合のみ動作。
+    data.json と summary.json を GitHub API 経由で push する。
+    git コマンド不要・クラウド環境でも動作。
+    MY_GITHUB_TOKEN と MY_GITHUB_REPO が設定されている場合のみ動作。
     """
     if not MY_GITHUB_TOKEN or not MY_GITHUB_REPO:
         print("⚠️  MY_GITHUB_TOKEN / MY_GITHUB_REPO が未設定のため push をスキップ")
@@ -227,43 +253,53 @@ async def push_summary_to_github(school: str, rank: str):
 
     try:
         loop = asyncio.get_event_loop()
-        await loop.run_in_executor(None, _git_push, school, rank)
-        print(f"✅ GitHub push 完了: {school} / {rank}")
+        await loop.run_in_executor(None, _api_push, school, rank)
+        print(f"✅ GitHub API push 完了: {school} / {rank}")
     except Exception as e:
-        print(f"❌ GitHub push エラー: {e}")
+        print(f"❌ GitHub API push エラー: {e}")
 
 
-def _git_push(school: str, rank: str):
-    """同期的な git 操作（別スレッドで実行）"""
-    # リモートURLにトークンを埋め込む
-    remote_url = f"https://x-access-token:{MY_GITHUB_TOKEN}@github.com/{MY_GITHUB_REPO}.git"
+def _api_push(school: str, rank: str):
+    """GitHub Contents API でファイルを更新（git コマンド不要）"""
+    import urllib.request, base64
 
-    def run(cmd):
-        result = subprocess.run(cmd, capture_output=True, text=True)
-        if result.returncode != 0:
-            raise RuntimeError(f"git error: {result.stderr.strip()}")
-        return result.stdout.strip()
+    headers = {
+        "Authorization": f"token {MY_GITHUB_TOKEN}",
+        "Accept": "application/vnd.github.v3+json",
+        "Content-Type": "application/json",
+    }
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
 
-    # git 設定（初回のみ必要）
-    run(["git", "config", "user.email", "yeg-bot@yokosuka-egeneration.jp"])
-    run(["git", "config", "user.name",  "YeG Bot"])
+    for filename in ("data.json", "summary.json"):
+        if not os.path.exists(filename):
+            continue
 
-    # リモートを一時的にトークン付きURLに変更
-    try:
-        run(["git", "remote", "set-url", "origin", remote_url])
-    except Exception:
-        run(["git", "remote", "add", "origin", remote_url])
+        with open(filename, "r", encoding="utf-8") as f:
+            content = f.read()
 
-    # コミット＆プッシュ
-    run(["git", "add", "summary.json"])
-    commit_msg = f"bot: update summary.json [{school} / {rank}] {datetime.now().strftime('%Y-%m-%d %H:%M')}"
-    try:
-        run(["git", "commit", "-m", commit_msg])
-    except RuntimeError:
-        # 変更なしの場合はスキップ
-        print("変更なし、push をスキップ")
-        return
-    run(["git", "push", "origin", "HEAD"])
+        encoded = base64.b64encode(content.encode("utf-8")).decode("utf-8")
+        url = f"https://api.github.com/repos/{MY_GITHUB_REPO}/contents/{filename}"
+
+        # 現在の SHA を取得（更新に必要）
+        sha = None
+        req = urllib.request.Request(url, headers=headers)
+        try:
+            with urllib.request.urlopen(req) as res:
+                sha = json.loads(res.read())["sha"]
+        except Exception:
+            pass  # 新規ファイルの場合は sha 不要
+
+        payload = {
+            "message": f"bot: update {filename} [{school} / {rank}] {timestamp}",
+            "content": encoded,
+        }
+        if sha:
+            payload["sha"] = sha
+
+        data = json.dumps(payload).encode("utf-8")
+        req = urllib.request.Request(url, data=data, headers=headers, method="PUT")
+        with urllib.request.urlopen(req) as res:
+            print(f"  ✅ {filename} pushed (status {res.status})")
 
 
 # ── Bot セットアップ ──────────────────────────────────────────
@@ -272,8 +308,10 @@ intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
 intents.guilds = True
+intents.presences = True
 
-bot = commands.Bot(command_prefix="/", intents=intents)
+bot = commands.Bot(command_prefix="!", intents=intents)
+
 
 @bot.event
 async def on_ready():
@@ -444,10 +482,31 @@ async def panel_error(interaction: discord.Interaction, error):
         )
 
 
+# ── ヘルスチェックサーバー（Renderスリープ防止用） ──────────────
+
+async def health_server():
+    async def handle(request):
+        return web.Response(text="OK")
+
+    app = web.Application()
+    app.router.add_get("/", handle)
+    runner = web.AppRunner(app)
+    await runner.setup()
+    port = int(os.getenv("PORT", 8080))
+    site = web.TCPSite(runner, "0.0.0.0", port)
+    await site.start()
+    print(f"✅ ヘルスチェックサーバー起動: port {port}")
+
+
 # ── 起動 ─────────────────────────────────────────────────────
+
+async def main():
+    async with bot:
+        await health_server()
+        await bot.start(TOKEN)
 
 if __name__ == "__main__":
     if not TOKEN:
         print("❌ .env に DISCORD_TOKEN が設定されていません")
     else:
-        bot.run(TOKEN)
+        asyncio.run(main())
