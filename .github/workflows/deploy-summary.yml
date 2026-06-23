@@ -4,6 +4,10 @@ on:
   push:
     paths:
       - 'summary.json'
+      - 'news.html'
+      - 'index.html'
+      - 'valorant.html'
+  workflow_dispatch:
 
 jobs:
   deploy:
