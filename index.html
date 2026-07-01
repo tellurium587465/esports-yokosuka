@@ -65,8 +65,8 @@
     --bg-alt: #f0f4fa;
     --navy: #0c1f44;
     --navy-deep: #071228;
-    --accent: #1648c8;
-    --accent-glow: #4f7fff;
+    --accent: #f97316;
+    --accent-glow: #fb923c;
     --cyan: #0ea5c9;
     --text: #0c1f44;
     --text-sub: #374665;
@@ -408,7 +408,7 @@
     cursor: pointer;
     font-family: 'Noto Sans JP', sans-serif;
     transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
-    box-shadow: 0 4px 20px rgba(22,72,200,0.4);
+    box-shadow: 0 4px 20px rgba(249,115,22,0.4);
     position: relative;
     overflow: hidden;
   }
@@ -420,7 +420,7 @@
     opacity: 0;
     transition: opacity 0.25s;
   }
-  .btn-primary:hover { background: #1d56e8; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(22,72,200,0.5); }
+  .btn-primary:hover { background: #ea6f10; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(249,115,22,0.5); }
   .btn-primary:hover::before { opacity: 1; }
   .btn-primary:active { transform: translateY(0); }
   .btn-ghost {
@@ -553,8 +553,8 @@
     color: var(--navy);
     margin-top: 32px;
     padding: 20px 28px;
-    background: linear-gradient(135deg, rgba(22,72,200,0.04), rgba(14,165,201,0.04));
-    border: 1px solid rgba(22,72,200,0.12);
+    background: linear-gradient(135deg, rgba(249,115,22,0.04), rgba(14,165,201,0.04));
+    border: 1px solid rgba(249,115,22,0.12);
     border-left: 3px solid var(--accent);
     border-radius: 0 4px 4px 0;
     line-height: 1.7;
@@ -580,7 +580,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(22,72,200,0.03) 0%, transparent 60%);
+    background: linear-gradient(135deg, rgba(249,115,22,0.03) 0%, transparent 60%);
     opacity: 0;
     transition: opacity 0.3s;
     pointer-events: none;
@@ -594,12 +594,12 @@
   .activity-num {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 40px;
-    color: rgba(22,72,200,0.1);
+    color: rgba(249,115,22,0.1);
     line-height: 1;
     margin-bottom: 10px;
     transition: color 0.3s;
   }
-  .activity-card:hover .activity-num { color: rgba(22,72,200,0.18); }
+  .activity-card:hover .activity-num { color: rgba(249,115,22,0.18); }
   .activity-icon { font-size: 26px; margin-bottom: 12px; }
   .activity-title {
     font-family: 'Noto Serif JP', serif;
@@ -881,16 +881,16 @@
     display: inline-flex;
     align-items: center;
     gap: 16px;
-    background: rgba(22,72,200,0.04);
-    border: 1px solid rgba(22,72,200,0.15);
+    background: rgba(249,115,22,0.04);
+    border: 1px solid rgba(249,115,22,0.15);
     padding: 20px 32px;
     border-radius: 4px;
     transition: background 0.25s, border-color 0.25s, box-shadow 0.25s;
   }
   .contact-mail-box:hover {
-    background: rgba(22,72,200,0.07);
-    border-color: rgba(22,72,200,0.28);
-    box-shadow: 0 4px 20px rgba(22,72,200,0.08);
+    background: rgba(249,115,22,0.07);
+    border-color: rgba(249,115,22,0.28);
+    box-shadow: 0 4px 20px rgba(249,115,22,0.08);
   }
   .copy-btn {
     background: rgba(0,200,255,0.12);
@@ -1019,8 +1019,8 @@
     font-weight: 700;
     letter-spacing: 0.15em;
     color: var(--accent);
-    border: 1px solid rgba(22,72,200,0.35);
-    background: rgba(22,72,200,0.06);
+    border: 1px solid rgba(249,115,22,0.35);
+    background: rgba(249,115,22,0.06);
     padding: 2px 10px;
     border-radius: 2px;
     margin-bottom: 8px;
@@ -1125,13 +1125,11 @@
   <a href="#mission" onclick="closeMobileMenu()">ミッション</a>
   <a href="#activities" onclick="closeMobileMenu()">活動内容</a>
   <a href="#members" onclick="closeMobileMenu()">役員紹介</a>
-  <a href="valorant.html" onclick="closeMobileMenu()">PLAYER MAP</a>
     <a href="#records" onclick="closeMobileMenu()">活動実績</a>
   <a href="#letter" onclick="closeMobileMenu()">ご挨拶</a>
   <a href="#contact" onclick="closeMobileMenu()">お問い合わせ</a>
   <a href="news.html" onclick="closeMobileMenu()">活動記録</a>
-    <a href="valorant.html" onclick="closeMobileMenu()">PLAYER MAP</a>
-</div>
+  </div>
 
 <nav id="main-nav" class="scrolled">
   <a href="#" class="nav-logo">
@@ -1145,7 +1143,6 @@
   <li><a href="index.html#members">役員紹介</a></li>
   <li><a href="index.html#records">活動実績</a></li>
   <li><a href="news.html">活動記録</a></li>
-  <li><a href="valorant.html">PLAYER MAP</a></li>
 </ul>
 
   <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="メニューを開く">
@@ -1435,7 +1432,7 @@
     </div>
   </div>
 
-  <button id="btn-add-record" onclick="addRecord()" style="display: none; margin-top: 24px; background: rgba(26, 86, 219, 0.06); color: var(--accent); border: 1px dashed rgba(26, 86, 219, 0.3); padding: 12px 28px; font-size: 14px; cursor: pointer; border-radius: 2px; font-family: &quot;Noto Sans JP&quot;, sans-serif;">
+  <button id="btn-add-record" onclick="addRecord()" style="display: none; margin-top: 24px; background: rgba(249,115,22, 0.06); color: var(--accent); border: 1px dashed rgba(249,115,22, 0.3); padding: 12px 28px; font-size: 14px; cursor: pointer; border-radius: 2px; font-family: &quot;Noto Sans JP&quot;, sans-serif;">
     ＋ 実績を追加
   </button>
 </section>
