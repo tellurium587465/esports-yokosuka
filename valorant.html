@@ -4,11 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PLAYER MAP | Yokosuka eGeneration（YeG）</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #ffffff; --bg-alt: #fff7ed; --navy: #0c1f44; --navy-deep: #071228;
-      --accent: #f97316; --accent-glow: #fb923c; --cyan: #f59e0b;
+      --bg: #ffffff; --bg-alt: #f0f4fa; --navy: #0c1f44; --navy-deep: #071228;
+      --accent: #1648c8; --accent-glow: #4f7fff; --cyan: #0ea5c9;
       --text: #0c1f44; --text-sub: #374665; --text-light: #5a6a88;
       --border: #c8d3e8; --card: #ffffff; --gold: #b87200; --white: #ffffff;
     }
@@ -50,15 +51,18 @@
     .mobile-menu-close { position: absolute; top: 24px; right: 24px; background: none; border: none; color: rgba(255,255,255,0.5); font-size: 28px; cursor: pointer; line-height: 1; transition: color 0.2s; }
 
     /* ── PAGE HEADER ── */
-    .page-header { margin-top: 68px; padding: 56px 8vw 40px; background: linear-gradient(135deg, #431407 0%, #f97316 100%); color: #fff; }
+    .page-header { margin-top: 68px; padding: 56px 8vw 40px; background: linear-gradient(135deg, #0c1f44 0%, #1648c8 100%); color: #fff; }
     .page-header .eyebrow { font-size: 11px; letter-spacing: 0.2em; color: rgba(255,255,255,0.6); font-family: 'Bebas Neue', cursive; margin-bottom: 8px; }
     .page-header h1 { font-family: 'Noto Serif JP', serif; font-size: clamp(26px, 4vw, 40px); font-weight: 900; letter-spacing: 0.05em; line-height: 1.2; }
     .page-header p { margin-top: 10px; font-size: 14px; color: rgba(255,255,255,0.7); }
 
     /* ── MAIN ── */
     .container { max-width: 1200px; margin: 0 auto; padding: 40px 8vw 80px; }
+    .map-layout { display: grid; grid-template-columns: 1fr 300px; gap: 24px; height: 560px; }
+    #val-map { width: 100%; height: 100%; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); border: 1px solid var(--border); }
+
     /* ── SIDEBAR ── */
-    .sidebar { display: flex; flex-direction: column; gap: 16px; max-width: 640px; margin: 0 auto; }
+    .sidebar { display: flex; flex-direction: column; gap: 16px; overflow-y: auto; }
     .sidebar-card { background: var(--card); border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(12,31,68,0.06); border: 1px solid var(--border); border-left: 3px solid var(--accent); }
     .sidebar-card h3 { font-size: 11px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
 
@@ -72,7 +76,7 @@
     /* ── RANK LIST ── */
     .rank-list { display: flex; flex-direction: column; gap: 6px; }
     .rank-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px; background: var(--bg-alt); font-size: 13px; cursor: pointer; transition: background 0.15s, transform 0.15s; }
-    .rank-item:hover { background: #ffedd5; transform: translateX(2px); }
+    .rank-item:hover { background: #dce6f5; transform: translateX(2px); }
     .rank-item.rank-1 { background: #fff8e1; }
     .rank-item.rank-2 { background: #f5f5f5; }
     .rank-item.rank-3 { background: #fff3e0; }
@@ -97,12 +101,24 @@
 
     .updated-at { font-size: 11px; color: var(--text-light); margin-top: 10px; text-align: right; }
 
+    /* ── POPUP ── */
+    .leaflet-popup-content { font-family: 'Noto Sans JP', sans-serif; min-width: 170px; }
+    .popup-school { font-weight: 700; font-size: 14px; margin-bottom: 8px; color: #0c1f44; border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; }
+    .popup-total { font-size: 14px; font-weight: 700; color: #1648c8; margin: 6px 0; }
+    .popup-row { display: flex; justify-content: space-between; font-size: 12px; padding: 2px 0; color: #374665; }
+    .popup-ranks { font-size: 11px; color: #5a6a88; margin-top: 8px; padding-top: 6px; border-top: 1px solid #e5e7eb; line-height: 1.8; }
+
+    /* ── SCHOOL LABEL ── */
+    .school-label { background: transparent !important; border: none !important; box-shadow: none !important; font-size: 10px; font-weight: 700; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.9); pointer-events: none; }
+
     /* ── MOBILE ── */
     @media (max-width: 900px) { .hamburger { display: flex; } .nav-links { display: none; } .mobile-menu { display: flex; } }
     @media (max-width: 768px) {
       .page-header { padding: 40px 5vw 28px; }
       .container { padding: 24px 5vw 60px; }
-      .sidebar { max-height: none; }
+      .map-layout { grid-template-columns: 1fr; height: auto; }
+      #val-map { height: 420px; }
+      .sidebar { max-height: 340px; }
     }
   </style>
 </head>
@@ -145,7 +161,9 @@
 </div>
 
 <div class="container">
-  <div class="sidebar">
+  <div class="map-layout">
+    <div id="val-map"></div>
+    <div class="sidebar">
       <div class="sidebar-card">
         <div id="status-badge" class="status-badge">
           <span class="dot"></span><span id="status-text">読み込み中...</span>
@@ -161,8 +179,10 @@
         <div class="rank-dist" id="rank-dist"></div>
       </div>
     </div>
+  </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
   var RANK_CLASS = {
     "Iron":"rb-Iron","Bronze":"rb-Bronze","Silver":"rb-Silver","Gold":"rb-Gold",
@@ -183,6 +203,11 @@
     { name: "津久井浜高校",      short: "津久井", lat: 35.207000, lng: 139.689500 },
     { name: "海洋科学高校",      short: "海洋",   lat: 35.242000, lng: 139.640000 }
   ].map(function(s){ return Object.assign(s,{count:0,y1:0,y2:0,y3:0,ranks:{}}); });
+
+  var map = L.map("val-map").setView([35.255, 139.672], 12);
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+    attribution: "&copy; OpenStreetMap &copy; CartoDB", maxZoom: 18
+  }).addTo(map);
 
   fetch("summary.json?t=" + Date.now())
     .then(function(r){ return r.json(); })
@@ -227,6 +252,25 @@
   function renderMap(){
     schools.sort(function(a,b){ return b.count-a.count; });
     var medals=["🥇","🥈","🥉"];
+    schools.forEach(function(s){
+      var radius=s.count>0?Math.max(12,Math.min(38,12+s.count*4)):10;
+      var color=s.count>0?"#1648c8":"#9ca3af";
+      var fillOp=s.count>0?0.75:0.3;
+      var rankOrder=["Radiant","Immortal","Ascendant","Diamond","Platinum","Gold","Silver","Bronze","Iron","未申告"];
+      var topRank=rankOrder.find(function(r){ return s.ranks[r]; })||null;
+      var rankLines=Object.keys(s.ranks).map(function(r){ return r+": "+s.ranks[r]+"人"; }).join("、")||"申告なし";
+      var popup='<div class="popup-school">'+s.name+'</div>'
+        +'<div class="popup-total">合計 '+s.count+' 人</div>'
+        +'<div class="popup-row"><span>1年生</span><span>'+s.y1+'人</span></div>'
+        +'<div class="popup-row"><span>2年生</span><span>'+s.y2+'人</span></div>'
+        +'<div class="popup-row"><span>3年生</span><span>'+s.y3+'人</span></div>'
+        +(topRank?'<div class="popup-ranks">最高: '+topRank+'<br>'+rankLines+'</div>':'');
+      L.circleMarker([s.lat,s.lng],{
+        radius:radius, fillColor:color, color:"#fff", weight:2, opacity:1, fillOpacity:fillOp
+      }).addTo(map)
+        .bindTooltip(s.short,{permanent:true,direction:"center",className:"school-label"})
+        .bindPopup(popup);
+    });
     document.getElementById("rank-list").innerHTML=schools.map(function(s,i){
       var cls=i<3?" rank-"+(i+1):"";
       var left=i<3?'<span class="rank-medal">'+medals[i]+'</span>'
