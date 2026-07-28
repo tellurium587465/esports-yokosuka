@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>【案A】Yokosuka eGeneration — デザイン提案モック</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#000000; --ink2:#333333; --ink3:#5f5f5f;
+  --paper:#fafaf8; --paper2:#f1f1ee; --line:#e5e5e5;
+  --coral:#ff6b57; --coral-deep:#e8503b;
+  --nav-h:64px; --bar-h:44px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + var(--bar-h) + 10px)}
+body{background:var(--paper);color:var(--ink);font-family:'Noto Sans JP',sans-serif;font-weight:400;line-height:1.9;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+
+.display{font-family:'Archivo Black','Noto Sans JP',sans-serif;font-weight:900;letter-spacing:-0.02em;line-height:0.95;text-transform:uppercase}
+.dot{color:var(--coral)}
+
+/* ══ 提案バー ══ */
+.pbar{position:fixed;top:0;left:0;right:0;height:var(--bar-h);z-index:400;background:var(--ink);color:#fff;
+  display:flex;align-items:center;gap:14px;padding:0 16px;font-size:12px;letter-spacing:.02em}
+.pbar b{color:var(--coral);font-weight:700;letter-spacing:.08em;font-size:11px;white-space:nowrap}
+.pbar .pbar-txt{opacity:.72;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pbar .sp{flex:1}
+.pbar a{text-decoration:none;font-size:11px;font-weight:700;letter-spacing:.06em;padding:6px 12px;border:1px solid rgba(255,255,255,.28);white-space:nowrap;transition:.2s}
+.pbar a:hover{background:#fff;color:var(--ink);border-color:#fff}
+
+/* ══ NAV ══ */
+nav{position:fixed;top:var(--bar-h);left:0;right:0;height:var(--nav-h);z-index:300;background:rgba(250,250,248,.92);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,5vw,64px)}
+.nav-logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.nav-logo img{width:30px;height:30px;object-fit:contain;mix-blend-mode:multiply}
+.nav-logo span{font-family:'Archivo Black',sans-serif;font-size:14px;letter-spacing:.02em}
+.nav-links{display:flex;align-items:center;gap:26px;list-style:none}
+.nav-links a{text-decoration:none;font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--ink2);position:relative;padding:4px 0}
+.nav-links a::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--coral);transform:scaleX(0);transform-origin:left;transition:transform .25s}
+.nav-links a:hover::after{transform:scaleX(1)}
+.nav-join{background:var(--coral);color:#fff!important;padding:9px 20px;font-size:11px;font-weight:700;letter-spacing:.12em;text-decoration:none;transition:.2s}
+.nav-join:hover{background:var(--coral-deep)}
+.burger{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:6px}
+.burger span{width:22px;height:2px;background:var(--ink);transition:.3s}
+.burger.on span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.on span:nth-child(2){opacity:0}
+.burger.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mob{position:fixed;inset:0;z-index:250;background:var(--ink);display:none;flex-direction:column;justify-content:center;align-items:center;gap:8px;opacity:0;pointer-events:none;transition:opacity .3s}
+.mob.on{opacity:1;pointer-events:all}
+.mob a{color:#fff;text-decoration:none;font-family:'Archivo Black',sans-serif;font-size:26px;letter-spacing:.04em;padding:8px 0}
+.mob a small{display:block;font-family:'Noto Sans JP';font-size:11px;font-weight:400;letter-spacing:.2em;color:var(--coral);margin-top:2px}
+
+/* ══ HERO ══ */
+.hero{position:relative;padding:calc(var(--nav-h) + var(--bar-h) + clamp(48px,9vh,110px)) clamp(16px,5vw,64px) 0;
+  min-height:100svh;display:flex;flex-direction:column;background:var(--paper);overflow:hidden}
+.hero-eyebrow{font-size:10px;font-weight:700;letter-spacing:.34em;color:var(--ink3);margin-bottom:22px}
+.hero-eyebrow::before{content:'';display:inline-block;width:26px;height:1px;background:var(--coral);vertical-align:middle;margin-right:12px}
+.hero h1{font-size:clamp(38px,8.4vw,104px);max-width:15em}
+.hero .plg{font-family:'Archivo Black',sans-serif;font-size:clamp(15px,2.4vw,26px);letter-spacing:.02em;color:var(--coral);margin-top:22px}
+.hero-lead{margin-top:26px;max-width:34em;font-size:clamp(13px,1.5vw,15px);font-weight:300;line-height:2.1;color:var(--ink2)}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px;position:relative;z-index:3}
+.btn{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-size:12px;font-weight:700;letter-spacing:.1em;padding:15px 30px;transition:.22s}
+.btn-c{background:var(--coral);color:#fff}
+.btn-c:hover{background:var(--coral-deep);transform:translateY(-2px)}
+.btn-o{border:1px solid var(--ink);color:var(--ink)}
+.btn-o:hover{background:var(--ink);color:#fff}
+.hero-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px;position:relative;z-index:3}
+.tag{font-size:10px;font-weight:500;letter-spacing:.1em;padding:6px 13px;border:1px solid var(--line);color:var(--ink3);background:rgba(255,255,255,.7)}
+.coast{position:absolute;left:0;right:0;bottom:0;width:100%;pointer-events:none;z-index:1}
+.coast svg{width:100%;height:auto}
+.hero-scroll{position:relative;z-index:3;margin-top:auto;padding:30px 0 26px;display:flex;align-items:center;gap:12px;font-size:9px;font-weight:700;letter-spacing:.3em;color:var(--ink3)}
+.hero-scroll i{display:block;width:44px;height:1px;background:var(--ink3);position:relative;overflow:hidden}
+.hero-scroll i::after{content:'';position:absolute;inset:0;background:var(--coral);animation:sc 2.2s infinite}
+@keyframes sc{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
+
+/* ══ WHAT WE DO ══ */
+.wwd{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff}
+.wwd-in{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+.wwd-item{padding:clamp(26px,3.4vw,44px) clamp(14px,2.2vw,28px);border-right:1px solid var(--line);transition:background .25s}
+.wwd-item:last-child{border-right:0}
+.wwd-item:hover{background:var(--paper2)}
+.wwd-item svg{stroke:var(--ink);stroke-width:1.4;fill:none;margin-bottom:16px}
+.wwd-item:hover svg{stroke:var(--coral)}
+.wwd-item h3{font-family:'Archivo Black',sans-serif;font-size:15px;letter-spacing:.04em}
+.wwd-item p{font-size:11px;letter-spacing:.16em;color:var(--ink3);margin-top:5px}
+
+/* ══ 共通セクション ══ */
+.sec{padding:clamp(64px,10vw,140px) clamp(16px,5vw,64px)}
+.sec-in{max-width:1180px;margin:0 auto}
+.eyebrow{display:flex;align-items:center;gap:12px;font-family:'Archivo Black',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--coral);margin-bottom:16px}
+.eyebrow::before{content:'';width:24px;height:2px;background:var(--coral)}
+.sec-title{font-size:clamp(26px,4.4vw,52px);font-weight:900;font-family:'Noto Sans JP',sans-serif;letter-spacing:.01em;line-height:1.3;margin-bottom:clamp(26px,4vw,52px)}
+.sec-dark{background:var(--ink);color:#fff}
+.sec-dark .sec-title{color:#fff}
+.sec-alt{background:var(--paper2)}
+
+/* MISSION */
+.mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,72px);align-items:start}
+.mission-big{font-family:'Archivo Black',sans-serif;font-size:clamp(30px,5.6vw,74px);line-height:1;text-transform:uppercase;letter-spacing:-.01em}
+.mission-body{font-size:14px;font-weight:300;line-height:2.2;color:rgba(255,255,255,.7)}
+.mission-quote{margin-top:28px;padding-left:20px;border-left:3px solid var(--coral);font-size:clamp(15px,2vw,21px);font-weight:700;line-height:1.7;color:#fff}
+.mission-sign{margin-top:20px;font-size:12px;letter-spacing:.06em;color:rgba(255,255,255,.45)}
+
+/* ACTIVITIES */
+.acts{border-top:1px solid var(--line)}
+.act{display:grid;grid-template-columns:110px 1fr 1.25fr;gap:clamp(14px,3vw,40px);align-items:baseline;
+  padding:clamp(22px,3vw,34px) 0;border-bottom:1px solid var(--line);position:relative;
+  transition:background .28s,padding .28s,box-shadow .28s}
+.act:hover{background:#fff;padding-left:14px;padding-right:14px;box-shadow:0 1px 0 var(--coral) inset}
+.act-n{font-family:'Archivo Black',sans-serif;font-size:clamp(26px,3.6vw,44px);color:var(--line);line-height:1;transition:color .28s}
+.act:hover .act-n{color:var(--coral)}
+.act-t{font-size:clamp(15px,1.9vw,19px);font-weight:700;line-height:1.6}
+.act-d{font-size:13px;font-weight:300;line-height:2.05;color:var(--ink3)}
+
+/* GREETING */
+.greet{display:grid;grid-template-columns:1.5fr 1fr;gap:clamp(28px,4vw,56px);align-items:start}
+.letter{background:#fff;border:1px solid var(--line);border-top:3px solid var(--coral);padding:clamp(24px,3.4vw,46px);font-size:13.5px;font-weight:300;line-height:2.15;color:var(--ink2)}
+.letter h3{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:20px;letter-spacing:.04em}
+.letter p+p{margin-top:15px}
+.letter-sign{margin-top:26px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;line-height:2;color:var(--ink3)}
+.orginfo dt{font-family:'Archivo Black',sans-serif;font-size:10px;letter-spacing:.2em;color:var(--coral);margin-top:22px}
+.orginfo dt:first-child{margin-top:0}
+.orginfo dd{font-size:14px;margin-top:5px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+
+/* MEMBERS */
+.mem-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.mem{background:#fff;padding:26px 22px 24px;cursor:pointer;text-align:left;border:0;font:inherit;transition:.25s;position:relative;overflow:hidden}
+.mem::after{content:'';position:absolute;left:0;bottom:0;width:100%;height:3px;background:var(--coral);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.mem:hover{background:var(--paper2)}
+.mem:hover::after{transform:scaleX(1)}
+.mem-av{width:52px;height:52px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;
+  font-family:'Archivo Black',sans-serif;font-size:19px;margin-bottom:16px;transition:.25s}
+.mem:hover .mem-av{background:var(--coral)}
+.mem-role{font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--coral)}
+.mem-name{font-size:17px;font-weight:700;margin-top:5px}
+.mem-hl{font-size:11.5px;font-weight:300;line-height:1.85;color:var(--ink3);margin-top:9px}
+.mem-more{margin-top:14px;font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--ink3)}
+
+/* RECORDS */
+.recs{position:relative;padding-left:26px}
+.recs::before{content:'';position:absolute;left:4px;top:6px;bottom:6px;width:1px;background:var(--line)}
+.rec{position:relative;padding-bottom:34px}
+.rec::before{content:'';position:absolute;left:-26px;top:7px;width:9px;height:9px;background:var(--coral);border-radius:50%}
+.rec-d{font-family:'Archivo Black',sans-serif;font-size:13px;letter-spacing:.1em;color:var(--ink3)}
+.rec-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.1em;padding:3px 10px;border:1px solid var(--coral);color:var(--coral);margin:9px 0 8px}
+.rec-t{font-size:17px;font-weight:700}
+.rec-x{font-size:13px;font-weight:300;line-height:2.05;color:var(--ink3);margin-top:7px;max-width:52em}
+
+/* NEWS teaser */
+.news-cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:22px;
+  background:var(--ink);color:#fff;padding:clamp(28px,4vw,52px)}
+.news-cta h3{font-family:'Archivo Black',sans-serif;font-size:clamp(22px,3.4vw,40px);line-height:1}
+.news-cta p{font-size:13px;font-weight:300;color:rgba(255,255,255,.6);margin-top:10px}
+
+/* CONTACT */
+.mailbox{background:#fff;border:1px solid var(--line);padding:clamp(24px,3.6vw,44px);display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between}
+.mailbox .m-l{font-family:'Archivo Black',sans-serif;font-size:10px;letter-spacing:.2em;color:var(--coral)}
+.mailbox .m-a{font-size:clamp(16px,2.4vw,26px);font-weight:700;letter-spacing:.01em;margin-top:6px;word-break:break-all}
+
+/* FOOTER */
+footer{background:var(--ink);color:#fff;padding:clamp(44px,6vw,76px) clamp(16px,5vw,64px) 30px}
+.f-in{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:32px;justify-content:space-between;align-items:flex-start}
+.f-logo{display:flex;align-items:center;gap:10px}
+.f-logo img{width:38px;height:38px;object-fit:contain;filter:invert(1)}
+.f-logo span{font-family:'Archivo Black',sans-serif;font-size:17px}
+.f-tag{font-family:'Archivo Black',sans-serif;font-size:12px;color:var(--coral);letter-spacing:.06em;margin-top:8px}
+.f-nav{display:flex;flex-wrap:wrap;gap:8px 26px;list-style:none}
+.f-nav a{font-size:11px;font-weight:500;letter-spacing:.1em;color:rgba(255,255,255,.6);text-decoration:none}
+.f-nav a:hover{color:var(--coral)}
+.f-bot{max-width:1180px;margin:36px auto 0;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);
+  display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;font-size:10px;letter-spacing:.1em;color:rgba(255,255,255,.35)}
+
+/* ══ MODAL ══ */
+.ov{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.72);opacity:0;pointer-events:none;transition:opacity .22s}
+.ov.on{opacity:1;pointer-events:all}
+.md{position:fixed;top:50%;left:50%;transform:translate(-50%,-47%) scale(.97);z-index:501;background:#fff;
+  width:calc(100% - 32px);max-width:540px;max-height:86vh;overflow-y:auto;padding:clamp(26px,4vw,44px);
+  opacity:0;pointer-events:none;transition:opacity .22s,transform .22s;border-top:4px solid var(--coral)}
+.md.on{opacity:1;pointer-events:all;transform:translate(-50%,-50%) scale(1)}
+.md-x{position:absolute;top:14px;right:16px;background:none;border:0;font-size:24px;line-height:1;cursor:pointer;color:var(--ink3)}
+.md-role{font-size:10px;font-weight:700;letter-spacing:.16em;color:var(--coral);text-align:center}
+.md-name{font-size:24px;font-weight:700;text-align:center;margin-top:6px}
+.md-hl{font-size:15px;font-weight:700;line-height:1.7;margin:20px 0 16px;padding-left:14px;border-left:3px solid var(--coral)}
+.md-msg{font-size:13.5px;font-weight:300;line-height:2.1;color:var(--ink2);white-space:pre-wrap}
+.md-works{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;font-weight:300;line-height:2;color:var(--ink3);white-space:pre-wrap}
+
+/* ══ reveal ══
+   既定は「表示」。JSとIntersectionObserverが確実に動く環境のみ
+   html.js-rv が付与され、そこで初めて隠してからフェードインさせる。
+   → JS無効・ブロッカー・古い環境でも本文が消えない。 */
+.rv{opacity:1;transform:none}
+html.js-rv .rv{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
+html.js-rv .rv.in{opacity:1;transform:none}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:1000px){
+  .nav-links{display:none} .burger{display:flex} .mob{display:flex}
+  .wwd-in{grid-template-columns:repeat(2,1fr)}
+  .wwd-item:nth-child(2){border-right:0}
+  .wwd-item:nth-child(1),.wwd-item:nth-child(2){border-bottom:1px solid var(--line)}
+  .mission-grid,.greet{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .act{grid-template-columns:64px 1fr;gap:12px 16px}
+  .act-d{grid-column:2}
+  .pbar .pbar-txt{display:none}
+  .hero{min-height:auto;padding-bottom:0}
+  .coast{position:relative;width:auto;margin:34px calc(-1 * clamp(16px,5vw,64px)) 0}
+}
+@media(prefers-reduced-motion:reduce){html.js-rv .rv{opacity:1;transform:none;transition:none}.hero-scroll i::after{animation:none}}
+</style>
+<script>
+  /* アニメーション対応環境だけ「隠してから出す」モードに入る */
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('js-rv');
+  }
+</script>
+</head>
+<body>
+
+<!-- ══════ 提案バー ══════ -->
+<div class="pbar">
+  <b>PROPOSAL / 案A</b>
+  <span class="pbar-txt">これはデザイン提案のモックです。本番サイトは変更されていません。</span>
+  <span class="sp"></span>
+  <a href="index.html">← 提案の説明</a>
+  <a href="../index.html" target="_blank" rel="noopener">現行サイト ↗</a>
+</div>
+
+<!-- ══════ NAV ══════ -->
+<nav>
+  <a href="#top" class="nav-logo"><img id="logo-n" alt="YeG"><span>YeG</span></a>
+  <ul class="nav-links">
+    <li><a href="#mission">MISSION</a></li>
+    <li><a href="#activities">ACTIVITIES</a></li>
+    <li><a href="#members">MEMBERS</a></li>
+    <li><a href="#records">RECORDS</a></li>
+    <li><a href="#news">NEWS</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:14px">
+    <a href="#contact" class="nav-join">JOIN US</a>
+    <button class="burger" id="burger" onclick="tg()" aria-label="メニュー"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mob" id="mob">
+  <a href="#mission" onclick="cl()">MISSION<small>私たちが目指すもの</small></a>
+  <a href="#activities" onclick="cl()">ACTIVITIES<small>活動内容</small></a>
+  <a href="#members" onclick="cl()">MEMBERS<small>役員紹介</small></a>
+  <a href="#records" onclick="cl()">RECORDS<small>活動実績</small></a>
+  <a href="#news" onclick="cl()">NEWS<small>活動記録</small></a>
+  <a href="#contact" onclick="cl()">CONTACT<small>お問い合わせ</small></a>
+</div>
+
+<!-- ══════ HERO ══════ -->
+<section class="hero" id="top">
+  <p class="hero-eyebrow">YOKOSUKA eSPORTS PROMOTION</p>
+  <h1 class="display">From Yokosuka<br>to the next<br>generation<span class="dot">.</span></h1>
+  <p class="plg">PLAY. LEARN. GROW<span class="dot">.</span></p>
+  <p class="hero-lead">
+    学校・地域・企業をつなぎ、次世代のためのesports環境を横須賀から作り上げる。<br>
+    競技の枠を超えた、学びの場としてのesportsを推進します。
+  </p>
+  <div class="hero-cta">
+    <a href="#contact" class="btn btn-c">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+      お問い合わせ
+    </a>
+    <a href="#activities" class="btn btn-o">活動内容を見る →</a>
+  </div>
+  <div class="hero-tags">
+    <span class="tag">コミュニティ運営</span>
+    <span class="tag">行政・企業連携</span>
+    <span class="tag">学校訪問・部活支援</span>
+  </div>
+
+  <!-- 墨絵キービジュアル（横須賀の海岸線イメージ） -->
+  <div class="coast" aria-hidden="true">
+    <svg viewBox="0 0 1600 440" preserveAspectRatio="xMidYMax slide">
+      <defs>
+        <filter id="ink" x="-4%" y="-4%" width="108%" height="108%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="4" seed="11" result="n"/>
+          <feDisplacementMap in="SourceGraphic" in2="n" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <linearGradient id="fadeR" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#fff"/><stop offset=".42" stop-color="#fff"/>
+          <stop offset=".78" stop-color="#8a8a8a"/><stop offset="1" stop-color="#000"/>
+        </linearGradient>
+        <mask id="mR"><rect width="1600" height="440" fill="url(#fadeR)"/></mask>
+        <linearGradient id="fadeD" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#9a9a9a"/><stop offset=".55" stop-color="#2e2e2e"/><stop offset="1" stop-color="#000"/>
+        </linearGradient>
+        <mask id="mD"><rect width="1600" height="440" fill="url(#fadeD)"/></mask>
+
+        <g id="land">
+          <!-- 崖・丘 -->
+          <path d="M0,300 L0,262 C34,250 62,238 92,214 C120,192 142,166 168,152 C186,142 200,140 214,146
+                   C236,155 250,176 268,196 C292,222 318,238 350,250 C388,264 424,272 470,278
+                   C534,286 596,290 664,292 C760,295 860,297 980,298 C1120,299 1300,300 1600,300 L1600,300 Z"/>
+          <!-- 灯台 -->
+          <path d="M160,152 L160,96 L156,92 L156,84 L166,74 L176,84 L176,92 L172,96 L172,152 Z"/>
+          <rect x="152" y="96" width="28" height="5"/>
+          <rect x="158" y="66" width="16" height="4"/>
+          <!-- 尾根の樹 -->
+          <path d="M232,150 l5,-16 l5,16 Z M246,155 l6,-19 l6,19 Z M262,166 l5,-15 l5,15 Z M300,204 l5,-14 l5,14 Z"/>
+          <!-- 街のシルエット -->
+          <path d="M356,252 l0,-20 l16,0 l0,20 Z M380,254 l0,-30 l12,0 l0,30 Z M398,256 l0,-18 l20,0 l0,18 Z
+                   M424,260 l0,-26 l14,0 l0,26 Z M446,264 l0,-16 l22,0 l0,16 Z M476,268 l0,-24 l12,0 l0,24 Z
+                   M496,270 l0,-14 l18,0 l0,14 Z M522,274 l0,-22 l14,0 l0,22 Z M544,276 l0,-13 l20,0 l0,13 Z
+                   M572,280 l0,-19 l12,0 l0,19 Z M592,282 l0,-11 l17,0 l0,11 Z M618,284 l0,-16 l13,0 l0,16 Z
+                   M642,286 l0,-10 l19,0 l0,10 Z M672,288 l0,-14 l11,0 l0,14 Z M694,290 l0,-9 l16,0 l0,9 Z
+                   M722,291 l0,-12 l12,0 l0,12 Z M748,292 l0,-8 l18,0 l0,8 Z M778,293 l0,-11 l11,0 l0,11 Z
+                   M804,294 l0,-7 l15,0 l0,7 Z M834,295 l0,-9 l12,0 l0,9 Z M864,296 l0,-6 l16,0 l0,6 Z
+                   M898,296 l0,-8 l11,0 l0,8 Z M930,297 l0,-5 l14,0 l0,5 Z M968,297 l0,-7 l11,0 l0,7 Z"/>
+          <!-- 送電塔・アンテナ -->
+          <path d="M336,250 l0,-34 l2,0 l0,34 Z M334,224 l6,0 l0,2 l-6,0 Z"/>
+        </g>
+      </defs>
+
+      <g mask="url(#mR)">
+        <!-- 本体 -->
+        <g filter="url(#ink)"><use href="#land" fill="#0a0a0a"/></g>
+        <!-- 水面反射 -->
+        <g mask="url(#mD)" opacity=".3">
+          <g filter="url(#ink)" transform="matrix(1,0,0,-1,0,600)"><use href="#land" fill="#0a0a0a"/></g>
+        </g>
+        <!-- 水平の水面ストローク -->
+        <g fill="var(--paper)">
+          <rect x="0" y="306" width="1600" height="5"/><rect x="0" y="318" width="1600" height="3"/>
+          <rect x="120" y="328" width="900" height="4"/><rect x="0" y="340" width="1600" height="6"/>
+          <rect x="260" y="354" width="1100" height="4"/><rect x="0" y="366" width="1600" height="7"/>
+          <rect x="80" y="382" width="1300" height="5"/><rect x="0" y="396" width="1600" height="9"/>
+          <rect x="0" y="412" width="1600" height="28"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <div class="hero-scroll"><span>SCROLL</span><i></i></div>
+</section>
+
+<!-- ══════ WHAT WE DO ══════ -->
+<section class="wwd">
+  <div class="wwd-in">
+    <div class="wwd-item rv">
+      <svg width="30" height="30" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="10" r="2.4"/><path d="M3 20c0-3.3 2.7-5 6-5s6 1.7 6 5"/><path d="M15.5 20c0-2.2 1.4-3.6 3.5-3.6s3 1.4 3 3.6"/></svg>
+      <h3>Connect</h3><p>つながり</p>
+    </div>
+    <div class="wwd-item rv">
+      <svg width="30" height="30" viewBox="0 0 24 24"><path d="M3 5.5C6 4 9 4 12 5.5 15 4 18 4 21 5.5v13C18 17 15 17 12 18.5 9 17 6 17 3 18.5Z"/><path d="M12 5.5v13"/></svg>
+      <h3>Learn</h3><p>学び</p>
+    </div>
+    <div class="wwd-item rv">
+      <svg width="30" height="30" viewBox="0 0 24 24"><path d="M6 21V4"/><path d="M6 4h11l-2 4 2 4H6"/></svg>
+      <h3>Challenge</h3><p>挑戦</p>
+    </div>
+    <div class="wwd-item rv">
+      <svg width="30" height="30" viewBox="0 0 24 24"><path d="M3 20h18"/><rect x="5" y="12" width="4" height="8"/><rect x="11" y="8" width="4" height="12"/><rect x="17" y="4" width="4" height="16"/></svg>
+      <h3>Grow</h3><p>成長</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ MISSION ══════ -->
+<section class="sec sec-dark" id="mission">
+  <div class="sec-in mission-grid">
+    <div class="rv">
+      <p class="eyebrow">MISSION</p>
+      <h2 class="mission-big">私たちが<br>目指すもの</h2>
+    </div>
+    <div class="rv">
+      <p class="mission-body">
+        esportsは、単なるゲームの競技ではありません。<br>
+        チームワーク、情報処理能力、コミュニケーション力——<br>
+        現代社会に必要なスキルを育む場です。<br><br>
+        私たちは大会の開催やイベント運営、コミュニティ形成を通してesportsに触れる機会を提供し、esportsに取り組む学生のサポートを通じてesportsの発展、普及を目指していきます。
+      </p>
+      <p class="mission-quote">横須賀市を、次世代が輝く<br>「esportsの聖地」へ</p>
+      <p class="mission-sign">それが Yokosuka eGeneration のミッションです。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ ACTIVITIES ══════ -->
+<section class="sec" id="activities">
+  <div class="sec-in">
+    <p class="eyebrow rv">ACTIVITIES</p>
+    <h2 class="sec-title rv">活動内容</h2>
+    <div class="acts" id="acts"></div>
+  </div>
+</section>
+
+<!-- ══════ GREETING ══════ -->
+<section class="sec sec-alt" id="letter">
+  <div class="sec-in">
+    <p class="eyebrow rv">GREETING</p>
+    <h2 class="sec-title rv">学校関係者・行政の皆さまへ</h2>
+    <div class="greet">
+      <div class="letter rv">
+        <h3>ご挨拶およびご協力のお願い</h3>
+        <p>拝啓　時下ますますご清栄のこととお慶び申し上げます。</p>
+        <p>私どもは、esports（電子競技）の教育的価値と地域への貢献を信じ、横須賀市を拠点として活動する「Yokosuka eGeneration」です。</p>
+        <p>近年、esportsは国内外の教育現場でも注目を集めており、チームワーク・論理的思考・コミュニケーション能力を育む場として多くの学校で取り入れられ始めています。</p>
+        <p>ご理解とご協力のほどよろしくお願い申し上げます。</p>
+        <p class="letter-sign">敬具<br><br>Yokosuka eGeneration<br>代表　ぽよ<br>広報統括　テルル<br>Email: yokosuka.es.jp@gmail.com</p>
+      </div>
+      <dl class="orginfo rv">
+        <dt>ORGANIZATION</dt><dd>Yokosuka eGeneration</dd>
+        <dt>AREA</dt><dd>神奈川県横須賀市およびその周辺</dd>
+        <dt>CONTACT</dt><dd>yokosuka.es.jp@gmail.com</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ MEMBERS ══════ -->
+<section class="sec" id="members">
+  <div class="sec-in">
+    <p class="eyebrow rv">MEMBERS</p>
+    <h2 class="sec-title rv">役員紹介</h2>
+    <div class="mem-grid rv" id="mem-grid"></div>
+  </div>
+</section>
+
+<!-- ══════ RECORDS ══════ -->
+<section class="sec sec-alt" id="records">
+  <div class="sec-in">
+    <p class="eyebrow rv">RECORDS</p>
+    <h2 class="sec-title rv">活動実績</h2>
+    <div class="recs rv">
+      <div class="rec">
+        <div class="rec-d">2025.05</div>
+        <div class="rec-tag">活動開始</div>
+        <h3 class="rec-t">Yokosuka eGeneration 活動開始</h3>
+        <p class="rec-x">横須賀市を拠点としたesports推進団体「Yokosuka eGeneration」として活動を開始。SNSアカウントを開設し、地域のesports情報の発信をスタートしました。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ NEWS ══════ -->
+<section class="sec" id="news">
+  <div class="sec-in">
+    <p class="eyebrow rv">NEWS</p>
+    <h2 class="sec-title rv">活動記録</h2>
+    <div class="news-cta rv">
+      <div>
+        <h3>Latest activity<span class="dot">.</span></h3>
+        <p>note で公開している活動レポートを一覧で掲載しています。</p>
+      </div>
+      <a href="../news.html" target="_blank" rel="noopener" class="btn btn-c">活動記録を見る →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ CONTACT ══════ -->
+<section class="sec sec-alt" id="contact">
+  <div class="sec-in">
+    <p class="eyebrow rv">CONTACT</p>
+    <h2 class="sec-title rv">お問い合わせ</h2>
+    <p class="rv" style="font-size:14px;font-weight:300;line-height:2.1;color:var(--ink3);max-width:38em;margin-bottom:28px">
+      学校訪問のご依頼、連携・協力のご相談、その他なんでもお気軽にご連絡ください。<br>
+      まずはお話を聞かせていただくところから始めます。
+    </p>
+    <div class="mailbox rv">
+      <div>
+        <div class="m-l">EMAIL</div>
+        <div class="m-a">yokosuka.es.jp@gmail.com</div>
+      </div>
+      <a href="mailto:yokosuka.es.jp@gmail.com" class="btn btn-c">メールを送る</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ FOOTER ══════ -->
+<footer>
+  <div class="f-in">
+    <div>
+      <div class="f-logo"><img id="logo-f" alt="YeG"><span>Yokosuka eGeneration</span></div>
+      <div class="f-tag">PLAY. LEARN. GROW.</div>
+    </div>
+    <ul class="f-nav">
+      <li><a href="#mission">MISSION</a></li>
+      <li><a href="#activities">ACTIVITIES</a></li>
+      <li><a href="#members">MEMBERS</a></li>
+      <li><a href="#records">RECORDS</a></li>
+      <li><a href="../news.html">NEWS</a></li>
+      <li><a href="#contact">CONTACT</a></li>
+    </ul>
+  </div>
+  <div class="f-bot">
+    <span>&copy; 2026 Yokosuka eGeneration</span>
+    <span>DESIGN PROPOSAL — 案A / 本番未反映</span>
+  </div>
+</footer>
+
+<!-- ══════ MODAL ══════ -->
+<div class="ov" id="ov" onclick="closeM()"></div>
+<div class="md" id="md" role="dialog" aria-modal="true">
+  <button class="md-x" onclick="closeM()" aria-label="閉じる">&times;</button>
+  <div class="md-role" id="md-role"></div>
+  <div class="md-name" id="md-name"></div>
+  <div class="md-hl" id="md-hl"></div>
+  <div class="md-msg" id="md-msg"></div>
+  <div class="md-works" id="md-works"></div>
+</div>
+
+<script src="assets.js"></script>
+<script>
+document.getElementById('logo-n').src = window.YEG_LOGO;
+document.getElementById('logo-f').src = window.YEG_LOGO;
+
+/* ── 活動内容 ── */
+const ACTS = [
+  ['行政・企業との連携','横須賀市と連携し、持続可能なesports振興の仕組みを構築。'],
+  ['大会・イベントの企画・開催','地域の若者が気軽に参加できる大会や体験イベントを企画。ネット上だけでなくリアルでの活動も行います。'],
+  ['オンラインコミュニティの運営','Discord上の横須賀市高校交流サーバーをはじめとするオンラインコミュニティを継続的に運営・発展させ、地域や学校の枠を超えたつながりを創出します。'],
+  ['次世代育成プログラム','若い世代がesportsを通じてスキルを磨き、esports業界に触れることで将来の選択肢となる知見を広げます。'],
+  ['学校・教育機関への訪問','小・中・高校を対象に部活支援を行います。esportsに触れる機会、競技での技術向上を提供します。'],
+  ['情報発信・調査研究','esportsに関する最新情報の収集・発信を行い、地域の皆さまが正しい知識を持てるよう努めます。']
+];
+document.getElementById('acts').innerHTML = ACTS.map(function(a,i){
+  return '<div class="act rv"><div class="act-n">'+String(i+1).padStart(2,'0')+'</div>'+
+         '<div class="act-t">'+a[0]+'</div><div class="act-d">'+a[1]+'</div></div>';
+}).join('');
+
+/* ── 役員 ── */
+const MEMBERS = [
+  {k:'P',name:'ぽよ',role:'代表',headline:'横須賀の若者と創る、esportsの未来。',
+   message:'「Yokosuka e-Sports Project」を通じてesportsの魅力を知った学生として、横須賀のesports文化の発展に貢献したいと思い活動を始めました。\n\nesportsを通じて人と人が繋がれる場所をつくり、もっと多くの学生たちにesportsへ興味を持ってもらえる環境を広げていきたいです。',
+   works:'実績：横須賀市スカラーシップ 第1期生 / 第1回・第2回スカリンピック運営（主催） / Yokosuka Summer Festa 2025運営 / 第6回 Yokosuka e-Sports cup スタッフ / 第4回 Yokosuka town club cup スタッフ / TOKYO GAME SHOW 2025 横須賀ブーススタッフ\n好きなゲーム：VALORANT / EAFC\n出身高校：神奈川県立津久井浜高等学校'},
+  {k:'N',name:'NovelKaye',role:'副代表',headline:'横須賀から、esportsを"当たり前"の文化へ。',
+   message:'esportsを通じて出会った仲間や経験をきっかけに、横須賀でもeスポーツが当たり前に楽しめる環境をつくりたいと思いました。\n\n横須賀からesportsの魅力を発信し、eスポーツが当たり前にある文化を広げていきたいです。',
+   works:'実績：増上寺七夕祭り和紙キャンドルナイト2023スタッフ / 第1回スカリンピック運営（esports×スポーツ大会） / Yokosuka Summer Festa 2025主催（esports大会） / 第2回スカリンピック運営\n好きなゲーム：VALORANT / LoL / ARK / Geoguessr'},
+  {k:'T',name:'テルル',role:'事務局長 / 広報統括',headline:'esportsの感動を、もっと多くの人へ届けたい。',
+   message:'横須賀で行われてきた大会開催やコミュニティ運営を見て、「自分も運営する側として関わりたい」という思いからこの団体での活動を始めました。\n\nesportsを通じて高校の枠を超えたつながりと感動が生まれる現場を見てきたからこそ、これから横須賀で生まれるesportsの感動を、より多くの人に届けていきたいと思っています。\n\n「esportsといえば横須賀」と言ってもらえるよう、事務・広報の両面から団体を支えていきます。',
+   works:'実績：花火大会にて花火の打ち上げ / 本WEBサイトを作成 / 業務用アプリの開発 / 情報支援用WEBの作成\n資格：煙火消費保安手帳 / 基本情報技術者 / ITパスポート / 文章入力スピード認定試験 1級\n好きなゲーム：VALORANT / タイピング\n出身高校：湘南学院高等学校 サイエンスコース\n在学：湘南工科大学'},
+  {k:'D',name:'ダッキー',role:'会計統括',headline:'esportsをより深く、より楽しく。',
+   message:'esportsで多くの人と交流する中で「上手くなりたい」「新しいものに触れてみたい」という思いを感じ、自分でも力になれることを考え団体の一員として活動しようと決めました。\n\n色々なジャンルのesportsの紹介・宣伝や、競技として上達するための企画を考案・実施することで、周りの人たちが感じているesportsの楽しみを縦にも横にも広げていくことを目標に活動していきます。',
+   works:'実績：第2回スカリンピック運営\n好きなゲーム：VALORANT / Street Fighter 6 / NieRシリーズ\n出身高校：神奈川県立追浜高等学校'},
+  {k:'E',name:'Emiria',role:'クリエイティブ統括',headline:'女性でも、本気でesportsに挑戦できる場を。',
+   message:'横須賀市スカラーシップの第3期生として活動する中で、esportsが性別に関係なく誰でも本気で挑戦できる競技だということを実感してきました。\n\n大会や練習を重ねるうちに、「自分が活躍することで後に続く女性プレイヤーの背中を押せる」という使命感が芽生えています。\n\nプレイヤーとして成長しながら、クリエイティブ面から団体の発信力を高め、esportsの魅力をより多くの人に伝えていきます。',
+   works:'実績：横須賀市スカラーシップ 第3期生\n好きなゲーム：VALORANT / Fortnite / Splatoon 3\n出身高校：神奈川県立津久井浜高等学校'}
+];
+document.getElementById('mem-grid').innerHTML = MEMBERS.map(function(m,i){
+  return '<button class="mem" onclick="openM('+i+')">'+
+    '<div class="mem-av">'+m.k+'</div>'+
+    '<div class="mem-role">'+m.role+'</div>'+
+    '<div class="mem-name">'+m.name+'</div>'+
+    '<div class="mem-hl">'+m.headline+'</div>'+
+    '<div class="mem-more">PROFILE →</div></button>';
+}).join('');
+
+function openM(i){
+  var m = MEMBERS[i];
+  document.getElementById('md-role').textContent = m.role;
+  document.getElementById('md-name').textContent = m.name;
+  document.getElementById('md-hl').textContent = m.headline;
+  document.getElementById('md-msg').textContent = m.message;
+  document.getElementById('md-works').textContent = m.works;
+  document.getElementById('ov').classList.add('on');
+  document.getElementById('md').classList.add('on');
+  document.body.style.overflow = 'hidden';
+}
+function closeM(){
+  document.getElementById('ov').classList.remove('on');
+  document.getElementById('md').classList.remove('on');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ closeM(); cl(); } });
+
+/* ── モバイルメニュー ── */
+function tg(){
+  var on = document.getElementById('mob').classList.toggle('on');
+  document.getElementById('burger').classList.toggle('on', on);
+  document.body.style.overflow = on ? 'hidden' : '';
+}
+function cl(){
+  document.getElementById('mob').classList.remove('on');
+  document.getElementById('burger').classList.remove('on');
+  document.body.style.overflow = '';
+}
+
+/* ── reveal（安全側フォールバック付き） ── */
+var RV = [].slice.call(document.querySelectorAll('.rv'));
+function revealAll(){ RV.forEach(function(el){ el.classList.add('in'); }); }
+
+if (document.documentElement.classList.contains('js-rv')) {
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:0.08, rootMargin:'0px 0px -6% 0px'});
+  RV.forEach(function(el, i){
+    el.style.transitionDelay = (Math.min(i,6) * 0.05) + 's';
+    io.observe(el);
+  });
+  // 保険1: 監視が発火しない環境でも .in を付ける
+  setTimeout(revealAll, 2600);
+  window.addEventListener('load', function(){ setTimeout(revealAll, 1200); });
+
+  // 保険2: .in が付いてもトランジションが進まない環境（描画停止・省電力・拡張機能）を検知して
+  //        アニメーション自体を諦め、無条件表示に切り替える
+  setTimeout(function(){
+    var stuck = RV.some(function(el){
+      return el.classList.contains('in') && parseFloat(getComputedStyle(el).opacity) < 0.9;
+    });
+    if (!stuck) return;
+    // アニメーションを完全に停止して無条件表示へ（時間経過に依存しない形で確定させる）
+    document.documentElement.classList.remove('js-rv');
+    RV.forEach(function(el){
+      el.style.transition = 'none';
+      el.style.transitionDelay = '0s';
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    });
+  }, 3000);
+} else {
+  revealAll();
+}
+</script>
+</body>
+</html>
