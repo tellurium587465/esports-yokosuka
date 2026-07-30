@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>YeG サイトリニューアル提案 — 案A レビュー用</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#000; --ink2:#333; --ink3:#6b6b6b; --ink4:#9a9a9a;
+  --bg:#f4f4f2; --card:#fff; --line:#e2e2de;
+  --coral:#ff6b57; --coral-deep:#e8503b; --coral-bg:#fff2ef;
+  --ok:#0f9d58; --warn:#b8860b;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans JP',sans-serif;line-height:1.9;-webkit-font-smoothing:antialiased}
+img,svg,iframe{display:block;border:0}
+a{color:var(--coral-deep)}
+code{font-family:ui-monospace,'SFMono-Regular',Menlo,monospace;font-size:.88em;background:#ebebe7;padding:2px 6px;border-radius:3px}
+
+.mono{font-family:'Archivo Black',sans-serif;letter-spacing:.14em;text-transform:uppercase}
+.wrap{max-width:1120px;margin:0 auto;padding:0 clamp(16px,4vw,32px)}
+.wrap-wide{max-width:1640px;margin:0 auto;padding:0 clamp(16px,3vw,28px)}
+
+/* ── top bar ── */
+.top{position:sticky;top:0;z-index:100;background:var(--ink);color:#fff}
+.top-in{max-width:1120px;margin:0 auto;padding:0 clamp(16px,4vw,32px);height:56px;display:flex;align-items:center;gap:16px}
+.top-in .lg{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700}
+.top-in .lg img{width:26px;height:26px;object-fit:contain;filter:invert(1)}
+.top-in .sp{flex:1}
+.top-in nav{display:flex;gap:20px}
+.top-in nav a{color:rgba(255,255,255,.62);text-decoration:none;font-size:11px;font-weight:700;letter-spacing:.1em}
+.top-in nav a:hover{color:var(--coral)}
+@media(max-width:760px){.top-in nav{display:none}}
+.pill{background:var(--coral);color:#fff;font-size:10px;font-weight:700;letter-spacing:.12em;padding:5px 11px;white-space:nowrap}
+
+/* ── hero ── */
+.head{padding:clamp(44px,7vw,86px) 0 clamp(32px,5vw,56px);border-bottom:1px solid var(--line)}
+.kicker{font-size:10px;letter-spacing:.28em;color:var(--coral);font-weight:700;margin-bottom:18px}
+.head h1{font-size:clamp(27px,4.6vw,50px);font-weight:900;line-height:1.28;letter-spacing:.01em}
+.head h1 em{font-style:normal;color:var(--coral)}
+.head .sub{margin-top:20px;max-width:44em;font-size:14.5px;font-weight:300;line-height:2.1;color:var(--ink2)}
+.meta{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:26px;font-size:11.5px;color:var(--ink3)}
+.meta b{color:var(--ink);font-weight:700}
+
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-size:12.5px;font-weight:700;letter-spacing:.04em;padding:13px 24px;transition:.2s;cursor:pointer;border:0;font-family:inherit}
+.btn-c{background:var(--coral);color:#fff}
+.btn-c:hover{background:var(--coral-deep)}
+.btn-o{border:1px solid var(--ink);color:var(--ink);background:none}
+.btn-o:hover{background:var(--ink);color:#fff}
+
+/* ── section ── */
+section{padding:clamp(40px,6vw,72px) 0;border-bottom:1px solid var(--line)}
+.s-label{display:flex;align-items:center;gap:11px;font-size:10px;font-weight:700;letter-spacing:.22em;color:var(--coral);margin-bottom:13px}
+.s-label::before{content:'';width:22px;height:2px;background:var(--coral)}
+h2.s-title{font-size:clamp(21px,3vw,32px);font-weight:900;line-height:1.4;margin-bottom:10px}
+.s-note{font-size:13.5px;font-weight:300;line-height:2.05;color:var(--ink3);max-width:46em;margin-bottom:30px}
+
+/* ── keep / change ── */
+.kc{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:800px){.kc{grid-template-columns:1fr}}
+.kc-box{background:var(--card);border:1px solid var(--line);padding:24px 24px 20px}
+.kc-box.keep{border-top:3px solid var(--ok)}
+.kc-box.chg{border-top:3px solid var(--coral)}
+.kc-box h3{font-size:14px;font-weight:700;display:flex;align-items:center;gap:9px;margin-bottom:16px}
+.kc-box h3 span{font-size:10px;font-weight:700;letter-spacing:.1em;padding:3px 9px;color:#fff}
+.kc-box.keep h3 span{background:var(--ok)}
+.kc-box.chg h3 span{background:var(--coral)}
+.kc-box ul{list-style:none;font-size:13px;font-weight:300;line-height:1.85}
+.kc-box li{padding:9px 0 9px 22px;border-top:1px solid var(--line);position:relative}
+.kc-box li:first-child{border-top:0}
+.kc-box li::before{position:absolute;left:0;top:9px;font-weight:700;font-size:12px}
+.kc-box.keep li::before{content:'✓';color:var(--ok)}
+.kc-box.chg li::before{content:'→';color:var(--coral)}
+
+/* ── compare ── */
+.cmp-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px}
+.seg{display:inline-flex;border:1px solid var(--line);background:var(--card)}
+.seg button{background:none;border:0;font-family:inherit;font-size:11.5px;font-weight:700;letter-spacing:.06em;
+  padding:10px 18px;cursor:pointer;color:var(--ink3);transition:.18s;white-space:nowrap}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button.on{background:var(--ink);color:#fff}
+.seg button.on.coral{background:var(--coral)}
+.cmp-bar .sp{flex:1}
+.cmp-hint{font-size:11px;color:var(--ink4)}
+
+.stage{background:var(--card);border:1px solid var(--line);padding:clamp(12px,2vw,24px);overflow:hidden}
+.stage-in{display:flex;gap:18px;justify-content:center;align-items:flex-start}
+.frame{flex:0 0 auto;position:relative}
+.frame-cap{font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--ink3);margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.frame-cap i{width:7px;height:7px;border-radius:50%;background:var(--ink4)}
+.frame.now .frame-cap i{background:var(--ink4)}
+.frame.new .frame-cap i{background:var(--coral)}
+.shell{border:1px solid var(--line);background:#fff;overflow:hidden;position:relative}
+.shell iframe{transform-origin:0 0;background:#fff}
+.frame.hide{display:none}
+
+/* ── tokens ── */
+.tok{display:grid;grid-template-columns:1.1fr 1fr;gap:24px}
+@media(max-width:860px){.tok{grid-template-columns:1fr}}
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}
+.sw{background:var(--card);border:1px solid var(--line)}
+.sw i{display:block;height:62px}
+.sw div{padding:8px 9px 10px}
+.sw b{display:block;font-size:11px;font-weight:700}
+.sw small{font-size:10px;color:var(--ink4);font-family:ui-monospace,monospace}
+.typebox{background:var(--card);border:1px solid var(--line);padding:22px}
+.typebox .t-l{font-size:10px;font-weight:700;letter-spacing:.16em;color:var(--coral);margin-bottom:8px}
+.typebox .spec-a{font-family:'Archivo Black',sans-serif;font-size:clamp(20px,3vw,30px);line-height:1.1;text-transform:uppercase}
+.typebox .spec-b{font-size:14px;font-weight:300;line-height:2;color:var(--ink2)}
+.typebox hr{border:0;border-top:1px solid var(--line);margin:20px 0}
+
+/* ── change list ── */
+.dl{display:grid;gap:10px}
+.d{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--coral);padding:18px 22px;
+  display:grid;grid-template-columns:56px 1fr;gap:4px 18px;align-items:baseline}
+.d-id{font-family:'Archivo Black',sans-serif;font-size:12px;letter-spacing:.06em;color:var(--coral)}
+.d-t{font-size:14.5px;font-weight:700}
+.d-x{grid-column:2;font-size:13px;font-weight:300;line-height:2;color:var(--ink3)}
+@media(max-width:640px){.d{grid-template-columns:1fr}.d-x{grid-column:1}}
+
+/* ── review points ── */
+.rp{display:grid;gap:12px;counter-reset:r}
+.r{background:var(--card);border:1px solid var(--line);padding:20px 22px}
+.r-h{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:9px}
+.r-id{font-family:'Archivo Black',sans-serif;font-size:11px;letter-spacing:.08em;background:var(--ink);color:#fff;padding:4px 10px}
+.r-q{font-size:14.5px;font-weight:700;flex:1;min-width:200px}
+.r-x{font-size:13px;font-weight:300;line-height:2;color:var(--ink3)}
+.r-opts{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.r-opts span{font-size:11px;padding:5px 11px;border:1px solid var(--line);background:var(--bg);color:var(--ink2)}
+
+/* ── feedback ── */
+.fb{background:var(--ink);color:#fff;padding:clamp(24px,3.4vw,40px)}
+.fb h3{font-family:'Archivo Black',sans-serif;font-size:clamp(18px,2.6vw,26px);margin-bottom:10px}
+.fb p{font-size:13px;font-weight:300;line-height:2;color:rgba(255,255,255,.66);max-width:44em}
+.fb-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.14);margin:24px 0}
+@media(max-width:760px){.fb-steps{grid-template-columns:1fr}}
+.fb-step{background:var(--ink);padding:18px 20px}
+.fb-step b{display:block;font-family:'Archivo Black',sans-serif;font-size:11px;color:var(--coral);letter-spacing:.14em;margin-bottom:7px}
+.fb-step span{font-size:12.5px;font-weight:300;line-height:1.9;color:rgba(255,255,255,.78)}
+.tpl{position:relative;background:#111;border:1px solid rgba(255,255,255,.16);padding:20px 20px 18px;margin-top:6px}
+.tpl pre{font-family:ui-monospace,'SFMono-Regular',Menlo,monospace;font-size:11.5px;line-height:1.95;
+  color:rgba(255,255,255,.82);white-space:pre-wrap;word-break:break-word}
+.tpl button{position:absolute;top:12px;right:12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.24);
+  color:#fff;font-family:inherit;font-size:10.5px;font-weight:700;letter-spacing:.08em;padding:6px 12px;cursor:pointer;transition:.18s}
+.tpl button:hover{background:var(--coral);border-color:var(--coral)}
+
+/* ── map table ── */
+.maptbl{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);font-size:13px}
+.maptbl th,.maptbl td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+.maptbl th{font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--coral);background:var(--bg);white-space:nowrap}
+.maptbl tr:last-child td{border-bottom:0}
+.maptbl code{white-space:nowrap}
+.maptbl .arw{color:var(--coral);font-weight:700;text-align:center;width:34px}
+.tblwrap{overflow-x:auto}
+
+/* ── open items ── */
+.oi{display:grid;gap:10px}
+.o{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--warn);padding:16px 20px}
+.o b{font-size:13.5px;font-weight:700}
+.o span{display:block;font-size:12.5px;font-weight:300;line-height:1.95;color:var(--ink3);margin-top:4px}
+
+footer{padding:36px 0 48px;font-size:11px;color:var(--ink4);display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="top-in">
+    <div class="lg"><img id="lg" alt="YeG">YeG</div>
+    <span class="pill">DESIGN PROPOSAL</span>
+    <span class="sp"></span>
+    <nav>
+      <a href="#compare">比較</a>
+      <a href="#tokens">トーン</a>
+      <a href="#changes">変更点</a>
+      <a href="#review">確認事項</a>
+      <a href="#feedback">意見の出し方</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ══ HEAD ══ -->
+<header class="head">
+  <div class="wrap">
+    <p class="kicker">SITE RENEWAL PROPOSAL — 案A</p>
+    <h1>いまのサイトを<br>まるごと<em>この見た目に差し替える</em>提案</h1>
+    <p class="sub">
+      新しいキービジュアル（墨絵の横須賀海岸線 × Archivo Black × コーラル）に合わせて、
+      <b>現在公開中のサイトを丸ごと作り直した完成版</b>です。今サイトに載っている文章・実績・役員プロフィール・活動記録の5記事は、
+      1文字も削らずそのまま移してあります。<b>変わるのは見え方だけ</b>で、どこに何が書いてあるかは今と同じです。
+    </p>
+    <div class="meta">
+      <span><b>作成</b> 2026-07-28</span>
+      <span><b>状態</b> 提案（本番未反映）</span>
+      <span><b>対象</b> サイト全体（トップ + 活動記録）</span>
+      <span><b>返信期限の目安</b> 提案から1週間</span>
+    </div>
+    <div class="actions">
+      <a href="site/index.html" class="btn btn-c">案Aのサイトを開く →</a>
+      <a href="site/news.html" class="btn btn-o">活動記録ページを見る</a>
+      <a href="../index.html" target="_blank" rel="noopener" class="btn btn-o">現行サイトを開く ↗</a>
+      <a href="#feedback" class="btn btn-o">意見の出し方</a>
+    </div>
+  </div>
+</header>
+
+<!-- ══ 変える / 変えない ══ -->
+<section>
+  <div class="wrap">
+    <p class="s-label">SCOPE</p>
+    <h2 class="s-title">変えるところ / 変えないところ</h2>
+    <p class="s-note">
+      「デザインを大きく変える」と聞くと迷子になりそうで不安になりますが、今回は<b>触る場所を見た目だけに限定</b>しています。
+      どこに何が書いてあるかは今と同じです。
+    </p>
+    <div class="kc">
+      <div class="kc-box keep">
+        <h3><span>KEEP</span>変えないもの</h3>
+        <ul>
+          <li>セクションの順番（ミッション → 活動内容 → 挨拶 → 役員 → 実績 → 活動記録 → お問い合わせ）</li>
+          <li>ページ構成とURL（トップ / 活動記録 の2枚構成は今のまま）</li>
+          <li>掲載している文章・実績・役員プロフィールの中身（全文そのまま）</li>
+          <li>活動記録の5記事（note リンク・画像・本文すべて）</li>
+          <li>ページ内リンクのアンカー名（<code>#mission</code> など）＝共有済みリンクが切れません</li>
+          <li>役員カードをクリックすると詳細が開く操作</li>
+          <li>記事カードをクリックすると全文が開く操作</li>
+        </ul>
+      </div>
+      <div class="kc-box chg">
+        <h3><span>CHANGE</span>変えるもの</h3>
+        <ul>
+          <li>配色：青系 → <b>黒・白・コーラル</b>（ブランドガイド準拠）</li>
+          <li>見出し書体：<b>Archivo Black</b> を採用し英字を主役に</li>
+          <li>トップに<b>墨絵の海岸線キービジュアル</b>を配置</li>
+          <li>キャッチコピーを <b>FROM YOKOSUKA TO THE NEXT GENERATION.</b> に</li>
+          <li>「CONNECT / LEARN / CHALLENGE / GROW」の4本柱を新設</li>
+          <li>活動内容：カード6枚 → <b>番号付きの一覧</b>（読みやすさ優先）</li>
+          <li>活動記録：記事カードを<b>大きな写真つきの一覧</b>に（写真はモノクロ→ホバーでカラー）</li>
+          <li>装飾（パーティクル・グロー）を削除しシンプルに</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 比較 ══ -->
+<section id="compare">
+  <div class="wrap">
+    <p class="s-label">COMPARE</p>
+    <h2 class="s-title">現行 と 案A の見比べ</h2>
+    <p class="s-note">
+      下の枠の中は本物のページが動いています。スクロールもクリックもできます。
+      「並べて」で左右比較、ページ切替で <b>トップ / 活動記録</b> の両方を見比べられます。
+    </p>
+
+    <div class="cmp-bar">
+      <div class="seg" id="seg-page">
+        <button data-p="top" class="on">トップ</button>
+        <button data-p="news">活動記録</button>
+      </div>
+      <div class="seg" id="seg-view">
+        <button data-v="both" class="on">並べて</button>
+        <button data-v="now">現行のみ</button>
+        <button data-v="new">案Aのみ</button>
+      </div>
+      <div class="seg" id="seg-dev">
+        <button data-d="pc" class="on coral">PC</button>
+        <button data-d="sp">スマホ</button>
+      </div>
+      <span class="sp"></span>
+      <span class="cmp-hint">※ 枠内は縮小表示。実サイズは「全画面で見る」から</span>
+    </div>
+  </div>
+
+  <div class="wrap-wide">
+    <div class="stage">
+      <div class="stage-in" id="stage-in">
+        <div class="frame now" id="f-now">
+          <div class="frame-cap"><i></i><span id="cap-now">現行サイト（BEFORE）</span></div>
+          <div class="shell" id="sh-now"><iframe id="if-now" src="../index.html" title="現行サイト"></iframe></div>
+        </div>
+        <div class="frame new" id="f-new">
+          <div class="frame-cap"><i></i><span id="cap-new">案A（AFTER）</span></div>
+          <div class="shell" id="sh-new"><iframe id="if-new" src="site/index.html" title="案A"></iframe></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ トーン ══ -->
+<section id="tokens">
+  <div class="wrap">
+    <p class="s-label">TONE &amp; MANNER</p>
+    <h2 class="s-title">使う色と書体</h2>
+    <p class="s-note">共有されたブランドガイドの指定をそのまま使っています。サイト側で勝手に色を足していません。</p>
+    <div class="tok">
+      <div>
+        <div class="swatches">
+          <div class="sw"><i style="background:#000"></i><div><b>Black</b><small>#000000</small></div></div>
+          <div class="sw"><i style="background:#333"></i><div><b>Dark Gray</b><small>#333333</small></div></div>
+          <div class="sw"><i style="background:#e5e5e5"></i><div><b>Light Gray</b><small>#E5E5E5</small></div></div>
+          <div class="sw"><i style="background:#ff6b57"></i><div><b>Coral</b><small>#FF6B57</small></div></div>
+          <div class="sw"><i style="background:#fafaf8;box-shadow:inset 0 0 0 1px #e2e2de"></i><div><b>Paper</b><small>#FAFAF8</small></div></div>
+        </div>
+        <p style="font-size:12.5px;font-weight:300;line-height:2;color:var(--ink3);margin-top:16px">
+          コーラルは「一番押したい場所」だけに使います（ボタン・見出しの点・現在地）。
+          面で塗らないことで、押すべき場所が一目で分かる状態を保ちます。
+        </p>
+      </div>
+      <div class="typebox">
+        <div class="t-l">DISPLAY / 見出し — ARCHIVO BLACK</div>
+        <div class="spec-a">From Yokosuka<br>to the next generation<span style="color:var(--coral)">.</span></div>
+        <hr>
+        <div class="t-l">TEXT / 本文 — NOTO SANS JP</div>
+        <div class="spec-b">
+          esportsは、単なるゲームの競技ではありません。<br>
+          チームワーク、情報処理能力、コミュニケーション力——<br>
+          現代社会に必要なスキルを育む場です。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 変更点 ══ -->
+<section id="changes">
+  <div class="wrap">
+    <p class="s-label">CHANGES</p>
+    <h2 class="s-title">主な変更点</h2>
+    <p class="s-note">意見をもらうときは、この番号（D-01 など）を書いてもらうと話が早いです。</p>
+    <div class="dl">
+      <div class="d"><div class="d-id">D-01</div><div class="d-t">キービジュアルの導入</div>
+        <div class="d-x">トップに墨絵タッチの海岸線（灯台・街並み・水面）を配置。ブランドガイドのビジュアルをWebで再現しています。現時点ではコードで描いた図形なので、<b>正式なイラスト画像が用意できれば差し替え</b>られます。</div></div>
+      <div class="d"><div class="d-id">D-02</div><div class="d-t">キャッチコピーの英語化</div>
+        <div class="d-x">「esportsで、横須賀の次世代を育てる。」を <b>FROM YOKOSUKA TO THE NEXT GENERATION.</b> に。日本語の説明文はすぐ下に残してあるので、意味が伝わらない心配はありません。</div></div>
+      <div class="d"><div class="d-id">D-03</div><div class="d-t">4本柱セクションの新設</div>
+        <div class="d-x">CONNECT / LEARN / CHALLENGE / GROW を横一列で表示。「結局この団体は何をしているのか」を3秒で伝える枠です。</div></div>
+      <div class="d"><div class="d-id">D-04</div><div class="d-t">ミッションを黒背景に</div>
+        <div class="d-x">一番読ませたい文章のところで背景を黒に反転。スクロール中に「ここは大事」と体感で分かるようにしています。</div></div>
+      <div class="d"><div class="d-id">D-05</div><div class="d-t">活動内容をリスト型へ</div>
+        <div class="d-x">カード6枚だと文章量の差でバラバラに見えるため、番号 + 見出し + 説明の横並びに変更。上から順に読めるので長い説明でも崩れません。</div></div>
+      <div class="d"><div class="d-id">D-06</div><div class="d-t">装飾エフェクトの削除</div>
+        <div class="d-x">背景に浮いていた粒子や発光をなくしました。スマホでの動作が軽くなり、文字も読みやすくなります。</div></div>
+      <div class="d"><div class="d-id">D-07</div><div class="d-t">JOIN US ボタンの常設</div>
+        <div class="d-x">ヘッダーの右端に常に置きます。どこを読んでいても連絡先に飛べる状態を作ります（リンク先は現行と同じお問い合わせ欄）。</div></div>
+      <div class="d"><div class="d-id">D-08</div><div class="d-t">活動記録ページも同じトーンに</div>
+        <div class="d-x">記事一覧を大きな写真つきの一覧に。写真はモノクロで並べ、カーソルを乗せるとカラーになります（ブランドの「モノクロ＋コーラル」に沿わせるため）。<b>掲載中の5記事・note リンク・画像はそのまま</b>です。</div></div>
+      <div class="d"><div class="d-id">D-09</div><div class="d-t">プレイヤーマップは非掲載のまま</div>
+        <div class="d-x">現行と同じく、メニューには入れていません。復活させるかどうかは別途相談したい項目です（R-04）。</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 確認事項 ══ -->
+<section id="review">
+  <div class="wrap">
+    <p class="s-label">DECISIONS</p>
+    <h2 class="s-title">みんなに決めてほしいこと</h2>
+    <p class="s-note">全部に答える必要はありません。気になったものだけ番号を指定して答えてもらえれば十分です。</p>
+    <div class="rp">
+      <div class="r">
+        <div class="r-h"><span class="r-id">R-01</span><span class="r-q">この方向性で進めていい？</span></div>
+        <p class="r-x">黒 × 白 × コーラルの硬派な雰囲気になります。今より「団体っぽさ・本気度」は上がりますが、「高校生向けの親しみやすさ」は少し下がる可能性があります。</p>
+        <div class="r-opts"><span>このまま進める</span><span>方向性は良いが要調整</span><span>現行のままがいい</span></div>
+      </div>
+      <div class="r">
+        <div class="r-h"><span class="r-id">R-02</span><span class="r-q">英語のキャッチコピーで大丈夫？</span></div>
+        <p class="r-x">学校や行政の方が最初に見る画面が英語になります。日本語を主役に戻す案も作れます。</p>
+        <div class="r-opts"><span>英語のままでOK</span><span>日本語を主役にしたい</span><span>英語+日本語を同じ大きさで</span></div>
+      </div>
+      <div class="r">
+        <div class="r-h"><span class="r-id">R-03</span><span class="r-q">キービジュアルの画像素材はある？</span></div>
+        <p class="r-x">いまはコードで描いた簡易版です。ブランドガイドの元イラスト（PNG/SVG）があれば、そのまま差し替えて完成度が上がります。</p>
+        <div class="r-opts"><span>素材を渡せる</span><span>作れる人がいる</span><span>今の簡易版で進める</span></div>
+      </div>
+      <div class="r">
+        <div class="r-h"><span class="r-id">R-04</span><span class="r-q">プレイヤーマップはどうする？</span></div>
+        <p class="r-x">現在メニューから外しています。デザイン刷新に合わせて作り直して復活させるか、このまま非掲載にするか。</p>
+        <div class="r-opts"><span>作り直して復活</span><span>当面は非掲載</span><span>完全に廃止</span></div>
+      </div>
+      <div class="r">
+        <div class="r-h"><span class="r-id">R-05</span><span class="r-q">役員の顔写真を入れる？</span></div>
+        <p class="r-x">いまは頭文字のアイコンです。モノクロ写真にすると一気に本格的になりますが、全員分の写真が必要になります。</p>
+        <div class="r-opts"><span>モノクロ写真で統一</span><span>頭文字のままでOK</span><span>希望者だけ写真</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 意見の出し方 ══ -->
+<section id="feedback">
+  <div class="wrap">
+    <div class="fb">
+      <h3>意見の出し方<span style="color:var(--coral)">.</span></h3>
+      <p>
+        Discord に貼り付けるだけで済むテンプレートを用意しました。
+        全部埋める必要はありません。<b style="color:#fff">気になった番号だけ</b>書いてもらえれば大丈夫です。
+      </p>
+      <div class="fb-steps">
+        <div class="fb-step"><b>STEP 1</b><span>「案Aのサイトを開く」でトップと活動記録の2ページをひと通りスクロールする（PCとスマホ両方あると助かります）</span></div>
+        <div class="fb-step"><b>STEP 2</b><span>気になった箇所の番号（D-01 / R-03 など）をメモする</span></div>
+        <div class="fb-step"><b>STEP 3</b><span>下のテンプレートをコピーして Discord に投稿する</span></div>
+      </div>
+      <div class="tpl">
+        <button onclick="cp(this)">コピー</button>
+        <pre id="tpl-body">【サイトデザイン案A レビュー】
+名前：
+─────────────
+R-01 方向性 ： このまま進める / 要調整 / 現行のまま
+R-02 英語コピー ： OK / 日本語主役 / 併記
+R-03 画像素材 ： 渡せる / 作れる / 簡易版でOK
+R-04 プレイヤーマップ ： 復活 / 非掲載 / 廃止
+R-05 役員写真 ： 写真 / 頭文字 / 希望者のみ
+─────────────
+気になった変更点（任意）：
+例）D-05 活動内容のリスト、スマホだと番号が小さいかも
+
+その他ひとこと：</pre>
+      </div>
+      <div class="actions" style="margin-top:22px">
+        <a href="site/index.html" class="btn btn-c">案Aのサイトを開く →</a>
+        <a href="site/news.html" class="btn btn-o" style="border-color:rgba(255,255,255,.4);color:#fff">活動記録ページを見る</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 反映のしかた ══ -->
+<section>
+  <div class="wrap">
+    <p class="s-label">HOW TO APPLY</p>
+    <h2 class="s-title">承認されたら、こう差し替わります</h2>
+    <p class="s-note">
+      提案用のファイルは本番と別の場所（<code>proposal/</code>）に置いてあるので、今のサイトには一切影響していません。
+      承認後は下の対応で入れ替えるだけです。<b>URLは変わりません。</b>
+    </p>
+    <div class="tblwrap">
+      <table class="maptbl">
+        <thead>
+          <tr><th>ページ</th><th>提案ファイル</th><th class="arw"></th><th>差し替え先（本番）</th><th>公開URL</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>トップ</td><td><code>proposal/site/index.html</code></td><td class="arw">→</td>
+            <td><code>index.html</code></td><td>変わらない</td>
+          </tr>
+          <tr>
+            <td>活動記録</td><td><code>proposal/site/news.html</code></td><td class="arw">→</td>
+            <td><code>news.html</code></td><td>変わらない</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="s-note" style="margin-top:18px;margin-bottom:0">
+      差し替え前に必ずもう一度共有します。万一やめたくなった場合も、差し替え前の状態に戻せるよう履歴を残してあります。
+    </p>
+  </div>
+</section>
+
+<!-- ══ 未確定 ══ -->
+<section>
+  <div class="wrap">
+    <p class="s-label">OPEN ITEMS</p>
+    <h2 class="s-title">まだ決まっていない・作業が残っていること</h2>
+    <p class="s-note">正直に共有しておきます。承認されたら着手する部分です。</p>
+    <div class="oi">
+      <div class="o"><b>キービジュアルは簡易再現版</b><span>ブランドガイドの海岸線をコードで描き起こしたものです。正式なイラスト素材（PNG / SVG）が届き次第、差し替えれば完成度が上がります（R-03）。</span></div>
+      <div class="o"><b>記事の追加・編集機能は未移植</b><span>現行 news.html にある「記事を追加する」編集モードは、この提案版では省いています（見た目の確認が目的のため）。本番へ差し替える際に必ず組み込みます。表示中の5記事は本番のデータをそのまま読み込んでいます。</span></div>
+      <div class="o"><b>SNSアイコン・OGP画像</b><span>ブランドガイドの円形アイコンに合わせて作り直す想定です。SNSでシェアされたときのサムネイルもここで決まります。</span></div>
+      <div class="o"><b>役員の写真枠</b><span>いまは頭文字アイコン。写真を入れる場合はモノクロ加工で統一します（R-05）。</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;width:100%">
+    <span>Yokosuka eGeneration — Design Proposal 案A</span>
+    <span>このページは検索に載りません（noindex）／本番サイトには影響しません</span>
+  </div>
+</footer>
+
+<script src="assets.js"></script>
+<script>
+document.getElementById('lg').src = window.YEG_LOGO;
+
+/* ── プレビュー枠のフィット ── */
+var DEV = { pc:{w:1440,h:900}, sp:{w:390,h:780} };
+var view = 'both', dev = 'pc';
+
+function fit(){
+  var d = DEV[dev];
+  var stage = document.getElementById('stage-in');
+  var avail = stage.clientWidth || (innerWidth - 80);
+  var shown = (view === 'both') ? 2 : 1;
+  var gap = (shown === 2) ? 18 : 0;
+  var per = (avail - gap) / shown;
+  var scale = Math.min(1, per / d.w);
+  // 縦は画面に収まる高さで打ち切り（枠内は iframe 内スクロール可）
+  var maxH = Math.max(360, Math.round(innerHeight * 0.74));
+  var shellH = Math.min(Math.floor(d.h * scale), maxH);
+
+  ['now','new'].forEach(function(k){
+    var ifr = document.getElementById('if-' + k);
+    var sh  = document.getElementById('sh-' + k);
+    ifr.style.width  = d.w + 'px';
+    ifr.style.height = Math.ceil(shellH / scale) + 'px';
+    ifr.style.transform = 'scale(' + scale + ')';
+    sh.style.width  = Math.floor(d.w * scale) + 'px';
+    sh.style.height = shellH + 'px';
+  });
+}
+
+function applyView(){
+  document.getElementById('f-now').classList.toggle('hide', view === 'new');
+  document.getElementById('f-new').classList.toggle('hide', view === 'now');
+  fit();
+}
+
+/* ── 比較対象ページの切替 ── */
+var PAGES = {
+  top:  { now:'../index.html', neu:'site/index.html', label:'トップページ' },
+  news: { now:'../news.html',  neu:'site/news.html',  label:'活動記録' }
+};
+var page = 'top';
+function setPage(){
+  var p = PAGES[page];
+  document.getElementById('if-now').src = p.now;
+  document.getElementById('if-new').src = p.neu;
+  document.getElementById('cap-now').textContent = '現行 ' + p.label + '（BEFORE）';
+  document.getElementById('cap-new').textContent = '案A ' + p.label + '（AFTER）';
+}
+document.querySelectorAll('#seg-page button').forEach(function(b){
+  b.addEventListener('click', function(){
+    document.querySelectorAll('#seg-page button').forEach(function(x){ x.classList.remove('on'); });
+    b.classList.add('on');
+    page = b.dataset.p;
+    setPage();
+    fit();
+  });
+});
+
+document.querySelectorAll('#seg-view button').forEach(function(b){
+  b.addEventListener('click', function(){
+    document.querySelectorAll('#seg-view button').forEach(function(x){ x.classList.remove('on'); });
+    b.classList.add('on');
+    view = b.dataset.v;
+    applyView();
+  });
+});
+document.querySelectorAll('#seg-dev button').forEach(function(b){
+  b.addEventListener('click', function(){
+    document.querySelectorAll('#seg-dev button').forEach(function(x){ x.classList.remove('on','coral'); });
+    b.classList.add('on','coral');
+    dev = b.dataset.d;
+    fit();
+  });
+});
+
+setPage();
+window.addEventListener('resize', fit);
+window.addEventListener('load', fit);
+requestAnimationFrame(fit);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+fit();
+
+/* ── テンプレコピー ── */
+function cp(btn){
+  var txt = document.getElementById('tpl-body').textContent;
+  navigator.clipboard.writeText(txt).then(function(){
+    var o = btn.textContent;
+    btn.textContent = 'コピーしました';
+    setTimeout(function(){ btn.textContent = o; }, 1800);
+  }).catch(function(){
+    btn.textContent = '手動でコピーしてください';
+  });
+}
+</script>
+</body>
+</html>
