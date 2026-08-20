@@ -195,6 +195,8 @@ body.edit-active .mc-photo-wrap:hover .mc-photo-overlay{opacity:1}
 .mc-body{padding:18px 18px 20px;cursor:pointer}
 .mc-role-badge{font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--coral)}
 .mc-name{font-size:17.5px;font-weight:700;margin-top:5px}
+.mc-real{font-size:11.5px;font-weight:400;color:var(--ink3);margin-top:2px;letter-spacing:.02em;transition:color .3s}
+.name-swapped .mc-real{color:var(--coral)}
 .mc-headline-short{font-size:11.5px;font-weight:300;line-height:1.85;color:var(--ink3);margin-top:8px}
 .mc-hint{margin-top:14px;font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--ink3);display:flex;align-items:center;gap:6px}
 .mc-hint::after{content:'→';color:var(--coral);transition:transform .25s}
@@ -254,6 +256,8 @@ footer{background:var(--ink);color:#fff;padding:clamp(46px,6vw,78px) clamp(16px,
 .modal-photo-wrap .ph{font-family:'Archivo Black',sans-serif;font-size:34px;color:#fff}
 .md-role{font-size:10px;font-weight:700;letter-spacing:.16em;color:var(--coral);text-align:center}
 .md-name{font-size:24px;font-weight:700;text-align:center;margin-top:6px}
+.md-real{font-size:13px;font-weight:400;color:var(--ink3);text-align:center;margin-top:3px;transition:color .3s}
+.name-swapped .md-real{color:var(--coral)}
 .md-hl{font-size:15px;font-weight:700;line-height:1.7;margin:20px 0 16px;padding-left:14px;border-left:3px solid var(--coral)}
 .md-msg{font-size:13.5px;font-weight:300;line-height:2.1;color:var(--ink2);white-space:pre-wrap}
 .md-works{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;font-weight:300;line-height:2;color:var(--ink3);white-space:pre-wrap}
@@ -617,6 +621,7 @@ html.js-rv .rv.in{opacity:1;transform:none}
   <div class="modal-photo-wrap" id="modal-photo-wrap"></div>
   <div class="md-role" id="modal-role"></div>
   <div class="md-name" id="modal-name"></div>
+  <div class="md-real" id="modal-real"></div>
   <div class="md-hl member-editable" id="modal-headline"></div>
   <div class="md-msg member-editable" id="modal-message"></div>
   <div class="md-works member-editable" id="modal-works"></div>
@@ -639,19 +644,19 @@ document.getElementById('footer-logo-img').src = window.YEG_LOGO;
 
 /* ══════ 役員データ ══════ */
 const MEMBER_DATA = {
-  poyo: { initial:'P', name:'ぽよ', role:'代表', headline:'横須賀の若者と創る、esportsの未来。',
+  poyo: { initial:'P', name:'ぽよ', real:'佐藤 翔', fun:'歩世', role:'代表', headline:'横須賀の若者と創る、esportsの未来。',
     message:'「Yokosuka e-Sports Project」を通じてesportsの魅力を知った学生として、横須賀のesports文化の発展に貢献したいと思い活動を始めました。\n\nesportsを通じて人と人が繋がれる場所をつくり、もっと多くの学生たちにesportsへ興味を持ってもらえる環境を広げていきたいです。',
     works:'実績：横須賀市スカラーシップ 第1期生 / 第1回・第2回スカリンピック運営（主催） / Yokosuka Summer Festa 2025運営 / 第6回 Yokosuka e-Sports cup スタッフ / 第4回 Yokosuka town club cup スタッフ / TOKYO GAME SHOW 2025 横須賀ブーススタッフ\n好きなゲーム：VALORANT / EAFC\n出身高校：神奈川県立津久井浜高等学校' },
-  novel: { initial:'N', name:'NovelKaye', role:'副代表', headline:'横須賀から、esportsを"当たり前"の文化へ。',
+  novel: { initial:'N', name:'NovelKaye', real:'津山 陸', fun:'野辺瑠華井', role:'副代表', headline:'横須賀から、esportsを"当たり前"の文化へ。',
     message:'esportsを通じて出会った仲間や経験をきっかけに、横須賀でもeスポーツが当たり前に楽しめる環境をつくりたいと思いました。\n\n横須賀からesportsの魅力を発信し、eスポーツが当たり前にある文化を広げていきたいです。',
     works:'実績：増上寺七夕祭り和紙キャンドルナイト2023スタッフ / 第1回スカリンピック運営（esports×スポーツ大会） / Yokosuka Summer Festa 2025主催（esports大会） / 第2回スカリンピック運営\n好きなゲーム：VALORANT / LoL / ARK / Geoguessr' },
-  tellu: { initial:'T', name:'テルル', role:'事務局長 / 広報統括', headline:'esportsの感動を、もっと多くの人へ届けたい。',
+  tellu: { initial:'T', name:'テルル', real:'山崎 陸徠', fun:'輝莉雨夢', role:'事務局長 / 広報統括', headline:'esportsの感動を、もっと多くの人へ届けたい。',
     message:'横須賀で行われてきた大会開催やコミュニティ運営を見て、「自分も運営する側として関わりたい」という思いからこの団体での活動を始めました。\n\nesportsを通じて高校の枠を超えたつながりと感動が生まれる現場を見てきたからこそ、これから横須賀で生まれるesportsの感動を、より多くの人に届けていきたいと思っています。\n\n「esportsといえば横須賀」と言ってもらえるよう、事務・広報の両面から団体を支えていきます。',
     works:'実績：花火大会にて花火の打ち上げ / 本WEBサイトを作成 / 業務用アプリの開発 / 情報支援用WEBの作成\n資格：煙火消費保安手帳 / 基本情報技術者 / ITパスポート / 文章入力スピード認定試験 1級\n好きなゲーム：VALORANT / タイピング\n出身高校：湘南学院高等学校 サイエンスコース\n在学：湘南工科大学' },
-  yoruha: { initial:'D', name:'ダッキー', role:'会計統括', headline:'esportsをより深く、より楽しく。',
+  yoruha: { initial:'D', name:'ダッキー', real:'川崎 学', fun:'堕輝威王婆雷諏', role:'会計統括', headline:'esportsをより深く、より楽しく。',
     message:'esportsで多くの人と交流する中で「上手くなりたい」「新しいものに触れてみたい」という思いを感じ、自分でも力になれることを考え団体の一員として活動しようと決めました。\n\n色々なジャンルのesportsの紹介・宣伝や、競技として上達するための企画を考案・実施することで、周りの人たちが感じているesportsの楽しみを縦にも横にも広げていくことを目標に活動していきます。',
     works:'実績：第2回スカリンピック運営\n好きなゲーム：VALORANT / Street Fighter 6 / NieRシリーズ\n出身高校：神奈川県立追浜高等学校' },
-  emiria: { initial:'E', name:'Emiria', role:'クリエイティブ統括', headline:'女性でも、本気でesportsに挑戦できる場を。',
+  emiria: { initial:'E', name:'Emiria', real:'上堀 心和', fun:'恵美莉愛', role:'クリエイティブ統括', headline:'女性でも、本気でesportsに挑戦できる場を。',
     message:'横須賀市スカラーシップの第3期生として活動する中で、esportsが性別に関係なく誰でも本気で挑戦できる競技だということを実感してきました。\n\n大会や練習を重ねるうちに、「自分が活躍することで後に続く女性プレイヤーの背中を押せる」という使命感が芽生えています。\n\nプレイヤーとして成長しながら、クリエイティブ面から団体の発信力を高め、esportsの魅力をより多くの人に伝えていきます。',
     works:'実績：横須賀市スカラーシップ 第3期生\n好きなゲーム：VALORANT / Fortnite / Splatoon 3\n出身高校：神奈川県立津久井浜高等学校' }
 };
@@ -672,6 +677,7 @@ document.getElementById('mem-grid').innerHTML = MEMBER_ORDER.map(function(id){
     '<div class="mc-body" onclick="openMemberModal(\'' + id + '\')">' +
       '<div class="mc-role-badge">' + m.role + '</div>' +
       '<div class="mc-name">' + m.name + '</div>' +
+      '<div class="mc-real" data-id="' + id + '">（' + m.real + '）</div>' +
       '<div class="mc-headline-short">' + m.headline + '</div>' +
       '<div class="mc-hint">詳細を見る</div>' +
     '</div>' +
@@ -715,6 +721,7 @@ function openMemberModal(id){
   wrap.innerHTML = stored ? '<img src="' + stored + '" alt="">' : '<span class="ph">' + m.initial + '</span>';
   document.getElementById('modal-role').textContent = m.role;
   document.getElementById('modal-name').textContent = m.name;
+  document.getElementById('modal-real').textContent = '（' + (nameSwapped ? m.fun : m.real) + '）';
   document.getElementById('modal-headline').textContent = m.headline;
   document.getElementById('modal-message').textContent = m.message;
   document.getElementById('modal-works').textContent = m.works;
@@ -774,7 +781,7 @@ const EDITABLE = [
   '.section-title', '.section-eyebrow',
   '.contact-info dd', '.footer-note',
   '.record-title', '.record-desc', '.record-date', '.record-tag',
-  '.mc-name', '.mc-role-badge', '.mc-headline-short',
+  '.mc-name', '.mc-real', '.mc-role-badge', '.mc-headline-short',
   '.member-editable'
 ].join(',');
 
@@ -817,6 +824,8 @@ function addRecord(){
 
 function saveFile(){
   disableEditMode();
+  // 当て字モードのまま保存して公開されないよう、本名表記に戻してから書き出す
+  if(nameSwapped) toggleNameSwap();
   var clone = document.documentElement.cloneNode(true);
   // プレビュー専用要素は保存ファイルに含めない
   var pb = clone.querySelector('#preview-back'); if(pb) pb.remove();
@@ -835,19 +844,41 @@ function saveFile(){
   setTimeout(function(){ toast.remove(); }, 4000);
 }
 
-/* 秘密のキー入力 e → g → e → n */
+/* ══ お遊び：yegyeg と入力すると本名の表記が切り替わる ══
+   （以前ここにあった e→g→e→n の編集モード起動は廃止。
+     編集モードはロゴ5回タップのみで開きます） */
+var nameSwapped = false;
+function toggleNameSwap(){
+  nameSwapped = !nameSwapped;
+  document.body.classList.toggle('name-swapped', nameSwapped);
+  document.querySelectorAll('.mc-real').forEach(function(el){
+    var m = MEMBER_DATA[el.dataset.id];
+    if(!m) return;
+    el.textContent = '（' + (nameSwapped ? m.fun : m.real) + '）';
+  });
+  // 開いているモーダルにも反映
+  var mr = document.getElementById('modal-real');
+  var mn = document.getElementById('modal-name');
+  if(mr && mn && mn.textContent){
+    var cur = MEMBER_ORDER.map(function(k){ return MEMBER_DATA[k]; })
+                .filter(function(m){ return m.name === mn.textContent; })[0];
+    if(cur) mr.textContent = '（' + (nameSwapped ? cur.fun : cur.real) + '）';
+  }
+  var t = document.createElement('div');
+  t.className = 'edit-saved-toast';
+  t.textContent = nameSwapped ? '✨ 当て字モード' : '本名表記に戻しました';
+  document.body.appendChild(t);
+  setTimeout(function(){ t.remove(); }, 2200);
+}
 (function(){
-  var SEQ = ['e','g','e','n'], buf = [];
+  var SEQ = 'yegyeg', buf = '';
   document.addEventListener('keydown', function(e){
-    if(document.body.classList.contains('edit-active') && e.target.isContentEditable) return;
-    buf.push(String(e.key).toLowerCase());
-    if(buf.length > SEQ.length) buf.shift();
-    if(buf.join('') === SEQ.join('')){
-      var tb = document.getElementById('edit-toolbar');
-      var isOpen = tb.classList.toggle('tb-open');
-      if(isOpen && !editMode) toggleEdit();
-      if(!isOpen && editMode) toggleEdit();
-    }
+    var t = e.target;
+    if(t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+    var k = String(e.key).toLowerCase();
+    if(k.length !== 1) return;
+    buf = (buf + k).slice(-SEQ.length);
+    if(buf === SEQ){ buf = ''; toggleNameSwap(); }
   });
 })();
 

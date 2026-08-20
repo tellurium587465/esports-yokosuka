@@ -1031,9 +1031,25 @@
     font-weight: 700;
     font-size: 17px;
     color: var(--navy);
-    margin-bottom: 6px;
+    margin-bottom: 2px;
     line-height: 1.3;
   }
+  .mc-real {
+    font-size: 11.5px;
+    color: var(--text-light);
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+    transition: color 0.3s;
+  }
+  body.name-swapped .mc-real { color: var(--accent); }
+  #modal-real {
+    font-size: 13px;
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: 4px;
+    transition: color 0.3s;
+  }
+  body.name-swapped #modal-real { color: var(--accent); }
   .mc-headline-short {
     font-size: 12px;
     color: var(--text-sub);
@@ -1310,6 +1326,7 @@
       <div class="mc-body" onclick="openMemberModal('poyo')" style="cursor:pointer;">
         <div class="mc-role-badge">代表</div>
         <div class="mc-name">ぽよ</div>
+        <div class="mc-real" data-id="poyo">（佐藤 翔）</div>
         <div class="mc-divider"></div>
         <div class="mc-hint">詳細を見る</div>
       </div>
@@ -1329,6 +1346,7 @@
       <div class="mc-body" onclick="openMemberModal('novel')" style="cursor:pointer;">
         <div class="mc-role-badge">副代表</div>
         <div class="mc-name">NovelKaye</div>
+        <div class="mc-real" data-id="novel">（津山 陸）</div>
         <div class="mc-divider"></div>
         <div class="mc-hint">詳細を見る</div>
       </div>
@@ -1348,6 +1366,7 @@
       <div class="mc-body" onclick="openMemberModal('tellu')" style="cursor:pointer;">
         <div class="mc-role-badge">事務局長 / 広報統括</div>
         <div class="mc-name">テルル</div>
+        <div class="mc-real" data-id="tellu">（山崎 陸徠）</div>
         <div class="mc-divider"></div>
         <div class="mc-hint">詳細を見る</div>
       </div>
@@ -1367,6 +1386,7 @@
       <div class="mc-body" onclick="openMemberModal('yoruha')" style="cursor:pointer;">
         <div class="mc-role-badge">会計統括</div>
         <div class="mc-name">ダッキー</div>
+        <div class="mc-real" data-id="yoruha">（川崎 学）</div>
         <div class="mc-divider"></div>
         <div class="mc-hint">詳細を見る</div>
       </div>
@@ -1386,6 +1406,7 @@
       <div class="mc-body" onclick="openMemberModal('emiria')" style="cursor:pointer;">
         <div class="mc-role-badge">クリエイティブ統括</div>
         <div class="mc-name">Emiria</div>
+        <div class="mc-real" data-id="emiria">（上堀 心和）</div>
         <div class="mc-divider"></div>
         <div class="mc-hint">詳細を見る</div>
       </div>
@@ -1410,7 +1431,8 @@
         <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="rgba(147,197,253,0.6)" stroke-width="1.5" stroke-linecap="round"/>
       </svg>
     </div>
-    <h3 id="modal-name" style="font-size:22px;font-weight:700;color:#93c5fd;text-align:center;margin-bottom:4px;"></h3>
+    <h3 id="modal-name" style="font-size:22px;font-weight:700;color:#fdba74;text-align:center;margin-bottom:2px;"></h3>
+    <p id="modal-real"></p>
     <p id="modal-role" style="font-size:13px;color:var(--accent);text-align:center;margin-bottom:20px;letter-spacing:.04em;font-weight:600;"></p>
     <p id="modal-headline" style="font-size:16px;font-weight:700;color:#fff;line-height:1.65;margin-bottom:16px;border-left:3px solid rgba(232,101,10,0.7);padding-left:14px;"></p>
     <p id="modal-message" style="font-size:14px;color:rgba(255,255,255,0.8);line-height:2;margin-bottom:0;"></p>
@@ -1583,19 +1605,41 @@
     });
   }
 
-  /* ── 編集ツールバー：秘密のキー入力で表示 (E → G → E → N) ── */
+  /* ── お遊び：yegyeg と入力すると本名の表記が当て字に切り替わる ──
+     ※ 以前ここにあった e→g→e→n の編集モード起動は廃止しました。
+        編集モードはナビのロゴを5回タップすると開きます。 */
+  let nameSwapped = false;
+  function toggleNameSwap() {
+    nameSwapped = !nameSwapped;
+    document.body.classList.toggle('name-swapped', nameSwapped);
+    document.querySelectorAll('.mc-real').forEach(el => {
+      const d = MEMBER_DATA[el.dataset.id];
+      if (!d) return;
+      el.textContent = '（' + (nameSwapped ? d.fun : d.real) + '）';
+    });
+    // 開いているモーダルにも反映
+    const mr = document.getElementById('modal-real');
+    const mn = document.getElementById('modal-name');
+    if (mr && mn && mn.textContent) {
+      const cur = Object.values(MEMBER_DATA).find(d => d.name === mn.textContent);
+      if (cur) mr.textContent = '（' + (nameSwapped ? cur.fun : cur.real) + '）';
+    }
+    const toast = document.createElement('div');
+    toast.className = 'edit-saved-toast';
+    toast.textContent = nameSwapped ? '✨ 当て字モード' : '本名表記に戻しました';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2200);
+  }
   (function() {
-    const SEQ = ['e','g','e','n'];
-    let buf = [];
+    const SEQ = 'yegyeg';
+    let buf = '';
     document.addEventListener('keydown', e => {
-      buf.push(e.key.toLowerCase());
-      if (buf.length > SEQ.length) buf.shift();
-      if (buf.join('') === SEQ.join('')) {
-        const tb = document.getElementById('edit-toolbar');
-        const isOpen = tb.classList.toggle('tb-open');
-        if (isOpen && !editMode) toggleEdit();
-        if (!isOpen && editMode) toggleEdit();
-      }
+      const t = e.target;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+      const k = String(e.key).toLowerCase();
+      if (k.length !== 1) return;
+      buf = (buf + k).slice(-SEQ.length);
+      if (buf === SEQ) { buf = ''; toggleNameSwap(); }
     });
   })();
   let editMode = false;
@@ -1615,7 +1659,7 @@
     /* 実績 */
     '.record-title', '.record-desc', '.record-date', '.record-tag',
     /* メンバーカード */
-    '.mc-name', '.mc-role-badge', '.mc-headline-short',
+    '.mc-name', '.mc-real', '.mc-role-badge', '.mc-headline-short',
     /* メンバーモーダル内テキスト（MEMBER_DATA経由だが念のため） */
     '.member-editable',
   ].join(',');
@@ -1667,6 +1711,8 @@
 
   function saveFile() {
     disableEditMode();
+    // 当て字モードのまま保存して公開されないよう、本名表記に戻してから書き出す
+    if (nameSwapped) toggleNameSwap();
 
     const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -1710,6 +1756,8 @@
   const MEMBER_DATA = {
     poyo: {
       name: 'ぽよ',
+      real: '佐藤 翔',
+      fun: '歩世',
       role: '代表',
       headline: '横須賀の若者と創る、esportsの未来。',
       message: '「Yokosuka e-Sports Project」を通じてesportsの魅力を知った学生として、横須賀のesports文化の発展に貢献したいと思い活動を始めました。\n\nesportsを通じて人と人が繋がれる場所をつくり、もっと多くの学生たちにesportsへ興味を持ってもらえる環境を広げていきたいです。',
@@ -1717,6 +1765,8 @@
     },
     novel: {
       name: 'NovelKaye',
+      real: '津山 陸',
+      fun: '野辺瑠華井',
       role: '副代表',
       headline: '横須賀から、esportsを"当たり前"の文化へ。',
       message: 'esportsを通じて出会った仲間や経験をきっかけに、横須賀でもeスポーツが当たり前に楽しめる環境をつくりたいと思いました。\n\n横須賀からesportsの魅力を発信し、eスポーツが当たり前にある文化を広げていきたいです。',
@@ -1724,6 +1774,8 @@
     },
     tellu: {
       name: 'テルル',
+      real: '山崎 陸徠',
+      fun: '輝莉雨夢',
       role: '事務局長 / 広報統括',
       headline: 'esportsの感動を、もっと多くの人へ届けたい。',
       message: '横須賀で行われてきた大会開催やコミュニティ運営を見て、「自分も運営する側として関わりたい」という思いからこの団体での活動を始めました。\n\nesportsを通じて高校の枠を超えたつながりと感動が生まれる現場を見てきたからこそ、これから横須賀で生まれるesportsの感動を、より多くの人に届けていきたいと思っています。\n\n「esportsといえば横須賀」と言ってもらえるよう、事務・広報の両面から団体を支えていきます。',
@@ -1731,6 +1783,8 @@
     },
     yoruha: {
       name: 'ダッキー',
+      real: '川崎 学',
+      fun: '堕輝威王婆雷諏',
       role: '会計統括',
       headline: 'esportsをより深く、より楽しく。',
       message: 'esportsで多くの人と交流する中で「上手くなりたい」「新しいものに触れてみたい」という思いを感じ、自分でも力になれることを考え団体の一員として活動しようと決めました。\n\n色々なジャンルのesportsの紹介・宣伝や、競技として上達するための企画を考案・実施することで、周りの人たちが感じているesportsの楽しみを縦にも横にも広げていくことを目標に活動していきます。',
@@ -1738,6 +1792,8 @@
     },
     emiria: {
       name: 'Emiria',
+      real: '上堀 心和',
+      fun: '恵美莉愛',
       role: 'クリエイティブ統括',
       headline: '女性でも、本気でesportsに挑戦できる場を。',
       message: '横須賀市スカラーシップの第3期生として活動する中で、esportsが性別に関係なく誰でも本気で挑戦できる競技だということを実感してきました。\n\n大会や練習を重ねるうちに、「自分が活躍することで後に続く女性プレイヤーの背中を押せる」という使命感が芽生えています。\n\nプレイヤーとして成長しながら、クリエイティブ面から団体の発信力を高め、esportsの魅力をより多くの人に伝えていきます。',
@@ -1796,6 +1852,7 @@
     const d = MEMBER_DATA[id];
     if (!d) return;
     document.getElementById('modal-name').textContent = d.name;
+    document.getElementById('modal-real').textContent = '（' + (nameSwapped ? d.fun : d.real) + '）';
     document.getElementById('modal-role').textContent = d.role;
     document.getElementById('modal-headline').innerHTML = d.headline;
     document.getElementById('modal-message').innerHTML = d.message.replace(/\n/g, '<br>');
