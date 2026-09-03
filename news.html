@@ -746,8 +746,30 @@
 
 <script>
 // ─── 記事データ ───────────────────────────────────────────
-let ARTICLES_DEFAULT = [{"title":"観光番組「きしさんぽ」のロケに同行しました。","date":"2026-06-19","body":"横須賀市主催のesports大会「YOKOSUKA e-Sports CUP」内で放送される観光番組「きしさんぽ」のロケに同行しました。\n\n岸さんが横須賀内の様々な観光スポットやグルメを紹介しながら街の魅力を伝える番組で、当日は猿島など複数の観光地を巡りました。YeGメンバーがカメラ操作も担当し、番組作りは出演者やスタッフの連携によって成り立っていることを学びました。\n\n第3回放送は7月20日に配信予定です。","noteUrl":"https://note.com/yokosuka_egen/n/nefff9bacc47a","images":[{"src":"https://assets.st-note.com/production/uploads/images/286778638/rectangle_large_type_2_a421e31867ec63624390cafe54b60c27.png?width=1280","type":"url"}]},{"title":"海洋科学高等学校に現地コーチング！","date":"2026-06-11","body":"5月25日、海洋科学高等学校を訪問し、VALORANT部活動の現地コーチングを実施しました。\n\n学校の許可を得た上で行われたコーチングでは、生徒たちが限られた時間の中でもメンバー内やYeGの人に積極的に質問をし、試合中でも改善に取り組む上達への意欲が強く感じられました。\n\nPCを持たない生徒も1日2時間の部活時間を活用し、メンバーと協力しながらゲームに取り組んでいます。STAGE:0の大会終了後、夏に開催される第7回「YOKOSUKA e-Sports CUP」での好成績をサポートしていきます。","noteUrl":"https://note.com/yokosuka_egen/n/n231f11862a13","images":[{"src":"https://assets.st-note.com/production/uploads/images/284411547/rectangle_large_type_2_64ac901d1dbfe00f45b5384c7aab7ba1.jpeg?width=1280","type":"url"}]},{"title":"eSports業界交流会「eジョブ」に参加しました！","date":"2026-06-04","body":"eSports業界交流会「eジョブ」に参加しました。\n\n100名以上の参加者が集まり、「eスポーツの本質とは」をテーマに交流が行われました。\n\n会場には、プロeSportsチームの関連企業や運営者、IT企業、eSportsカフェの店長など幅広い業界関係者が参加。主催者から「eSports業界は転職者が多く、新卒や新社会人が関わる機会が少ない」という指摘があり、現役学生時代から業界との繋がりを持つ環境の重要性を実感しました。\n\n「eSportsは年齢や性別、障がいの有無に関係なく、共通の想いでつながれる場」であることを改めて認識し、多様な価値観に触れることで視野が広がりました。横須賀でのプロジェクトについても多くの企業に認知されており、今後の連携に期待が高まる機会となりました。","noteUrl":"https://note.com/yokosuka_egen/n/n8aa25fdaee71","images":[{"src":"https://assets.st-note.com/production/uploads/images/282303741/rectangle_large_type_2_45ff36e965e7cb4981722af4e8e15e8f.jpeg?width=1280","type":"url"}]},{"title":"［イベント協力］ストリートファイター6 体験会 in よこすかカレーフェスティバル 2026","date":"2026-05-26","body":"5/16・5/17に行われたよこすかカレーフェスティバル ストリートファイター体験会の運営に協力しました。\n\n1日目はイベント会場の設営から始まり、初めて格ゲーを触る来場者向けに昇龍拳チャレンジを案内したり、対戦会を行いました。\n\n2日目はゲストに倉持由香さんが春麗のコスプレで登場！来場者との対戦会に加え、ミニトーナメント「よこすかカレー杯」の進行もお手伝いしました。\n\n当初8名予定だったトーナメントに応募者が約40名集まり、スト6の人気の高さを改めて実感。決勝ではまさかのダルシムミラーが勃発し、大会名に相応しい盛り上がりとなりました。\n\n格闘ゲーム未経験者から上級者、小さなお子さんからゲームセンター時代から格ゲーを愛するベテランまで、幅広い層にストリートファイターを楽しんでいただけました。","noteUrl":"https://note.com/yokosuka_egen/n/n8e6fbcf46ab2","images":[{"src":"https://assets.st-note.com/img/1779765229-5enfl6TPgIAtFHG9W2Eu4J8K.png?width=1200","type":"url"},{"src":"https://assets.st-note.com/img/1779765209-trcwRDeAuaCyk87hUOsG9dKi.png?width=1200","type":"url"},{"src":"https://assets.st-note.com/img/1779766251-2dg6DYjvuzmrJTRZ41sKEnaf.jpg?width=1200","type":"url"}]}];
-let ARTICLES = JSON.parse(localStorage.getItem('yeg_news_articles') || 'null') || ARTICLES_DEFAULT;
+/* @ARTICLES_START */
+// 記事を更新したら ARTICLES_VERSION も必ず変える（古い端末の表示を更新させるため）
+var ARTICLES_VERSION = '2026-08-25-01';
+let ARTICLES_DEFAULT = [{"title":"VCJ2026にご招待頂きました！","date":"2026-08-25","body":"VALORANT CHALLENGERS JAPAN 2026 シーズンファイナル2日目にご招待いただきました。\n\n会場内のブースを見学し、ファンの熱量の高さ、そして選手とファンの距離の近さに感動しました。特にREJECTの応援の様子が印象的でした。\n\n大人になってもスポーツやeスポーツに全力で向き合い、チーム全体で戦う姿勢に、eスポーツの魅力と人間関係の深さを改めて実感しました。","noteUrl":"https://note.com/yokosuka_egen/n/n41dc9b2659cc","images":[{"src":"https://assets.st-note.com/production/uploads/images/306521234/rectangle_large_type_2_9f092796ff4068966e55482111ec410d.jpeg?width=1280","type":"url"}]},{"title":"yueさんぽの撮影ロケに同行しました！","date":"2026-08-24","body":"「yueさんぽ」の撮影ロケに同行しました。\n\n今回はスマートフォンを使って撮影全体を映す「3カメ」を担当。「カメラマンが映らずに全体を映すにはどこに立つべきか」という課題に何度もぶつかりながら撮影を進めました。\n\n海洋科学高校での撮影では、夏休み中にもかかわらず元気に部活動へ参加する生徒たちの様子や、缶詰製造機械といった専門的な設備を見学させていただき、とても貴重な経験になりました。","noteUrl":"https://note.com/yokosuka_egen/n/n45e53135a9d1","images":[{"src":"https://assets.st-note.com/production/uploads/images/303208454/rectangle_large_type_2_d389b67d36de5362575d2bef381851b6.jpeg?width=1280","type":"url"}]},{"title":"VALORANT大会・YOKOSUKA e-Sports CUP開催&現場お手伝いしてきました！","date":"2026-08-13","body":"第7回 YOKOSUKA e-Sports CUP が開催されました。今年は初心者向けのROOKIE部門と、ELITE部門に分かれての開催です。\n\nYeGは運営側のJCGさんをサポートし、大会進行やライブ配信など、大会の舞台裏を学ばせていただきました。\n\n横須賀市内の高校eスポーツ部の生徒たちも多く参加してくれました。8月20日にはELITE部門の決勝リーグが開催予定です。","noteUrl":"https://note.com/yokosuka_egen/n/n02330d427d6b","images":[{"src":"https://assets.st-note.com/production/uploads/images/306522426/rectangle_large_type_2_0d533409c3c0ef792a355933c5fdad02.png?width=1280","type":"url"}]},{"title":"観光番組「きしさんぽ」のロケに同行しました。","date":"2026-06-19","body":"横須賀市主催のesports大会「YOKOSUKA e-Sports CUP」内で放送される観光番組「きしさんぽ」のロケに同行しました。\n\n岸さんが横須賀内の様々な観光スポットやグルメを紹介しながら街の魅力を伝える番組で、当日は猿島など複数の観光地を巡りました。YeGメンバーがカメラ操作も担当し、番組作りは出演者やスタッフの連携によって成り立っていることを学びました。\n\n第3回放送は7月20日に配信予定です。","noteUrl":"https://note.com/yokosuka_egen/n/nefff9bacc47a","images":[{"src":"https://assets.st-note.com/production/uploads/images/286778638/rectangle_large_type_2_a421e31867ec63624390cafe54b60c27.png?width=1280","type":"url"}]},{"title":"海洋科学高等学校に現地コーチング！","date":"2026-06-11","body":"5月25日、海洋科学高等学校を訪問し、VALORANT部活動の現地コーチングを実施しました。\n\n学校の許可を得た上で行われたコーチングでは、生徒たちが限られた時間の中でもメンバー内やYeGの人に積極的に質問をし、試合中でも改善に取り組む上達への意欲が強く感じられました。\n\nPCを持たない生徒も1日2時間の部活時間を活用し、メンバーと協力しながらゲームに取り組んでいます。STAGE:0の大会終了後、夏に開催される第7回「YOKOSUKA e-Sports CUP」での好成績をサポートしていきます。","noteUrl":"https://note.com/yokosuka_egen/n/n231f11862a13","images":[{"src":"https://assets.st-note.com/production/uploads/images/284411547/rectangle_large_type_2_64ac901d1dbfe00f45b5384c7aab7ba1.jpeg?width=1280","type":"url"}]},{"title":"eSports業界交流会「eジョブ」に参加しました！","date":"2026-06-04","body":"eSports業界交流会「eジョブ」に参加しました。\n\n100名以上の参加者が集まり、「eスポーツの本質とは」をテーマに交流が行われました。\n\n会場には、プロeSportsチームの関連企業や運営者、IT企業、eSportsカフェの店長など幅広い業界関係者が参加。主催者から「eSports業界は転職者が多く、新卒や新社会人が関わる機会が少ない」という指摘があり、現役学生時代から業界との繋がりを持つ環境の重要性を実感しました。\n\n「eSportsは年齢や性別、障がいの有無に関係なく、共通の想いでつながれる場」であることを改めて認識し、多様な価値観に触れることで視野が広がりました。横須賀でのプロジェクトについても多くの企業に認知されており、今後の連携に期待が高まる機会となりました。","noteUrl":"https://note.com/yokosuka_egen/n/n8aa25fdaee71","images":[{"src":"https://assets.st-note.com/production/uploads/images/282303741/rectangle_large_type_2_45ff36e965e7cb4981722af4e8e15e8f.jpeg?width=1280","type":"url"}]},{"title":"［イベント協力］ストリートファイター6 体験会 in よこすかカレーフェスティバル 2026","date":"2026-05-26","body":"5/16・5/17に行われたよこすかカレーフェスティバル ストリートファイター体験会の運営に協力しました。\n\n1日目はイベント会場の設営から始まり、初めて格ゲーを触る来場者向けに昇龍拳チャレンジを案内したり、対戦会を行いました。\n\n2日目はゲストに倉持由香さんが春麗のコスプレで登場！来場者との対戦会に加え、ミニトーナメント「よこすかカレー杯」の進行もお手伝いしました。\n\n当初8名予定だったトーナメントに応募者が約40名集まり、スト6の人気の高さを改めて実感。決勝ではまさかのダルシムミラーが勃発し、大会名に相応しい盛り上がりとなりました。\n\n格闘ゲーム未経験者から上級者、小さなお子さんからゲームセンター時代から格ゲーを愛するベテランまで、幅広い層にストリートファイターを楽しんでいただけました。","noteUrl":"https://note.com/yokosuka_egen/n/n8e6fbcf46ab2","images":[{"src":"https://assets.st-note.com/img/1779765229-5enfl6TPgIAtFHG9W2Eu4J8K.png?width=1200","type":"url"},{"src":"https://assets.st-note.com/img/1779765209-trcwRDeAuaCyk87hUOsG9dKi.png?width=1200","type":"url"},{"src":"https://assets.st-note.com/img/1779766251-2dg6DYjvuzmrJTRZ41sKEnaf.jpg?width=1200","type":"url"}]}];
+/* @ARTICLES_END */
+
+// 公開ファイルの内容を正とし、localStorage は同じ版の下書きのときだけ使う。
+// （以前は localStorage が常に優先され、一度訪れた端末が古い一覧のまま固定されていた）
+let ARTICLES = (function () {
+  try {
+    var raw = localStorage.getItem('yeg_news_articles');
+    if (raw) {
+      var s = JSON.parse(raw);
+      if (s && s.v === ARTICLES_VERSION && Array.isArray(s.articles) && s.articles.length) return s.articles;
+      localStorage.removeItem('yeg_news_articles'); // 旧形式・古い版・空データは破棄
+    }
+  } catch (e) {
+    try { localStorage.removeItem('yeg_news_articles'); } catch (_) {}
+  }
+  return ARTICLES_DEFAULT.slice();
+})();
+function persistArticles() {
+  try { localStorage.setItem('yeg_news_articles', JSON.stringify({ v: ARTICLES_VERSION, articles: ARTICLES })); } catch (e) {}
+}
 let editMode = false;
 let editIndex = null; // 編集中の記事インデックス
 let pendingImages = []; // 作成中の画像 {src, type} 配列
@@ -980,7 +1002,7 @@ function saveArticle() {
     ARTICLES.push(article);
   }
 
-  try { localStorage.setItem('yeg_news_articles', JSON.stringify(ARTICLES)); } catch(e) {}
+  persistArticles();
   closeCompose();
   renderArticles();
 }
@@ -990,7 +1012,7 @@ function deleteArticle(index, event) {
   event.stopPropagation();
   if (!confirm('この記事を削除しますか？')) return;
   ARTICLES.splice(index, 1);
-  try { localStorage.setItem('yeg_news_articles', JSON.stringify(ARTICLES)); } catch(e) {}
+  persistArticles();
   renderArticles();
 }
 
@@ -1005,13 +1027,30 @@ function toggleEdit() {
 
 // ─── HTMLとして保存 ───────────────────────────────────────
 function saveFile() {
-  // 記事データをHTMLに埋め込む
-  const articlesJson = JSON.stringify(ARTICLES);
   let pageHtml = document.documentElement.outerHTML;
-  // ARTICLESの初期値を現在のデータで書き換え
-  pageHtml = pageHtml.replace(
-    /let ARTICLES = JSON\.parse\(localStorage\.getItem\('yeg_news_articles'\) \|\| '\[\]'\);/,
-    `let ARTICLES = ${articlesJson};\ntry { localStorage.setItem('yeg_news_articles', JSON.stringify(ARTICLES)); } catch(e) {}\nARTICLES = JSON.parse(localStorage.getItem('yeg_news_articles') || JSON.stringify(ARTICLES));`
+
+  // マーカーの間（バージョン＋記事データ）をまるごと現在の内容で置き換える。
+  // ※ 以前は ARTICLES の行を正規表現で探していたが実際のコードと一致せず、
+  //    編集した記事が保存ファイルに入らないまま出力されていた。
+  const newVersion = new Date().toISOString().slice(0, 19).replace(/[-:T]/g, '');
+  const re = /\/\* @ARTICLES_START \*\/[\s\S]*?\/\* @ARTICLES_END \*\//;
+
+  if (!re.test(pageHtml)) {
+    const err = document.createElement('div');
+    err.className = 'edit-saved-toast';
+    err.style.borderLeftColor = '#dc2626';
+    err.textContent = '⚠️ 保存に失敗：データ埋め込みマーカーが見つかりません。ファイルを確認してください。';
+    document.body.appendChild(err);
+    setTimeout(() => err.remove(), 6000);
+    return;
+  }
+
+  pageHtml = pageHtml.replace(re,
+    '/* @ARTICLES_START */\n' +
+    '// 記事を更新したら ARTICLES_VERSION も必ず変える（古い端末の表示を更新させるため）\n' +
+    "var ARTICLES_VERSION = '" + newVersion + "';\n" +
+    'let ARTICLES_DEFAULT = ' + JSON.stringify(ARTICLES) + ';\n' +
+    '/* @ARTICLES_END */'
   );
 
   const blob = new Blob(['<!DOCTYPE html>\n' + pageHtml], {type: 'text/html;charset=utf-8'});
@@ -1023,9 +1062,9 @@ function saveFile() {
 
   const toast = document.createElement('div');
   toast.className = 'edit-saved-toast';
-  toast.textContent = '✅ news.htmlを保存！GitHubに上書きアップロードしてください';
+  toast.textContent = '✅ news.htmlを保存（記事' + ARTICLES.length + '件を埋め込み済み）。GitHubに上書きアップロードしてください';
   document.body.appendChild(toast);
-  setTimeout(() => toast.remove(), 4000);
+  setTimeout(() => toast.remove(), 5000);
 }
 
 // ─── ナビゲーション ───────────────────────────────────────
