@@ -1133,53 +1133,75 @@
   }
 
   /* ==YESF_BANNER_CSS_START== */
-  /* ── YeSF 2026 特設サイト バナー（期間限定／大会終了後に削除） ── */
-  .yesf-banner-wrap { padding: 0 8vw; background: var(--bg); }
-  .yesf-banner-wrap.is-top { margin-top: 68px; padding-top: 20px; padding-bottom: 20px; }
-  .yesf-banner-wrap.is-after-hero { padding-top: 44px; padding-bottom: 4px; }
-  .yesf-banner {
-    display: block;
-    max-width: 1180px;
-    margin: 0 auto;
-    background: #f3f3f1;
-    border: 1px solid var(--border);
-    text-decoration: none;
-    overflow: hidden;
-    transition: border-color .25s, box-shadow .25s, transform .25s;
+  /* ── YeSF 2026 特設サイト バナー（期間限定／大会終了後に削除） ──
+     画像ではなく文字を組んでいるため、縦長・横長どちらにも組み替わります。 */
+  @font-face {
+    font-family: 'Anton';
+    src: url('../assets/Anton-Regular.ttf') format('truetype');
+    font-weight: 400; font-style: normal; font-display: swap;
   }
-  .yesf-banner:hover {
-    border-color: var(--accent);
-    box-shadow: 0 8px 28px rgba(15,34,68,0.13);
-    transform: translateY(-2px);
+  .yesf-slot { position: absolute; right: 8vw; top: 50%; transform: translateY(-50%); width: 300px; z-index: 4; }
+  .yesf-card {
+    display: block; position: relative; overflow: hidden;
+    color: #111; text-decoration: none;
+    background: #f3f3f1 url('../assets/plaster-relief.webp') center/cover no-repeat;
+    border: 1px solid #111;
+    box-shadow: 0 18px 44px rgba(0,0,0,0.42);
+    transition: transform .3s cubic-bezier(.2,.7,.3,1), box-shadow .3s;
   }
-  .yesf-banner:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-  /* 画像は上下約20%が透過の余白なので、実描画比率 2023:401 で正確に詰める */
-  .yesf-banner-media { display: block; width: 100%; aspect-ratio: 2023 / 401; overflow: hidden; }
-  .yesf-banner-media img {
-    width: 100%; height: 100%;
-    object-fit: cover; object-position: center;
-    display: block;
-    transition: transform .6s cubic-bezier(.2,.7,.3,1);
+  .yesf-card::after {
+    content: ''; position: absolute; inset: 5px; border: 1px solid rgba(17,17,17,.28); pointer-events: none;
   }
-  .yesf-banner:hover .yesf-banner-media img { transform: scale(1.02); }
-  /* スマホでは画像内の小さい文字が読めないため、CTAを文字で補う */
-  .yesf-banner-cta { display: none; }
-  @media (max-width: 600px) {
-    .yesf-banner-wrap { padding-left: 5vw; padding-right: 5vw; }
-    .yesf-banner-wrap.is-top { padding-top: 14px; padding-bottom: 14px; }
-    .yesf-banner-wrap.is-after-hero { padding-top: 32px; }
-    .yesf-banner-cta {
-      display: flex; align-items: center; justify-content: space-between; gap: 10px;
-      padding: 12px 14px;
-      background: #fff;
-      border-top: 1px solid var(--border);
-      font-size: 12.5px; font-weight: 700; color: var(--navy); letter-spacing: .02em;
-    }
-    .yesf-banner-cta i { font-style: normal; color: var(--accent); font-size: 16px; }
+  .yesf-card:hover { transform: translateY(-4px); box-shadow: 0 24px 56px rgba(0,0,0,0.5); }
+  .yesf-card:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+  .yesf-in { position: relative; z-index: 1; padding: 20px 20px 18px; display: grid; gap: 14px; }
+  /* span を並べているので、ブロック化しないと行が横に並んでしまう */
+  .yesf-mark, .yesf-cta, .yesf-div, .yesf-title, .yesf-sub, .yesf-cta-jp, .yesf-cta-note { display: block; }
+  .yesf-kicker, .yesf-sub, .yesf-micro { font-family: 'Anton', 'Noto Sans JP', sans-serif; font-weight: 400; }
+  .yesf-kicker { display: flex; align-items: center; gap: 8px; font-size: 9px; letter-spacing: .16em; white-space: nowrap; }
+  .yesf-kicker::after { content: ''; flex: 1; height: 1px; background: #111; }
+  .yesf-title { font-family: 'Anton', sans-serif; font-weight: 400; font-size: 52px; line-height: .86; letter-spacing: .01em; }
+  .yesf-title span { display: block; }
+  .yesf-sub { font-size: 8.5px; letter-spacing: .15em; margin-top: 8px; padding-top: 7px; border-top: 1px solid #111; white-space: nowrap; }
+  .yesf-div { height: 1px; background: #111; opacity: .85; }
+  .yesf-cta-jp { font-size: 19px; font-weight: 900; line-height: 1.35; letter-spacing: .01em; }
+  .yesf-cta-note { font-size: 11px; font-weight: 500; line-height: 1.7; color: #333; margin-top: 5px; }
+  .yesf-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .yesf-micro { display: flex; align-items: center; gap: 7px; font-size: 8.5px; letter-spacing: .16em; flex: 1; }
+  .yesf-micro::after { content: ''; flex: 1; height: 1px; background: #111; }
+  .yesf-arrow {
+    flex: 0 0 auto; width: 42px; height: 42px; border-radius: 50%;
+    background: #111; color: #fff; display: grid; place-items: center; font-size: 17px; line-height: 1;
+    transition: transform .3s cubic-bezier(.2,.7,.3,1);
+  }
+  .yesf-card:hover .yesf-arrow { transform: translateX(4px); }
+
+  /* 横長に組み替え（ヒーロー右に置く余白が無い幅） */
+  @media (max-width: 1099px) {
+    .yesf-slot { position: static; transform: none; width: 100%; max-width: 620px; margin: 8px 0 40px; }
+    .yesf-in { grid-template-columns: auto 1px 1fr; grid-template-areas: 'k k k' 'mark div cta' 'foot foot foot'; gap: 12px 16px; align-items: center; }
+    .yesf-kicker { grid-area: k; }
+    .yesf-mark { grid-area: mark; }
+    .yesf-div { grid-area: div; height: auto; width: 1px; align-self: stretch; }
+    .yesf-cta { grid-area: cta; }
+    .yesf-foot { grid-area: foot; }
+    .yesf-title { font-size: 40px; }
+    .yesf-title span { display: inline; }
+    .yesf-title span::before { content: ' '; }
+  }
+  @media (max-width: 560px) {
+    .yesf-slot { margin-bottom: 32px; }
+    .yesf-in { grid-template-columns: 1fr; grid-template-areas: 'k' 'mark' 'cta' 'foot'; gap: 12px; }
+    .yesf-div { display: none; }
+    .yesf-title { font-size: 44px; }
+    .yesf-title span { display: block; }
+    .yesf-title span::before { content: none; }
+    .yesf-cta-jp { font-size: 18px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .yesf-banner, .yesf-banner-media img { transition: none; }
-    .yesf-banner:hover, .yesf-banner:hover .yesf-banner-media img { transform: none; }
+    .yesf-card, .yesf-arrow { transition: none; }
+    .yesf-card:hover { transform: none; }
+    .yesf-card:hover .yesf-arrow { transform: none; }
   }
   /* ==YESF_BANNER_CSS_END== */</style>
 </head>
@@ -1216,17 +1238,6 @@
   </button>
 </nav>
 
-<!-- ==YESF_BANNER_START== YeSF 2026 特設サイト バナー（期間限定・大会終了後にこのブロックを削除） -->
-<div class="yesf-banner-wrap is-top">
-  <a class="yesf-banner" href="../yesf/" aria-label="YeSF 2026 特設サイトへ。大会概要・協賛情報・最新情報を見る">
-    <span class="yesf-banner-media">
-      <img src="../assets/yesf-banner.webp" width="2048" height="684" 
-           alt="YeSF 2026 YOKOSUKA eSPORTS FESTA｜特設サイトへ　大会概要・協賛情報・最新情報を見る">
-    </span>
-    <span class="yesf-banner-cta">YeSF 2026 特設サイトへ<i>→</i></span>
-  </a>
-</div>
-<!-- ==YESF_BANNER_END== -->
 <!-- HERO -->
 <section class="hero">
   <div class="hero-particles" id="hero-particles"><div class="particle" style="left: 43.8412%; top: 66.4024%; width: 1.68162px; height: 1.10174px; animation-duration: 8.69558s; animation-delay: -2.65425s; opacity: 0.639148;"></div><div class="particle" style="left: 17.1359%; top: 86.148%; width: 1.9291px; height: 1.80505px; animation-duration: 20.3724s; animation-delay: -13.5625s; opacity: 0.380195;"></div><div class="particle" style="left: 34.8266%; top: 89.6111%; width: 2.55801px; height: 1.9946px; animation-duration: 12.783s; animation-delay: -2.72652s; opacity: 0.434121;"></div><div class="particle" style="left: 11.1797%; top: 81.7761%; width: 2.24857px; height: 2.34233px; animation-duration: 9.3306s; animation-delay: -11.7469s; opacity: 0.325932;"></div><div class="particle" style="left: 55.7293%; top: 98.9078%; width: 1.30992px; height: 1.90936px; animation-duration: 15.9633s; animation-delay: -1.74172s; opacity: 0.823369;"></div><div class="particle" style="left: 27.5739%; top: 84.8713%; width: 2.81202px; height: 1.79888px; animation-duration: 20.1362s; animation-delay: -8.7303s; opacity: 0.77767;"></div><div class="particle" style="left: 85.5163%; top: 90.445%; width: 1.26422px; height: 2.26704px; animation-duration: 19.7042s; animation-delay: -6.01248s; opacity: 0.632589;"></div><div class="particle" style="left: 59.2609%; top: 98.7558%; width: 2.48502px; height: 2.21081px; animation-duration: 18.1395s; animation-delay: -6.54506s; opacity: 0.822827;"></div><div class="particle" style="left: 40.2687%; top: 79.2491%; width: 1.35944px; height: 2.74986px; animation-duration: 15.7115s; animation-delay: -13.6698s; opacity: 0.422835;"></div><div class="particle" style="left: 96.7477%; top: 93.9338%; width: 2.3413px; height: 2.70939px; animation-duration: 19.7179s; animation-delay: -4.53359s; opacity: 0.560367;"></div><div class="particle" style="left: 79.0075%; top: 68.3493%; width: 1.69385px; height: 1.97829px; animation-duration: 19.4528s; animation-delay: -12.1278s; opacity: 0.88018;"></div><div class="particle" style="left: 89.4426%; top: 82.7354%; width: 1.56167px; height: 2.37178px; animation-duration: 21.7264s; animation-delay: -0.284284s; opacity: 0.507377;"></div><div class="particle" style="left: 74.8407%; top: 70.374%; width: 2.15322px; height: 1.74903px; animation-duration: 16.6481s; animation-delay: -5.79143s; opacity: 0.53469;"></div><div class="particle" style="left: 94.0102%; top: 89.6577%; width: 2.70989px; height: 2.66956px; animation-duration: 11.8259s; animation-delay: -3.00069s; opacity: 0.330425;"></div><div class="particle" style="left: 66.1938%; top: 87.832%; width: 2.92547px; height: 1.7149px; animation-duration: 11.4795s; animation-delay: -4.85228s; opacity: 0.745838;"></div><div class="particle" style="left: 31.3143%; top: 79.0168%; width: 1.25614px; height: 2.87693px; animation-duration: 16.5732s; animation-delay: -13.3491s; opacity: 0.576644;"></div><div class="particle" style="left: 64.6165%; top: 83.0472%; width: 2.1644px; height: 1.79895px; animation-duration: 13.3761s; animation-delay: -5.41491s; opacity: 0.450295;"></div><div class="particle" style="left: 60.8309%; top: 89.2371%; width: 2.39063px; height: 2.30696px; animation-duration: 9.64472s; animation-delay: -6.27324s; opacity: 0.36975;"></div><div class="particle" style="left: 94.5068%; top: 83.3697%; width: 2.92677px; height: 2.03842px; animation-duration: 17.3129s; animation-delay: -12.3014s; opacity: 0.901324;"></div><div class="particle" style="left: 95.0658%; top: 85.2948%; width: 2.17716px; height: 1.991px; animation-duration: 19.3661s; animation-delay: -5.87655s; opacity: 0.599759;"></div><div class="particle" style="left: 26.1748%; top: 98.0591%; width: 1.89997px; height: 1.57239px; animation-duration: 10.4246s; animation-delay: -0.562822s; opacity: 0.818545;"></div><div class="particle" style="left: 6.98001%; top: 74.3568%; width: 2.50251px; height: 1.412px; animation-duration: 13.7195s; animation-delay: -3.32774s; opacity: 0.627832;"></div><div class="particle" style="left: 39.481%; top: 68.5376%; width: 2.59419px; height: 2.21345px; animation-duration: 10.6555s; animation-delay: -6.11589s; opacity: 0.887894;"></div><div class="particle" style="left: 96.7641%; top: 99.2919%; width: 1.53271px; height: 1.999px; animation-duration: 10.4846s; animation-delay: -8.91305s; opacity: 0.914902;"></div><div class="particle" style="left: 35.9298%; top: 63.8076%; width: 1.22869px; height: 2.19361px; animation-duration: 18.4298s; animation-delay: -9.64336s; opacity: 0.752257;"></div><div class="particle" style="left: 79.3381%; top: 65.7626%; width: 2.41058px; height: 1.60592px; animation-duration: 8.17581s; animation-delay: -2.45492s; opacity: 0.517498;"></div><div class="particle" style="left: 86.0001%; top: 97.176%; width: 2.39152px; height: 1.84248px; animation-duration: 15.388s; animation-delay: -10.3935s; opacity: 0.451033;"></div><div class="particle" style="left: 43.8476%; top: 64.4002%; width: 1.81034px; height: 2.13573px; animation-duration: 20.0537s; animation-delay: -6.82383s; opacity: 0.803488;"></div><div class="particle" style="left: 45.8431%; top: 82.7538%; width: 2.83135px; height: 1.93356px; animation-duration: 15.2431s; animation-delay: -4.63485s; opacity: 0.85629;"></div><div class="particle" style="left: 49.9823%; top: 84.0825%; width: 2.99233px; height: 1.28384px; animation-duration: 11.7991s; animation-delay: -1.67456s; opacity: 0.561948;"></div><div class="particle" style="left: 40.191%; top: 86.9486%; width: 1.70381px; height: 1.77725px; animation-duration: 19.4749s; animation-delay: -12.8436s; opacity: 0.674331;"></div><div class="particle" style="left: 76.5201%; top: 78.8571%; width: 1.13032px; height: 2.58674px; animation-duration: 10.4604s; animation-delay: -11.2275s; opacity: 0.871289;"></div><div class="particle" style="left: 71.4763%; top: 84.093%; width: 1.04389px; height: 2.42319px; animation-duration: 10.2647s; animation-delay: -7.07592s; opacity: 0.685954;"></div><div class="particle" style="left: 19.3053%; top: 78.6983%; width: 2.56635px; height: 2.7307px; animation-duration: 8.7781s; animation-delay: -3.98354s; opacity: 0.787812;"></div><div class="particle" style="left: 55.6701%; top: 69.0532%; width: 2.24736px; height: 1.58764px; animation-duration: 21.2018s; animation-delay: -2.83456s; opacity: 0.927861;"></div><div class="particle" style="left: 37.741%; top: 85.7789%; width: 1.91106px; height: 2.5983px; animation-duration: 21.0821s; animation-delay: -2.2401s; opacity: 0.592721;"></div><div class="particle" style="left: 84.2736%; top: 98.8743%; width: 2.52022px; height: 1.98359px; animation-duration: 12.6057s; animation-delay: -8.83487s; opacity: 0.617749;"></div><div class="particle" style="left: 51.7647%; top: 66.8199%; width: 2.86246px; height: 2.66605px; animation-duration: 14.7785s; animation-delay: -11.5729s; opacity: 0.756371;"></div><div class="particle" style="left: 2.87729%; top: 85.4519%; width: 1.388px; height: 2.20609px; animation-duration: 15.4142s; animation-delay: -13.6772s; opacity: 0.925243;"></div><div class="particle" style="left: 87.4655%; top: 99.2921%; width: 1.37598px; height: 1.26348px; animation-duration: 19.3297s; animation-delay: -0.353184s; opacity: 0.429077;"></div><div class="particle" style="left: 53.5859%; top: 83.6307%; width: 1.40513px; height: 1.66208px; animation-duration: 9.51434s; animation-delay: -2.11615s; opacity: 0.788689;"></div><div class="particle" style="left: 7.85961%; top: 91.2002%; width: 2.57587px; height: 2.50069px; animation-duration: 11.3382s; animation-delay: -11.2811s; opacity: 0.975244;"></div><div class="particle" style="left: 98.7884%; top: 63.15%; width: 1.98139px; height: 1.41034px; animation-duration: 17.9971s; animation-delay: -2.56738s; opacity: 0.617114;"></div><div class="particle" style="left: 71.0241%; top: 77.7144%; width: 2.49946px; height: 1.87329px; animation-duration: 8.99046s; animation-delay: -2.38987s; opacity: 0.550848;"></div><div class="particle" style="left: 79.5837%; top: 79.432%; width: 2.20244px; height: 1.90738px; animation-duration: 19.7036s; animation-delay: -0.852683s; opacity: 0.727969;"></div><div class="particle" style="left: 61.4656%; top: 91.3713%; width: 1.36644px; height: 2.79921px; animation-duration: 11.4862s; animation-delay: -10.319s; opacity: 0.863989;"></div><div class="particle" style="left: 57.2193%; top: 97.5514%; width: 2.02435px; height: 2.88045px; animation-duration: 17.9743s; animation-delay: -11.5074s; opacity: 0.897179;"></div><div class="particle" style="left: 80.4238%; top: 91.544%; width: 1.84898px; height: 2.6788px; animation-duration: 20.9311s; animation-delay: -7.55939s; opacity: 0.643286;"></div><div class="particle" style="left: 45.9664%; top: 73.2804%; width: 1.45596px; height: 1.66658px; animation-duration: 11.5122s; animation-delay: -4.98302s; opacity: 0.708961;"></div><div class="particle" style="left: 69.8645%; top: 80.7578%; width: 1.92998px; height: 2.27394px; animation-duration: 12.3358s; animation-delay: -3.26235s; opacity: 0.996311;"></div><div class="particle" style="left: 77.3644%; top: 93.776%; width: 1.44701px; height: 2.73392px; animation-duration: 19.7877s; animation-delay: -2.37718s; opacity: 0.990732;"></div><div class="particle" style="left: 94.6685%; top: 64.0972%; width: 1.25716px; height: 1.7085px; animation-duration: 20.0345s; animation-delay: -1.29991s; opacity: 0.470233;"></div><div class="particle" style="left: 7.30535%; top: 67.2646%; width: 2.73098px; height: 1.68098px; animation-duration: 20.7252s; animation-delay: -5.4631s; opacity: 0.883523;"></div><div class="particle" style="left: 4.61691%; top: 74.4384%; width: 2.71512px; height: 2.75498px; animation-duration: 12.6148s; animation-delay: -0.249741s; opacity: 0.855597;"></div></div>
@@ -1255,23 +1266,34 @@
     <span class="badge">コミュニティ運営</span>
     <span class="badge">行政・企業連携</span>
   </div>
+<!-- ==YESF_BANNER_START== YeSF 2026 特設サイト バナー（期間限定・大会終了後にこのブロックとCSSを削除） -->
+  <div class="yesf-slot">
+    <a class="yesf-card" href="../yesf/" aria-label="YeSF 2026 特設サイトへ。大会概要・協賛情報・最新情報を見る">
+      <span class="yesf-in">
+        <span class="yesf-kicker">BUILD. OUR LEGACY.</span>
+        <span class="yesf-mark">
+          <span class="yesf-title">YeSF<span>2026</span></span>
+          <span class="yesf-sub">YOKOSUKA eSPORTS FESTA</span>
+        </span>
+        <span class="yesf-div"></span>
+        <span class="yesf-cta">
+          <span class="yesf-cta-jp">YeSF 特設サイトへ</span>
+          <span class="yesf-cta-note">大会概要・協賛情報・最新情報を見る</span>
+        </span>
+        <span class="yesf-foot">
+          <span class="yesf-micro">SPECIAL SITE</span>
+          <span class="yesf-arrow" aria-hidden="true">&#8594;</span>
+        </span>
+      </span>
+    </a>
+  </div>
+<!-- ==YESF_BANNER_END== -->
   <div class="scroll-hint">
     <span>SCROLL</span>
     <div class="scroll-line"></div>
   </div>
 </section>
 
-<!-- ==YESF_BANNER_START== YeSF 2026 特設サイト バナー（期間限定・大会終了後にこのブロックを削除） -->
-<div class="yesf-banner-wrap is-after-hero">
-  <a class="yesf-banner" href="../yesf/" aria-label="YeSF 2026 特設サイトへ。大会概要・協賛情報・最新情報を見る">
-    <span class="yesf-banner-media">
-      <img src="../assets/yesf-banner.webp" width="2048" height="684" loading="lazy"
-           alt="YeSF 2026 YOKOSUKA eSPORTS FESTA｜特設サイトへ　大会概要・協賛情報・最新情報を見る">
-    </span>
-    <span class="yesf-banner-cta">YeSF 2026 特設サイトへ<i>→</i></span>
-  </a>
-</div>
-<!-- ==YESF_BANNER_END== -->
 <div class="divider"></div>
 
 <!-- MISSION -->
