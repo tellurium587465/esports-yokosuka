@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>YeSF バナー — スマホ／タブレット確認</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#000; --ink2:#333; --ink3:#6b6b6b; --ink4:#9a9a9a;
+  --bg:#f4f4f2; --card:#fff; --line:#e2e2de;
+  --accent:#e8650a; --accent-soft:#fff3e9; --ok:#0f9d58; --bad:#dc2626;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans JP',sans-serif;line-height:1.9;-webkit-font-smoothing:antialiased}
+iframe{display:block;border:0}
+code{font-family:ui-monospace,Menlo,monospace;font-size:.86em;background:#ebebe7;padding:2px 6px;border-radius:3px}
+.wrap{max-width:1500px;margin:0 auto;padding:0 clamp(14px,3vw,28px)}
+
+.top{position:sticky;top:0;z-index:50;background:var(--ink);color:#fff}
+.top-in{max-width:1500px;margin:0 auto;padding:0 clamp(14px,3vw,28px);height:54px;display:flex;align-items:center;gap:14px}
+.top-in b{font-size:13px}
+.pill{background:var(--accent);font-size:10px;font-weight:700;letter-spacing:.1em;padding:5px 11px}
+
+header{padding:34px 0 26px;border-bottom:1px solid var(--line)}
+h1{font-size:clamp(20px,3vw,30px);font-weight:900;line-height:1.35}
+.lead{margin-top:14px;max-width:46em;font-size:13.5px;font-weight:300;line-height:2;color:var(--ink2)}
+
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:20px 0}
+.seg{display:inline-flex;border:1px solid var(--line);background:var(--card)}
+.seg button{background:none;border:0;font-family:inherit;font-size:11.5px;font-weight:700;letter-spacing:.04em;
+  padding:9px 15px;cursor:pointer;color:var(--ink3);transition:.16s;white-space:nowrap}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button.on{background:var(--ink);color:#fff}
+.seg-label{font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--ink4);margin-right:2px}
+.hint{font-size:11px;color:var(--ink4)}
+.bar .sp{flex:1}
+
+.stage{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start;padding-bottom:40px}
+.col{background:var(--card);border:1px solid var(--line);padding:14px;flex:0 0 auto}
+.col.best{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.col h2{font-size:14px;font-weight:900;display:flex;align-items:center;gap:8px}
+.col h2 .tag{font-size:9.5px;font-weight:700;letter-spacing:.1em;padding:3px 8px;background:var(--ink);color:#fff}
+.col.best h2 .tag{background:var(--accent)}
+.col .desc{font-size:11.5px;font-weight:300;line-height:1.8;color:var(--ink3);margin:6px 0 12px;max-width:34em}
+.shell{position:relative;border:1px solid var(--line);background:#fff;overflow:hidden}
+.shell iframe{transform-origin:0 0}
+/* 初回画面の境界線 */
+.foldline{position:absolute;left:0;right:0;height:0;border-top:2px dashed var(--bad);z-index:3;pointer-events:none}
+.foldline span{position:absolute;right:4px;top:-18px;background:var(--bad);color:#fff;font-size:9px;font-weight:700;padding:2px 6px;letter-spacing:.06em}
+.metrics{margin-top:10px;font-size:11.5px;line-height:1.85}
+.metrics div{display:flex;justify-content:space-between;gap:10px;padding:4px 0;border-bottom:1px solid var(--line)}
+.metrics div:last-child{border-bottom:0}
+.metrics b{font-weight:700}
+.yes{color:var(--ok);font-weight:700}
+.no{color:var(--bad);font-weight:700}
+
+.note{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);padding:16px 20px;margin-bottom:30px;font-size:12.5px;font-weight:300;line-height:1.95;color:var(--ink2)}
+footer{padding:26px 0 46px;font-size:11px;color:var(--ink4);border-top:1px solid var(--line)}
+@media(max-width:700px){ .stage{flex-direction:column} }
+</style>
+</head>
+<body>
+
+<div class="top"><div class="top-in"><b>YeSF バナー</b><span class="pill">スマホ／タブレット確認</span></div></div>
+
+<div class="wrap">
+  <header>
+    <h1>スマホとタブレットでの見え方を3案で比べる</h1>
+    <p class="lead">
+      枠の中は実際のページが動いています。<span style="color:var(--bad);font-weight:700">赤い点線</span>が
+      <b>開いた瞬間に見える範囲の下端</b>です。線より下はスクロールしないと見えません。
+      PCでの見え方（見出しの右横に縦長カード）は3案とも同じで、違うのはスマホだけです。
+    </p>
+  </header>
+
+  <div class="bar">
+    <span class="seg-label">端末</span>
+    <div class="seg" id="seg-dev">
+      <button data-w="375" data-h="667">iPhone SE<br><small>375×667</small></button>
+      <button data-w="390" data-h="844" class="on">iPhone 15<br><small>390×844</small></button>
+      <button data-w="412" data-h="915">Android<br><small>412×915</small></button>
+      <button data-w="768" data-h="1024">iPad 縦<br><small>768×1024</small></button>
+      <button data-w="820" data-h="1180">iPad Air<br><small>820×1180</small></button>
+    </div>
+    <span class="sp"></span>
+    <span class="hint">※ 実寸表示（縮小なし）</span>
+  </div>
+
+  <div class="note" id="mode-note"></div>
+
+  <div class="stage" id="stage">
+    <div class="col" data-v="a">
+      <h2><span class="tag">案A</span>今の状態</h2>
+      <p class="desc">スマホも縦長カードのまま。ヒーローの一番下に置かれます。</p>
+      <div class="shell"><div class="foldline"><span>ここまでが初回画面</span></div><iframe src="yesf-a.html" title="案A"></iframe></div>
+      <div class="metrics" data-m="a"></div>
+    </div>
+    <div class="col" data-v="b">
+      <h2><span class="tag">案B</span>元の画像を上に</h2>
+      <p class="desc">スマホはご提供の横長画像をナビ直下に。デザインはそのままですが、画像を縮めるので中の小さい文字も一緒に縮みます。</p>
+      <div class="shell"><div class="foldline"><span>ここまでが初回画面</span></div><iframe src="yesf-b.html" title="案B"></iframe></div>
+      <div class="metrics" data-m="b"></div>
+    </div>
+    <div class="col best" data-v="c">
+      <h2><span class="tag">案C</span>文字組みを上に</h2>
+      <p class="desc">位置は案Bと同じで、中身を文字組みに。小さい字が潰れません。</p>
+      <div class="shell"><div class="foldline"><span>ここまでが初回画面</span></div><iframe src="yesf-c.html" title="案C"></iframe></div>
+      <div class="metrics" data-m="c"></div>
+    </div>
+  </div>
+</div>
+
+<footer><div class="wrap">このページは検索に載りません（noindex）／本番サイトには影響しません</div></footer>
+
+<script>
+var dev = { w: 390, h: 844 };
+
+function apply(){
+  document.querySelectorAll('.shell').forEach(function(sh){
+    var f = sh.querySelector('iframe');
+    f.style.width  = dev.w + 'px';
+    f.style.height = Math.min(dev.h * 1.9, 1500) + 'px';
+    sh.style.width  = dev.w + 'px';
+    sh.style.height = Math.min(dev.h * 1.9, 1500) + 'px';
+    var fold = sh.querySelector('.foldline');
+    fold.style.top = dev.h + 'px';
+  });
+  var tablet = dev.w > 560;
+  document.getElementById('mode-note').innerHTML = tablet
+    ? '<b>いまタブレット幅です。</b>この幅では3案とも同じ表示になります（ヒーロー内に横長カード）。案の違いはスマホ幅（560px未満）でのみ現れるので、上の端末切替で iPhone / Android を選んでください。'
+    : '<b>いまスマホ幅です。</b>案Aは赤い点線より下にバナーがあるため、開いた瞬間には見えません。案B・案Cは点線より上にあるので最初から見えます。';
+  document.querySelectorAll('.col').forEach(function(col){
+    col.style.opacity = (tablet && col.dataset.v !== 'a') ? '.45' : '1';
+  });
+  setTimeout(measure, 700);
+}
+
+function measure(){
+  ['a','b','c'].forEach(function(v){
+    var box = document.querySelector('[data-m="' + v + '"]');
+    var f = document.querySelector('[data-v="' + v + '"] iframe');
+    var rows = [];
+    try {
+      var d = f.contentDocument;
+      // 表示されている方を測る（非表示の要素は 0x0 になるため）
+      var cands = [d.querySelector('.yesf-strip'), d.querySelector('.yesf-card')].filter(Boolean);
+      var el = cands.filter(function(e){ return e.getClientRects().length > 0; })[0] || cands[0];
+      if (!el) { box.innerHTML = '<div>測定できません</div>'; return; }
+      var r = el.getBoundingClientRect();
+      var top = Math.round(r.top + (d.defaultView.scrollY || 0));
+      var bottom = Math.round(r.bottom + (d.defaultView.scrollY || 0));
+      var visible = bottom <= dev.h;
+      var partial = top < dev.h && bottom > dev.h;
+      rows.push(['バナーの位置', top + '〜' + bottom + 'px']);
+      rows.push(['初回画面に全部入る',
+        visible ? '<span class="yes">はい</span>'
+                : (partial ? '<span class="no">一部だけ</span>' : '<span class="no">入らない</span>')]);
+      // 画像バナーの文字は実寸から逆算する（元画像の帯: 見出し119px / 注記37px / 2023px幅基準）
+      // 案Cもワードマーク画像を含むので、本文が実テキストかどうかで判定する
+      var isImg = el.classList.contains('yesf-strip') && !el.querySelector('.s-note');
+      if (isImg) {
+        var k = r.width / 2023;
+        rows.push(['見出しの実効サイズ', (119 * k).toFixed(1) + 'px']);
+        var e = 37 * k;
+        rows.push(['注記の実効サイズ', '<span class="' + (e < 9 ? 'no' : 'yes') + '">' + e.toFixed(1) + 'px</span>']);
+      } else {
+        var note = d.querySelector('.s-note') || d.querySelector('.yesf-cta-note');
+        if (note) {
+          var fs = parseFloat(d.defaultView.getComputedStyle(note).fontSize);
+          rows.push(['注記の文字サイズ', '<span class="' + (fs < 9 ? 'no' : 'yes') + '">' + fs + 'px</span>']);
+        }
+      }
+      rows.push(['バナーの高さ', Math.round(r.height) + 'px']);
+    } catch (e) { rows.push(['測定', '失敗']); }
+    box.innerHTML = rows.map(function(x){ return '<div><span>' + x[0] + '</span><b>' + x[1] + '</b></div>'; }).join('');
+  });
+}
+
+document.querySelectorAll('#seg-dev button').forEach(function(b){
+  b.addEventListener('click', function(){
+    document.querySelectorAll('#seg-dev button').forEach(function(x){ x.classList.remove('on'); });
+    b.classList.add('on');
+    dev = { w: +b.dataset.w, h: +b.dataset.h };
+    apply();
+  });
+});
+
+window.addEventListener('load', apply);
+apply();
+</script>
+</body>
+</html>
