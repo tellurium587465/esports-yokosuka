@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>YeG デザイン改修 — 方向性の整理</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&family=Dela+Gothic+One&family=Mr+Dafoe&family=Noto+Sans+JP:wght@300;400;500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#111;--ink2:#333;--ink3:#6b6b6b;--bg:#f4f3ef;--card:#fff;--line:#dedcd5;--red:#e60012}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans JP',sans-serif;line-height:1.9;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1160px;margin:0 auto;padding:0 clamp(16px,4vw,32px)}
+.top{position:sticky;top:0;z-index:50;background:var(--ink);color:#fff}
+.top-in{max-width:1160px;margin:0 auto;padding:0 clamp(16px,4vw,32px);height:54px;display:flex;align-items:center;gap:18px;font-size:12px;font-weight:700}
+.top-in .sp{flex:1}
+.top-in a{color:rgba(255,255,255,.65);text-decoration:none;letter-spacing:.06em;white-space:nowrap}
+.top-in a:hover{color:var(--red)}
+.pill{background:var(--red);padding:4px 10px;font-size:10px;letter-spacing:.1em}
+@media(max-width:760px){.top-in a{display:none}}
+header{padding:clamp(40px,6vw,76px) 0 clamp(28px,4vw,44px);border-bottom:1px solid var(--line)}
+h1{font-size:clamp(25px,4.2vw,44px);font-weight:900;line-height:1.3}
+h1 em{font-style:normal;color:var(--red)}
+.lead{margin-top:16px;max-width:46em;font-size:14px;font-weight:300;line-height:2.05;color:var(--ink2)}
+section{padding:clamp(38px,5.5vw,68px) 0;border-bottom:1px solid var(--line)}
+.lbl{display:flex;align-items:center;gap:10px;font-size:10px;font-weight:700;letter-spacing:.22em;color:var(--red);margin-bottom:10px}
+.lbl::before{content:'';width:22px;height:2px;background:var(--red)}
+h2{font-size:clamp(20px,2.8vw,30px);font-weight:900;line-height:1.4;margin-bottom:8px}
+.note{font-size:13.5px;font-weight:300;line-height:2;color:var(--ink3);max-width:48em;margin-bottom:26px}
+
+/* 概念カード */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.c{background:var(--card);border:1px solid var(--line);padding:18px 18px 16px}
+.c b{display:block;font-size:14px;font-weight:900;margin-bottom:6px}
+.c b i{font-style:normal;font-family:'Barlow Condensed',sans-serif;font-size:13px;color:var(--red);margin-right:8px;letter-spacing:.06em}
+.c p{font-size:12.5px;font-weight:300;line-height:1.9;color:var(--ink2)}
+.c .now{margin-top:9px;padding-top:9px;border-top:1px dashed var(--line);font-size:11.5px;color:var(--ink3)}
+.c .now::before{content:'今のサイト → ';font-weight:700;color:var(--ink)}
+
+/* 参考の分解 */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:800px){.two{grid-template-columns:1fr}}
+.ref{background:var(--card);border:1px solid var(--line);padding:22px}
+.ref h3{font-size:15px;font-weight:900;margin-bottom:12px}
+.ref ul{list-style:none;font-size:12.5px;font-weight:300;line-height:1.85}
+.ref li{padding:7px 0 7px 18px;border-top:1px solid var(--line);position:relative}
+.ref li:first-child{border-top:0}
+.ref li::before{content:'';position:absolute;left:0;top:16px;width:8px;height:2px;background:var(--red)}
+.ref li b{font-weight:700}
+
+/* 方向性の見本 */
+.dir{margin-bottom:34px}
+.dir-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px;margin-bottom:10px}
+.dir-h .id{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;letter-spacing:.08em;background:var(--ink);color:#fff;padding:2px 12px}
+.dir-h h3{font-size:18px;font-weight:900}
+.dir-h span{font-size:12px;color:var(--ink3)}
+.mock{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border:1px solid var(--line);container-type:inline-size}
+.dir-x{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;font-size:12.5px;font-weight:300;line-height:1.85}
+@media(max-width:700px){.dir-x{grid-template-columns:1fr}.mock{aspect-ratio:4/5}}
+.dir-x div{background:var(--card);border:1px solid var(--line);padding:12px 14px}
+.dir-x b{display:block;font-size:10.5px;font-weight:700;letter-spacing:.12em;color:var(--red);margin-bottom:3px}
+
+/* ── A: INK RISING ── */
+.mA{background:#f4f3ef;color:#111}
+.mA .frame{position:absolute;inset:1.6cqw;border:1px solid #111;pointer-events:none;z-index:5}
+.mA .sun{position:absolute;right:21cqw;top:26cqw;width:15cqw;height:15cqw;border-radius:50%;background:#e60012}
+.mA svg{position:absolute;right:0;bottom:0;width:62cqw;height:auto}
+.mA .logo{position:absolute;left:5cqw;top:4.4cqw;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:3.2cqw;letter-spacing:.04em;line-height:1}
+.mA .logo small{display:block;font-family:'Noto Sans JP';font-size:1.05cqw;font-weight:500;letter-spacing:.06em;margin-top:.3cqw}
+.mA .logo small i{font-style:normal;color:#e60012}
+.mA h4{position:absolute;left:5cqw;top:13cqw;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:8.6cqw;line-height:.9;letter-spacing:.005em;text-transform:uppercase;z-index:3}
+.mA h4 em{font-style:normal;color:#e60012}
+.mA .plg{position:absolute;left:5cqw;top:38.4cqw;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.9cqw;letter-spacing:.06em;z-index:3}
+.mA .plg i{font-style:normal;color:#e60012}
+.mA .jp{position:absolute;left:5cqw;top:41.6cqw;font-size:1.5cqw;font-weight:500;letter-spacing:.12em;z-index:3}
+.mA .side{position:absolute;right:3.6cqw;top:5cqw;writing-mode:vertical-rl;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:1cqw;letter-spacing:.34em;z-index:4}
+.mA .side::after{content:'';display:inline-block;width:2px;height:6cqw;background:#e60012;margin-top:1cqw}
+.mA .hash{position:absolute;left:5cqw;bottom:3.6cqw;font-size:1.05cqw;font-weight:500;letter-spacing:.04em;z-index:4;word-spacing:1.2cqw}
+
+/* ── B: DOBUITA NIGHT ── */
+.mB{background:radial-gradient(120% 90% at 70% 110%,#2a0c3a 0%,#0c0d1c 55%,#06070f 100%);color:#fff}
+.mB::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px);pointer-events:none}
+.mB .logo{position:absolute;left:5cqw;top:4.4cqw;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:2.6cqw;letter-spacing:.06em}
+.mB .nav{position:absolute;right:5cqw;top:5cqw;font-family:'Share Tech Mono',monospace;font-size:1.05cqw;letter-spacing:.14em;color:rgba(255,255,255,.7)}
+.mB h4{position:absolute;left:5cqw;top:14cqw;font-family:'Dela Gothic One',sans-serif;font-size:6.6cqw;line-height:1.12;color:#fff;
+  text-shadow:0 0 .25cqw #ff2e88,0 0 1.1cqw rgba(255,46,136,.8),0 0 3.4cqw rgba(255,46,136,.5)}
+.mB h4 em{font-style:normal;color:#eaffff;text-shadow:0 0 .25cqw #26e6ff,0 0 1.1cqw rgba(38,230,255,.8),0 0 3.4cqw rgba(38,230,255,.5)}
+.mB .en{position:absolute;left:5cqw;top:39.5cqw;font-family:'Mr Dafoe',cursive;font-size:4.4cqw;color:#ffd23f;transform:rotate(-5deg);text-shadow:0 0 1.2cqw rgba(255,210,63,.65)}
+.mB .signs{position:absolute;right:5cqw;top:14cqw;display:grid;gap:1.1cqw;justify-items:end}
+.mB .sg{font-family:'Dela Gothic One',sans-serif;font-size:1.5cqw;padding:.5cqw 1.3cqw;border:.16cqw solid;border-radius:.4cqw;letter-spacing:.08em}
+.mB .sg.p{color:#ff7ab5;border-color:#ff2e88;box-shadow:0 0 1.2cqw rgba(255,46,136,.55),inset 0 0 1cqw rgba(255,46,136,.25)}
+.mB .sg.c{color:#9af4ff;border-color:#26e6ff;box-shadow:0 0 1.2cqw rgba(38,230,255,.55),inset 0 0 1cqw rgba(38,230,255,.25)}
+.mB .sg.y{color:#ffe38a;border-color:#ffd23f;box-shadow:0 0 1.2cqw rgba(255,210,63,.5),inset 0 0 1cqw rgba(255,210,63,.2)}
+.mB .sg.v{writing-mode:vertical-rl;padding:1.2cqw .6cqw;font-size:1.7cqw}
+.mB .tick{position:absolute;left:0;right:0;bottom:0;background:#ff2e88;color:#0c0d1c;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.5cqw;letter-spacing:.2em;padding:.5cqw 0;white-space:nowrap;overflow:hidden;z-index:2}
+
+/* ── C: SOUVENIR JACKET ── */
+.mC{background:linear-gradient(105deg,#0f1b3d 0%,#1b2f66 38%,#12224d 60%,#0b1634 100%);color:#f6ecd2}
+.mC::before{content:'';position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.09) 45%,transparent 58%);pointer-events:none}
+.mC .rib{position:absolute;left:0;right:0;bottom:0;height:5.4cqw;background:repeating-linear-gradient(180deg,#c9a227 0 .9cqw,#f6ecd2 .9cqw 1.8cqw,#b3122a 1.8cqw 2.7cqw);z-index:2}
+.mC .sleeve{position:absolute;left:0;top:0;bottom:0;width:3cqw;background:#f6ecd2;z-index:1}
+.mC .logo{position:absolute;left:7cqw;top:4.4cqw;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:2.6cqw;letter-spacing:.06em}
+.mC .arc{position:absolute;left:7cqw;top:11cqw;font-family:'Mr Dafoe',cursive;font-size:10.5cqw;line-height:1;color:#f0c33c;
+  text-shadow:.12cqw .12cqw 0 #7a5a00,-.06cqw -.06cqw 0 #fff3b0;transform:rotate(-4deg);transform-origin:left}
+.mC h4{position:absolute;left:7cqw;top:27.5cqw;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:4.8cqw;line-height:1;letter-spacing:.04em;text-transform:uppercase}
+.mC h4 em{font-style:normal;color:#ff5a6e}
+.mC .jp{position:absolute;left:7cqw;top:38.5cqw;font-size:1.5cqw;font-weight:500;letter-spacing:.14em}
+.mC .patch{position:absolute;border-radius:50%;display:grid;place-items:center;text-align:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;line-height:1.05;letter-spacing:.06em}
+.mC .p1{right:8cqw;top:8cqw;width:20cqw;height:20cqw;background:#b3122a;color:#f6ecd2;font-size:2.2cqw;border:.5cqw solid #f0c33c;outline:.22cqw dashed #f6ecd2;outline-offset:-1.5cqw}
+.mC .p1 small{display:block;font-family:'Mr Dafoe',cursive;font-weight:400;font-size:3.6cqw;color:#f0c33c;letter-spacing:0}
+.mC .p2{right:25cqw;top:27cqw;width:10cqw;height:10cqw;background:#f6ecd2;color:#0f1b3d;font-size:1.25cqw;outline:.18cqw dashed #b3122a;outline-offset:-.8cqw}
+.mC .hud{position:absolute;right:8cqw;top:39.5cqw;font-family:'Share Tech Mono',monospace;font-size:1.05cqw;line-height:1.7;letter-spacing:.1em;color:#9fd8ff;text-align:right}
+
+/* 混ぜ方 */
+.tw{overflow-x:auto}
+table{width:100%;min-width:720px;border-collapse:collapse;background:var(--card);border:1px solid var(--line);font-size:12.5px}
+th,td{padding:11px 13px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.75}
+th{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--red);background:var(--bg);white-space:nowrap}
+td:first-child{font-weight:700;white-space:nowrap}
+td{font-weight:300}
+.rec{background:#fff4f4;font-weight:500}
+.q{display:grid;gap:10px}
+.qi{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--red);padding:15px 18px}
+.qi b{font-size:14px;font-weight:900}
+.qi span{display:block;font-size:12.5px;font-weight:300;color:var(--ink3);margin-top:3px;line-height:1.9}
+footer{padding:28px 0 46px;font-size:11px;color:var(--ink3)}
+</style>
+</head>
+<body>
+
+<div class="top"><div class="top-in"><span>YeG</span><span class="pill">デザイン改修 01 / 方向決め</span><span class="sp"></span>
+<a href="#concepts">考え方</a><a href="#refs">参考の分解</a><a href="#dirs">3つの方向</a><a href="#mix">混ぜ方</a><a href="#ask">決めること</a></div></div>
+
+<div class="wrap">
+<header>
+  <h1>作り始める前に、<em>何を狙うか</em>を決める</h1>
+  <p class="lead">きりはなプロジェクトのサイトとポスターを見本に、「次世代のeスポーツ」「横須賀」「どぶ板・スカジャンのサブカル感」をどう混ぜるかを整理しました。文言は仮です。ここでは<b>見た目の方向</b>だけ決めます。下の3案はどれか1つを選ぶものではなく、部品ごとに選んで混ぜる前提で作っています。</p>
+</header>
+
+<section id="concepts">
+  <p class="lbl">BASICS</p>
+  <h2>Webデザインで結果を分ける8つの考え方</h2>
+  <p class="note">見た目の好みの前に、ここを外すと何を足しても良くなりません。今のサイトがそれぞれどうなっているかも添えました。</p>
+  <div class="grid">
+    <div class="c"><b><i>01</i>視覚的な優先順位</b><p>1画面で一番目立つものは1つだけ。大きさ・太さ・色の差で「最初に見る場所」を作る。</p><p class="now">見出し・ボタン・バッジ・粒子が同じ強さで主張している。</p></div>
+    <div class="c"><b><i>02</i>文字が主役</b><p>サイトの印象の8割は書体と文字組みで決まる。見出し用1種＋本文用1種に絞り、大小の差を大胆につける。</p><p class="now">明朝・ゴシック・Bebasが混在し、性格が定まっていない。</p></div>
+    <div class="c"><b><i>03</i>色は3つまで</b><p>地の色・文字色・アクセント1色。アクセントは「押してほしい所」「覚えてほしい所」だけに使う。</p><p class="now">紺・オレンジ・アンバーが広い面で使われ、どれが大事か伝わりにくい。</p></div>
+    <div class="c"><b><i>04</i>余白とグリッド</b><p>余白は「何もない」ではなく「区切り」。要素の端を揃えるだけで整って見える。</p><p class="now">カードが均等に並び、強弱がなく単調。</p></div>
+    <div class="c"><b><i>05</i>その団体にしかない絵</b><p>どこにでもある見た目は記憶に残らない。固有のモチーフを1つ決めて全ページで繰り返す。</p><p class="now">紺＋グリッド＋光る粒は「よくあるeスポーツ」。横須賀らしさがゼロ。</p></div>
+    <div class="c"><b><i>06</i>動きは意味のある所だけ</b><p>動きは注目を奪う。スクロールに合わせた登場・ホバーの反応など、操作への返事として使う。</p><p class="now">常時動く粒子が文章から目を奪っている。</p></div>
+    <div class="c"><b><i>07</i>スマホが本番</b><p>SNSから来る人はほぼスマホ。小さい画面で先に設計し、大きい画面で広げる。</p><p class="now">PC前提の作りを縮めている。</p></div>
+    <div class="c"><b><i>08</i>読める・速い・壊れない</b><p>文字と地のコントラスト、読み込みの軽さ、JSが止まっても読めること。見た目より先に守る土台。</p><p class="now">記事が表示されない不具合は修正済み。画像の埋め込みで重い（約370KB）。</p></div>
+  </div>
+</section>
+
+<section id="refs">
+  <p class="lbl">REFERENCES</p>
+  <h2>見本2つは「何が」良いのか</h2>
+  <p class="note">真似るのは見た目そのものではなく、効いている仕組みです。</p>
+  <div class="two">
+    <div class="ref"><h3>きりはなプロジェクト</h3><ul>
+      <li><b>画面を枠で囲む。</b>細い罫線1本でサイト全体が「1枚の紙面」に見える。</li>
+      <li><b>色は白＋1色だけ。</b>紫→ピンクのグラデーションを、帯・しおり・アーチという図形としてだけ使う。</li>
+      <li><b>見出しが図形に重なる。</b>文字と色面をずらして重ねることで、写真なしでも絵になる。</li>
+      <li><b>ナビが左下に常駐。</b>#Vision #Mission… とハッシュタグ風。現在地が常に分かる。</li>
+      <li><b>余白が広い。</b>1画面に言いたいことは1つ。スクロールで次が現れる。</li>
+      <li><b>活動はタブで切替。</b>情報量が多い所だけ操作を入れている。</li>
+    </ul></div>
+    <div class="ref"><h3>ポスター</h3><ul>
+      <li><b>黒・白・赤の3色。</b>赤は「NEXT」と日の丸だけ。だから目が行く。</li>
+      <li><b>極太の英字見出し。</b>紙面の3分の1を文字が占め、文字そのものが絵になっている。</li>
+      <li><b>墨絵の横須賀＋赤い太陽。</b>他の団体には絶対に無い固有の絵。</li>
+      <li><b>縦書きの添え文字。</b>右端の小さな縦組みが紙面を引き締める。</li>
+      <li><b>4つの柱。</b>CONNECT / LEARN / CHALLENGE / GROW で活動を一言に。</li>
+      <li><b>弱点：</b>硬派で大人びている。サブカル感・遊び心・ゲームらしさは薄い。</li>
+    </ul></div>
+  </div>
+</section>
+
+<section id="dirs">
+  <p class="lbl">DIRECTIONS</p>
+  <h2>3つの方向（トップ画面の見本）</h2>
+  <p class="note">同じ文言を3通りに着せ替えています。絵の部分は仮で、墨絵やスカジャンの刺繍柄は本制作時に素材が必要です。</p>
+
+  <div class="dir">
+    <div class="dir-h"><span class="id">A</span><h3>墨と日の丸</h3><span>ポスター直系 × きりはなの枠・余白</span></div>
+    <div class="mock mA">
+      <div class="frame"></div><div class="sun"></div>
+      <svg viewBox="0 0 1000 420" aria-hidden="true"><g fill="#0c0c0c">
+        <path d="M0,420 L0,330 C60,322 110,318 170,300 C230,282 280,240 340,214 C380,198 410,200 440,206 C480,150 520,120 560,112 C600,108 640,128 670,160 C720,150 780,170 830,196 C890,224 950,236 1000,240 L1000,420 Z"/>
+        <path d="M552,112 L552,40 L547,36 L547,26 L560,12 L573,26 L573,36 L568,40 L568,112 Z"/><rect x="542" y="40" width="36" height="5"/>
+        <path d="M400,206 l0,-52 l3,0 l0,52 Z M392,170 l19,0 l0,3 l-19,0 Z"/>
+        <path d="M120,312 l0,-30 l24,0 l0,30 Z M158,304 l0,-42 l16,0 l0,42 Z M190,296 l0,-24 l28,0 l0,24 Z M236,270 l0,-34 l18,0 l0,34 Z M700,160 l0,-22 l26,0 l0,22 Z M750,172 l0,-30 l16,0 l0,30 Z"/></g>
+        <g fill="#f4f3ef"><rect x="0" y="352" width="1000" height="5"/><rect x="80" y="368" width="760" height="4"/><rect x="0" y="384" width="1000" height="7"/><rect x="200" y="400" width="800" height="5"/></g></svg>
+      <div class="logo">YEG<small>Yokosuka <i>e</i>Generation</small></div>
+      <h4>Yokosuka,<br>plays for<br>the <em>next</em>.</h4>
+      <div class="plg"><i>PLAY.</i> LEARN. <i>GROW.</i></div>
+      <div class="jp">esportsを原動力に、未来をつくる世代へ。</div>
+      <div class="side">FROM YOKOSUKA, TO THE NEXT GENERATION.</div>
+      <div class="hash">#Mission #Activity #Member #Blog #Contact</div>
+    </div>
+    <div class="dir-x">
+      <div><b>強み</b>ポスター・名刺・SNSと完全に同じ顔になる。学校・行政・協賛企業に出しても信頼される。軽くて読みやすい。</div>
+      <div><b>弱み</b>整いすぎて大人しい。ご希望のサブカル感・若さ・ゲームらしさがこのままでは出ない。</div>
+    </div>
+  </div>
+
+  <div class="dir">
+    <div class="dir-h"><span class="id">B</span><h3>どぶ板の夜</h3><span>ネオン看板 × 日英まじりの基地の街</span></div>
+    <div class="mock mB">
+      <div class="logo">YEG</div>
+      <div class="nav">MISSION / ACTIVITY / MEMBER / BLOG</div>
+      <h4>横須賀から、<br><em>次の世代</em>へ。</h4>
+      <div class="en">Play for the Next</div>
+      <div class="signs">
+        <span class="sg p">ESPORTS</span><span class="sg c">どぶ板通り</span><span class="sg y">OPEN 24H</span><span class="sg p v">スカジャン</span>
+      </div>
+      <div class="tick">PLAY. LEARN. GROW. ● YOKOSUKA eGENERATION ● PLAY. LEARN. GROW. ● YOKOSUKA eGENERATION ● PLAY. LEARN. GROW. ● YOKOSUKA eGENERATION ●</div>
+    </div>
+    <div class="dir-x">
+      <div><b>強み</b>一目で「横須賀の、あの通り」と分かる。ゲームの夜の空気とも相性が良く、高校生に一番刺さる。</div>
+      <div><b>弱み</b>暗い地＋発光は読みにくくなりやすく、行政・学校向けには軽く見える恐れ。ポスターの顔とは別物になる。</div>
+    </div>
+  </div>
+
+  <div class="dir">
+    <div class="dir-h"><span class="id">C</span><h3>スカジャン</h3><span>サテン地・刺繍ワッペン・リブ × ゲームの数値表示</span></div>
+    <div class="mock mC">
+      <div class="sleeve"></div><div class="rib"></div>
+      <div class="logo">YEG</div>
+      <div class="arc">Yokosuka</div>
+      <h4>plays for the <em>next</em>.</h4>
+      <div class="jp">esportsを原動力に、未来をつくる世代へ。</div>
+      <div class="patch p1"><div>YOKOSUKA<small>eGen</small>EST. 2026</div></div>
+      <div class="patch p2">PLAY<br>LEARN<br>GROW</div>
+      <div class="hud">LAT 35.28 N / LON 139.67 E<br>MEMBERS 05 — POSTS 07<br>STATUS: ONLINE</div>
+    </div>
+    <div class="dir-x">
+      <div><b>強み</b>「スカジャン＝横須賀発祥」という本物の物語がある。ワッペンは役員紹介・活動実績・グッズにそのまま展開できる。</div>
+      <div><b>弱み</b>虎・鷲・龍などの刺繍絵が無いと成立しにくい（要イラスト素材）。やりすぎると土産物屋っぽくなる。</div>
+    </div>
+  </div>
+</section>
+
+<section id="mix">
+  <p class="lbl">MIX</p>
+  <h2>部品ごとに選んで混ぜる</h2>
+  <p class="note">色のついた欄が私のおすすめです。土台はポスターと揃えて信頼を確保し、サブカル感は「部分的に・濃く」入れるのが、いいとこ取りとして一番崩れにくい組み方です。</p>
+  <div class="tw"><table>
+    <thead><tr><th>部品</th><th>A 墨と日の丸</th><th>B どぶ板の夜</th><th>C スカジャン</th></tr></thead>
+    <tbody>
+      <tr><td>地の色</td><td class="rec">生成りの白（基本の面）</td><td class="rec">夜の黒紺（1〜2区画だけ反転）</td><td>サテンの紺</td></tr>
+      <tr><td>アクセント色</td><td class="rec">日の丸の赤1色</td><td>ピンク＋水色＋黄</td><td>金＋赤</td></tr>
+      <tr><td>見出しの書体</td><td class="rec">極太コンデンス英字</td><td>看板風の極太和文</td><td class="rec">刺繍風の筆記体（差し色として）</td></tr>
+      <tr><td>固有の絵</td><td class="rec">墨絵の横須賀＋赤い太陽</td><td>ネオン看板</td><td class="rec">刺繍ワッペン（役員・実績の見出しに）</td></tr>
+      <tr><td>ナビ・枠</td><td class="rec">画面の枠＋#ハッシュナビ（きりはな式）</td><td>等幅フォントのメニュー</td><td>—</td></tr>
+      <tr><td>区切り</td><td>細い罫線</td><td class="rec">流れる文字の帯</td><td class="rec">リブ（3色の縞）</td></tr>
+      <tr><td>ゲームらしさ</td><td>—</td><td>走査線・発光</td><td class="rec">座標・人数などの数値表示</td></tr>
+      <tr><td>向いている場面</td><td>トップ・挨拶・問い合わせ</td><td>ブログ・イベント告知</td><td>役員紹介・活動実績</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="ask">
+  <p class="lbl">DECIDE</p>
+  <h2>次に進むために決めてほしいこと</h2>
+  <div class="q">
+    <div class="qi"><b>① 土台はどれにしますか</b><span>A／B／C、または「Aを土台にB・Cを混ぜる（おすすめ）」。直感で構いません。</span></div>
+    <div class="qi"><b>② サブカル感はどのくらい濃くしますか</b><span>差し色程度（ワッペンと帯だけ）／半々／全面に出す。行政・学校・協賛企業の目をどこまで意識するかで決まります。</span></div>
+    <div class="qi"><b>③ 絵の素材はありますか</b><span>ポスターの墨絵イラストの元データ、スカジャン風の刺繍絵（虎・鷲・龍・錨など）。あれば完成度が大きく上がります。無ければ図形と文字だけで成立する形に寄せます。</span></div>
+    <div class="qi"><b>④ アクセントは赤に変えてよいですか</b><span>今のサイトはオレンジ、ブランド資料はコーラル、ポスターは赤です。ポスターに合わせて赤に統一する想定です。</span></div>
+  </div>
+</section>
+
+<footer>このページは検索に載りません（noindex）／本番サイトには影響しません</footer>
+</div>
+</body>
+</html>
